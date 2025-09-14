@@ -1,0 +1,7 @@
+export { default as HeroPage } from "./HeroPage"
+export { default as FeaturesPage } from "./FeaturesPage"
+export { default as StatsPage } from "./StatsPage"
+export { default as ContactPage } from "./ContactPage"
+export { default as ContactInfo } from "./ContactInfo"
+export { default as Navbar } from "./Navbar"
+export { default as Footer } from "./Footer"

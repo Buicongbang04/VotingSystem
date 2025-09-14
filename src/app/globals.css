@@ -119,4 +119,27 @@
   body {
     @apply bg-background text-foreground;
   }
+
+  /* Smooth scrolling enhancements */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Custom scrollbar styling for smoother experience */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.3);
+  }
 }
