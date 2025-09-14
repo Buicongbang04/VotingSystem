@@ -1,0 +1,6 @@
+export { default as FirstPage } from "./FirstPage"
+export { default as HeroPage } from "./HeroPage"
+export { default as FeaturesPage } from "./FeaturesPage"
+export { default as StatsPage } from "./StatsPage"
+export { default as ContactPage } from "./ContactPage"
+export { default as Navbar } from "./Navbar"
