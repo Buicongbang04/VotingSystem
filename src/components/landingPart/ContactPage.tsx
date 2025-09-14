@@ -46,7 +46,7 @@ const ContactPage = () => {
   ]
 
   return (
-    <section className='h-screen flex items-center justify-center bg-gradient-to-br from-purple-900 via-pink-900 to-purple-800 snap-section relative overflow-hidden'>
+    <section className='h-screen flex items-center justify-center bg-gradient-to-br from-purple-900 via-pink-900 to-purple-800 snap-center relative overflow-hidden'>
       {/* Background decorative elements */}
       <div className='absolute top-10 left-10 w-32 h-32 border-2 border-pink-400/30 rounded-full opacity-20'></div>
       <div className='absolute top-20 right-20 w-24 h-24 border-2 border-cyan-400/30 opacity-20 transform rotate-45'></div>
@@ -98,26 +98,6 @@ const ContactPage = () => {
               </span>
             </div>
           ))}
-        </div>
-
-        {/* Additional Info */}
-        <div className='text-center'>
-          <p className='text-white/80 text-lg mb-4'>
-            Thời gian bình chọn sẽ kết thúc vào ngày 31/10/2025
-          </p>
-          <div className='flex flex-col sm:flex-row gap-4 justify-center'>
-            <button
-              className='px-8 py-3 bg-pink-500 text-white font-bold text-lg rounded-full hover:bg-pink-600 transition-colors duration-300 transform hover:scale-105'
-              style={{
-                boxShadow: "0 0 20px rgba(236, 72, 153, 0.5)",
-              }}
-            >
-              BÌNH CHỌN NGAY
-            </button>
-            <button className='px-8 py-3 border-2 border-pink-400 text-pink-400 font-bold text-lg rounded-full hover:bg-pink-400 hover:text-white transition-all duration-300'>
-              CHIA SẺ
-            </button>
-          </div>
         </div>
       </div>
     </section>

@@ -142,16 +142,4 @@
   ::-webkit-scrollbar-thumb:hover {
     background: rgba(0, 0, 0, 0.3);
   }
-
-  /* Enhanced snap scrolling */
-  .snap-container {
-    scroll-snap-type: y mandatory;
-    scroll-behavior: smooth;
-    scroll-padding-top: 0;
-  }
-
-  .snap-section {
-    scroll-snap-align: start;
-    scroll-snap-stop: always;
-  }
 }

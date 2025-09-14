@@ -2,7 +2,7 @@ import React from "react"
 
 const HeroPage = () => {
   return (
-    <section className='h-screen flex items-center justify-center bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-800 snap-section'>
+    <section className='h-screen flex items-center justify-center bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-800 snap-center'>
       <div className='container mx-auto'>
         <div
           className='text-white text-8xl font-bold mb-6 text-center'

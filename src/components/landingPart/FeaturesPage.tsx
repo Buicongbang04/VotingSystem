@@ -26,7 +26,7 @@ const FeaturesPage = () => {
   ]
 
   return (
-    <section className='h-screen flex items-center justify-center bg-gradient-to-br from-purple-900 via-indigo-900 to-blue-900 snap-section'>
+    <section className='h-screen flex items-center justify-center bg-gradient-to-br from-purple-900 via-indigo-900 to-blue-900 snap-center'>
       <div className='container mx-auto px-8'>
         <div className='text-center mb-16'>
           <h2
