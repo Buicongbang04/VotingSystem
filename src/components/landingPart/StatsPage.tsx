@@ -1,4 +1,5 @@
 import React from "react"
+import ScrollToElement from "../scroll-to-top-arrow"
 
 const StatsPage = () => {
   const academicStages = [
@@ -43,7 +44,7 @@ const StatsPage = () => {
   ]
 
   return (
-    <section className='h-screen flex items-center justify-center bg-gradient-to-br from-purple-900 via-indigo-900 to-blue-900 snap-center relative overflow-hidden'>
+    <section className='h-screen flex flex-col items-center justify-center bg-gradient-to-br from-purple-900 via-indigo-900 to-blue-900 snap-section relative overflow-hidden'>
       {/* Background decorative elements */}
       <div className='absolute top-10 left-10 w-20 h-20 bg-gradient-to-r from-pink-400 to-purple-400 rounded-full opacity-20 blur-xl'></div>
       <div className='absolute top-20 right-20 w-16 h-16 bg-gradient-to-r from-cyan-400 to-blue-400 rounded-full opacity-20 blur-xl'></div>
@@ -132,6 +133,7 @@ const StatsPage = () => {
           </div>
         </div>
       </div>
+      <ScrollToElement to='#features' className='pb-10' />
     </section>
   )
 }

@@ -11,10 +11,28 @@ const ContactPage = () => {
   })
 
   useEffect(() => {
-    // Set target date (example: 31 days from now)
+    // Check if we're past October 10th
+    const today = new Date()
+    const october10th = new Date()
+    october10th.setMonth(9) // October
+    october10th.setDate(10)
+    october10th.setHours(23, 59, 59, 999)
+
+    const isAfterOctober10th = today > october10th
+
+    if (!isAfterOctober10th) {
+      // If before or on October 10th, show zeros and don't start timer
+      setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 })
+      return
+    }
+
+    // Only run timer after October 10th has passed
+    // Set target date (example: 30 days after October 10th)
     const targetDate = new Date()
-    targetDate.setDate(targetDate.getDate() + 31)
+    targetDate.setMonth(9) // October
+    targetDate.setDate(10)
     targetDate.setHours(23, 59, 59, 999)
+    targetDate.setDate(targetDate.getDate() + 30) // Add 30 days after Oct 10th
 
     const timer = setInterval(() => {
       const now = new Date().getTime()
@@ -30,6 +48,7 @@ const ContactPage = () => {
 
         setTimeLeft({ days, hours, minutes, seconds })
       } else {
+        // Timer has reached zero
         setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 })
         clearInterval(timer)
       }
@@ -46,7 +65,7 @@ const ContactPage = () => {
   ]
 
   return (
-    <section className='h-screen flex items-center justify-center bg-gradient-to-br from-purple-900 via-pink-900 to-purple-800 snap-center relative overflow-hidden'>
+    <section className='h-screen flex items-center justify-center bg-gradient-to-br from-purple-900 via-pink-900 to-purple-800 snap-section relative overflow-hidden'>
       {/* Background decorative elements */}
       <div className='absolute top-10 left-10 w-32 h-32 border-2 border-pink-400/30 rounded-full opacity-20'></div>
       <div className='absolute top-20 right-20 w-24 h-24 border-2 border-cyan-400/30 opacity-20 transform rotate-45'></div>

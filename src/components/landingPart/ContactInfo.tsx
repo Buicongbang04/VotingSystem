@@ -6,14 +6,14 @@ import React from "react"
 const ContactInfo = () => {
   return (
     <section className=''>
-      <div className='container mx-auto px-8 text-center relative z-10'>
+      <div className='p-10 text-center relative z-10'>
         {/* Main Title */}
-        <div className=''>
+        <div className='text-start py-5'>
           <h2 className='text-2xl font-bold text-white uppercase'>LIÊN HỆ</h2>
         </div>
 
         {/* Contact Information */}
-        <div className='flex flex-col items-center space-y-8'>
+        <div className='flex flex-col items-start space-y-8'>
           {/* Facebook Contact */}
 
           <Link

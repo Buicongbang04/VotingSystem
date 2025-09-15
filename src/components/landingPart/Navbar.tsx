@@ -4,6 +4,7 @@ import { Vote, Menu } from "lucide-react"
 import { NavBarItems } from "@/src/constants/NavBar"
 import { Button } from "../ui"
 import Link from "next/link"
+import Image from "next/image"
 
 export default function Navbar() {
   return (
@@ -12,10 +13,7 @@ export default function Navbar() {
         <div className='flex justify-between items-center h-16'>
           {/* Logo */}
           <div className='flex items-center space-x-2'>
-            <Vote className='h-8 w-8 text-primary' />
-            <span className='text-xl font-bold text-foreground'>
-              FPT University
-            </span>
+            <Image src='/images/logo.png' alt='logo' width={100} height={100} />
           </div>
 
           {/* Desktop Navigation */}
