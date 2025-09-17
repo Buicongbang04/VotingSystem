@@ -7,8 +7,8 @@ import {
   StatsPage,
   ContactPage,
   Footer,
-} from "../components/landingPart"
-import ScrollToTopArrow from "../components/scroll-to-top-arrow"
+} from "../../components/landingPart"
+import ScrollToTopArrow from "../../components/scroll-to-top-arrow"
 import Lenis from "lenis"
 import Snap from "lenis/snap"
 

@@ -2,10 +2,10 @@
 
 import React, { useState, useEffect } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
-import LoginComponent from "../../components/Auth/LoginComponent"
-import { type LoginFormData } from "../../interfaces/auth/Schema/Login"
-import { useLoginApi, useLoginGoogleApi } from "../../services/AuthServices"
-import { tokenStorage } from "../../utils/tokenStorage"
+import LoginComponent from "../../../components/Auth/LoginComponent"
+import { type LoginFormData } from "../../../interfaces/auth/Schema/Login"
+import { useLoginApi, useLoginGoogleApi } from "../../../services/AuthServices"
+import { useTokenStore } from "../../../stores/tokenStore"
 
 const LoginPage = () => {
   const [isLoading, setIsLoading] = useState(false)
@@ -13,6 +13,7 @@ const LoginPage = () => {
   const searchParams = useSearchParams()
   const loginMutation = useLoginApi()
   const googleLoginMutation = useLoginGoogleApi()
+  const { setTokens } = useTokenStore()
 
   // Check for Google OAuth callback parameters
   useEffect(() => {
@@ -38,22 +39,22 @@ const LoginPage = () => {
         accessToken,
         refreshToken,
       }
-      tokenStorage.saveTokens(tokens)
-      router.push("/")
+      setTokens(tokens)
+      router.push("/all-show")
     }
 
     // Log all search parameters for debugging
     const allParams = Object.fromEntries(searchParams.entries())
     console.log("All URL parameters:", allParams)
-  }, [searchParams, router])
+  }, [searchParams, router, setTokens])
 
   // Handle Google OAuth code
   const handleGoogleOAuthCode = async (code: string) => {
     try {
       const tokens = await googleLoginMutation.mutateAsync(code)
       if (tokens.accessToken && tokens.refreshToken) {
-        tokenStorage.saveTokens(tokens)
-        router.push("/")
+        setTokens(tokens)
+        router.push("/all-show")
       }
     } catch (error) {
       console.error("Google OAuth error:", error)
@@ -71,14 +72,14 @@ const LoginPage = () => {
         password: data.password,
       })
 
-      // Save tokens to localStorage if they exist
+      // Save tokens to Zustand store if they exist
       if (tokens.accessToken && tokens.refreshToken) {
-        tokenStorage.saveTokens(tokens)
-        console.log("Tokens saved to localStorage")
+        setTokens(tokens)
+        console.log("Tokens saved to Zustand store")
       }
 
       // Redirect to dashboard or home page after successful login
-      router.push("/")
+      router.push("/all-show")
     } catch (error) {
       console.error("Login error:", error)
       // Handle login error (show toast, etc.)
