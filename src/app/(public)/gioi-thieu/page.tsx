@@ -5,7 +5,6 @@ import GioiThieuVeChuongTrinh from "@/src/components/About/GioiThieuVeChuongTrin
 import TheLeBinhChon from "@/src/components/About/TheLeBinhChon";
 import VinhDanhGiangVien from "@/src/components/About/VinhDanhGiangVien";
 import { Footer } from "@/src/components/landingPart";
-import Lenis from "lenis";
 import React, { useEffect } from "react";
 
 const page = () => {

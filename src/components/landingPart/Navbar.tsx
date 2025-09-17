@@ -22,7 +22,7 @@ export default function Navbar() {
               <Link
                 key={item.label}
                 href={item.to}
-                className="text-white hover:text-foreground hover:bg-white/20 px-3 py-2 rounded-md text-lg font-medium transition-colors duration-200 border-b-4 "
+                className="text-white hover:bg-white/20 px-3 py-2 rounded-md text-lg font-medium transition-colors duration-200 border-b-4 "
               >
                 {item.label}
               </Link>
