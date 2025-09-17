@@ -180,3 +180,15 @@ body {
   background-position: center;
   background-repeat: no-repeat;
 }
+.bg-gioithieu {
+  background-image: url("/images/bggioithieu.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.bg-login {
+  background-image: url("/images/bglogin.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}

@@ -3,7 +3,7 @@ import TextBox from "./TextBox";
 
 const VinhDanhGiangVien = () => {
   return (
-    <section className="bg-gradient-to-br from-purple-900 via-indigo-900 to-blue-900 min-h-screen flex flex-col md:flex-row items-center justify-center px-6 md:px-10 relative snap-center gap-8">
+    <section className="bg-gioithieu min-h-screen flex flex-col md:flex-row items-center justify-center px-6 md:px-10 relative snap-center gap-8">
       {/* Left content */}
       <TextBox className="w-full md:w-1/2 order-2 md:order-1">
         <ul className="space-y-4 text-base sm:text-lg md:text-xl lg:text-2xl py-6">

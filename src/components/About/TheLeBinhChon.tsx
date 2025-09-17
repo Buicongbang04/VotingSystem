@@ -3,7 +3,7 @@ import TextBox from "./TextBox";
 
 const TheLeBinhChon = () => {
   return (
-    <section className="h-screen flex flex-col md:flex-row items-center justify-center px-6 md:px-10 relative bg-purple-400 snap-center px-4 md:px-10 gap-8 md:gap-5">
+    <section className="bg-gioithieu h-screen flex flex-col md:flex-row items-center justify-center px-6 md:px-10 relative snap-center gap-8">
       {/* Title */}
       <div
         className="w-full mb-8 text-white text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-center flex items-center justify-center"
