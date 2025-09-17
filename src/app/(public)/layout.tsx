@@ -7,7 +7,7 @@ export default function UserLayout({
 }) {
   return (
     <div className='flex h-screen'>
-      <main className='flex-1 overflow-auto'>
+      <main className='flex-1'>
         <Navbar />
         {children}
       </main>
