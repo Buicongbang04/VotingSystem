@@ -5,15 +5,31 @@ import { useRouter, useSearchParams } from "next/navigation"
 import LoginComponent from "../../../components/Auth/LoginComponent"
 import { type LoginFormData } from "../../../interfaces/auth/Schema/Login"
 import { useLoginApi, useLoginGoogleApi } from "../../../services/AuthServices"
-import { useTokenStore } from "../../../stores/tokenStore"
+import { useTokenStore, useIsAuthenticated } from "../../../stores/tokenStore"
 
 const LoginPage = () => {
   const [isLoading, setIsLoading] = useState(false)
+  const [isCheckingAuth, setIsCheckingAuth] = useState(true)
   const router = useRouter()
   const searchParams = useSearchParams()
   const loginMutation = useLoginApi()
   const googleLoginMutation = useLoginGoogleApi()
-  const { setTokens } = useTokenStore()
+  const { setTokens, checkTokenValidity } = useTokenStore()
+  const isAuthenticated = useIsAuthenticated()
+
+  // Check if user is already authenticated and redirect
+  useEffect(() => {
+    const checkExistingAuth = () => {
+      const isValid = checkTokenValidity()
+      if (isValid) {
+        console.log("User already authenticated, redirecting to dashboard")
+        router.push("/all-show")
+      }
+      setIsCheckingAuth(false)
+    }
+
+    checkExistingAuth()
+  }, [checkTokenValidity, router])
 
   // Check for Google OAuth callback parameters
   useEffect(() => {
@@ -42,10 +58,6 @@ const LoginPage = () => {
       setTokens(tokens)
       router.push("/all-show")
     }
-
-    // Log all search parameters for debugging
-    const allParams = Object.fromEntries(searchParams.entries())
-    console.log("All URL parameters:", allParams)
   }, [searchParams, router, setTokens])
 
   // Handle Google OAuth code
@@ -97,6 +109,18 @@ const LoginPage = () => {
 
   const handleHomeClick = () => {
     router.push("/")
+  }
+
+  // Show loading screen while checking authentication
+  if (isCheckingAuth) {
+    return (
+      <div className='flex items-center justify-center h-screen'>
+        <div className='text-center'>
+          <div className='animate-spin rounded-full h-12 w-12 border-b-2 border-[#8B1538] mx-auto mb-4'></div>
+          <p className='text-gray-600'>Checking authentication...</p>
+        </div>
+      </div>
+    )
   }
 
   return (
