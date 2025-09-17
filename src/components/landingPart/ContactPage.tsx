@@ -87,11 +87,11 @@ const ContactPage = () => {
         </div>
 
         {/* Countdown Timer */}
-        <div className="flex flex-col sm:flex-row justify-center items-center gap-8 mb-16">
+        <div className="flex flex-col sm:flex-row justify-center items-center gap-48 mb-10 mt-38">
           {timeUnits.map((unit, index) => (
             <div key={index} className="flex flex-col items-center">
               {/* Timer Circle */}
-              <div className="relative w-24 h-24 sm:w-28 sm:h-28 mb-4">
+              <div className="relative w-24 h-24 sm:w-28 sm:h-28 mb-2">
                 <div className="absolute inset-0 rounded-full border-4 border-pink-400/50 bg-transparent"></div>
                 <div className="absolute inset-2 rounded-full border-2 border-dashed border-pink-300/30"></div>
                 <div className="absolute inset-0 flex items-center justify-center">
