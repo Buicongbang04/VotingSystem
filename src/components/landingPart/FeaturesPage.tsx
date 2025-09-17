@@ -1,7 +1,7 @@
-import React from "react"
-import ScrollToTopArrow from "../scroll-to-top-arrow"
-import ScrollToElement from "../scroll-to-top-arrow"
-import { TimeLineSVG } from "./Timeline"
+import React from "react";
+import ScrollToTopArrow from "../scroll-to-top-arrow";
+import ScrollToElement from "../scroll-to-top-arrow";
+import { TimeLineSVG } from "./Timeline";
 
 const FeaturesPage = () => {
   const timelineEvents = [
@@ -26,17 +26,17 @@ const FeaturesPage = () => {
       position: "center",
       isHighlighted: true,
     },
-  ]
+  ];
 
   return (
     <section
-      id='features'
-      className='h-screen flex flex-col items-center justify-between bg-gradient-to-br from-purple-900 via-indigo-900 to-blue-900 snap-section'
+      id="features"
+      className="h-screen flex flex-col items-center justify-center bg-gradient-to-br from-purple-900 via-indigo-900 to-blue-900 snap-section relative overflow-hidden"
     >
-      <div className='mx-auto'>
-        <div className='text-center '>
+      <div className="mx-auto">
+        <div className="text-center ">
           <h2
-            className='text-5xl md:text-6xl font-bold text-white p-10'
+            className="text-5xl md:text-6xl font-bold text-white p-10"
             style={{
               textShadow:
                 "0 0 20px rgba(255, 255, 255, 0.8), 0 0 40px rgba(255, 255, 255, 0.6)",
@@ -46,14 +46,13 @@ const FeaturesPage = () => {
           </h2>
         </div>
 
-        <div className='relative max-w-6xl mx-auto'>
-          <TimeLineSVG className='w-full h-full' />
+        <div className="relative max-w-6xl mx-auto">
+          <TimeLineSVG className="w-full h-full" />
         </div>
       </div>
-
-      <ScrollToElement to='#hero' />
+      <ScrollToElement to="#hero" />
     </section>
-  )
-}
+  );
+};
 
-export default FeaturesPage
+export default FeaturesPage;

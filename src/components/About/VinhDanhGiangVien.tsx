@@ -1,13 +1,16 @@
-import React from "react"
-import TextBox from "./TextBox"
+import React from "react";
+import TextBox from "./TextBox";
 
 const VinhDanhGiangVien = () => {
   return (
-    <section className='bg-gradient-to-br from-purple-900 via-indigo-900 to-blue-900 h-screen flex items-center justify-center px-10 relative snap-center'>
-      <TextBox>
-        <ul className='space-y-4 text-2xl py-10'>
-          <li className='flex items-start'>
-            <span className='text-purple-300 mr-3 mt-1'>•</span>
+    <section className="bg-gradient-to-br from-purple-900 via-indigo-900 to-blue-900 min-h-screen flex flex-col md:flex-row items-center justify-center px-6 md:px-10 relative snap-center gap-8">
+      {/* Left content */}
+      <TextBox className="w-full md:w-1/2 order-2 md:order-1">
+        <ul className="space-y-4 text-base sm:text-lg md:text-xl lg:text-2xl py-6">
+          <li className="flex items-start">
+            <span className="text-purple-300 mr-3 mt-1 text-lg sm:text-xl">
+              •
+            </span>
             <span>
               <strong>
                 Top 10 giảng viên đạt danh hiệu "Inspiring Instructor Awards"
@@ -16,8 +19,10 @@ const VinhDanhGiangVien = () => {
               campus TP.HCM.
             </span>
           </li>
-          <li className='flex items-start'>
-            <span className='text-purple-300 mr-3 mt-1'>•</span>
+          <li className="flex items-start">
+            <span className="text-purple-300 mr-3 mt-1 text-lg sm:text-xl">
+              •
+            </span>
             <span>
               <strong>Trao tặng bộ quà tặng dành riêng</strong> cho danh hiệu
               này.
@@ -25,20 +30,22 @@ const VinhDanhGiangVien = () => {
           </li>
         </ul>
       </TextBox>
+
+      {/* Right side title */}
       <div
-        className='text-white text-2xl space-y-4 max-w-4xl mx-auto'
+        className="text-white max-w-3xl mx-auto text-center px-2 order-1 md:order-2"
         style={{
           textShadow:
-            "0 0 20px rgba(255, 100, 100, 0.6), 0 0 40px rgba(255, 100, 100, 0.4), 0 0 60px rgba(255, 100, 100, 0.2)",
-          filter: "drop-shadow(0 0 10px rgba(255, 100, 100, 0.3))",
+            "0 0 20px rgba(233, 233, 233, 0.8), 0 0 40px rgba(167, 163, 163, 0.6), 0 0 60px rgba(255, 255, 255, 0.4)",
+          filter: "drop-shadow(0 0 10px rgba(255, 255, 255, 0.5))",
         }}
       >
-        <h2 className='text-6xl font-bold w-lg text-center'>
+        <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-snug">
           VINH DANH TOP 10 GIẢNG VIÊN
         </h2>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default VinhDanhGiangVien
+export default VinhDanhGiangVien;

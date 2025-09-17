@@ -1,12 +1,12 @@
-import React from "react"
-import ContactInfo from "./ContactInfo"
+import React from "react";
+import ContactInfo from "./ContactInfo";
 
 const Footer = () => {
   return (
-    <div className='h-screen bg-black snap-section flex items-end justify-start'>
+    <div className="h-60 bg-black snap-section flex items-end justify-start ">
       <ContactInfo />
     </div>
-  )
-}
+  );
+};
 
-export default Footer
+export default Footer;
