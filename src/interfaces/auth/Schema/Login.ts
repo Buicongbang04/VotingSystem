@@ -1,11 +1,10 @@
 import { z } from "zod"
 
 export const loginSchema = z.object({
-  username: z
+  email: z
     .string()
-    .min(1, "Tên tài khoản không được để trống")
-    .min(3, "Tên tài khoản phải có ít nhất 3 ký tự")
-    .max(50, "Tên tài khoản không được quá 50 ký tự"),
+    .min(1, "Email không được để trống")
+    .email("Email không hợp lệ"),
   password: z
     .string()
     .min(1, "Mật khẩu không được để trống")
@@ -16,6 +15,6 @@ export const loginSchema = z.object({
 export type LoginFormData = z.infer<typeof loginSchema>
 
 export interface LoginSchema {
-  username: string
+  email: string
   password: string
 }

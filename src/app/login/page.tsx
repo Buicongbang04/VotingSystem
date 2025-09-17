@@ -1,25 +1,81 @@
 "use client"
 
-import React, { useState } from "react"
-import { useRouter } from "next/navigation"
+import React, { useState, useEffect } from "react"
+import { useRouter, useSearchParams } from "next/navigation"
 import LoginComponent from "../../components/Auth/LoginComponent"
 import { type LoginFormData } from "../../interfaces/auth/Schema/Login"
+import { useLoginApi, useLoginGoogleApi } from "../../services/AuthServices"
+import { tokenStorage } from "../../utils/tokenStorage"
 
 const LoginPage = () => {
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const loginMutation = useLoginApi()
+  const googleLoginMutation = useLoginGoogleApi()
+
+  // Check for Google OAuth callback parameters
+  useEffect(() => {
+    const code = searchParams.get("code")
+    const error = searchParams.get("error")
+    const accessToken = searchParams.get("access_token")
+    const refreshToken = searchParams.get("refresh_token")
+
+    if (code) {
+      console.log("Google OAuth code received:", code)
+      // Handle Google OAuth code
+      handleGoogleOAuthCode(code)
+    }
+
+    if (error) {
+      console.log("Google OAuth error:", error)
+    }
+
+    // If tokens are provided directly in URL parameters, save them
+    if (accessToken && refreshToken) {
+      console.log("Tokens received from URL parameters")
+      const tokens = {
+        accessToken,
+        refreshToken,
+      }
+      tokenStorage.saveTokens(tokens)
+      router.push("/")
+    }
+
+    // Log all search parameters for debugging
+    const allParams = Object.fromEntries(searchParams.entries())
+    console.log("All URL parameters:", allParams)
+  }, [searchParams, router])
+
+  // Handle Google OAuth code
+  const handleGoogleOAuthCode = async (code: string) => {
+    try {
+      const tokens = await googleLoginMutation.mutateAsync(code)
+      if (tokens.accessToken && tokens.refreshToken) {
+        tokenStorage.saveTokens(tokens)
+        router.push("/")
+      }
+    } catch (error) {
+      console.error("Google OAuth error:", error)
+    }
+  }
 
   const handleLogin = async (data: LoginFormData) => {
     setIsLoading(true)
     try {
-      // Simulate API call
       console.log("Login data:", data)
 
-      // Here you would typically make an API call to authenticate the user
-      // const response = await authService.login(data)
+      // Make API call to authenticate the user
+      const tokens = await loginMutation.mutateAsync({
+        email: data.email,
+        password: data.password,
+      })
 
-      // For demo purposes, we'll just simulate a delay
-      await new Promise((resolve) => setTimeout(resolve, 2000))
+      // Save tokens to localStorage if they exist
+      if (tokens.accessToken && tokens.refreshToken) {
+        tokenStorage.saveTokens(tokens)
+        console.log("Tokens saved to localStorage")
+      }
 
       // Redirect to dashboard or home page after successful login
       router.push("/")
@@ -31,6 +87,13 @@ const LoginPage = () => {
     }
   }
 
+  const handleGoogleLogin = () => {
+    // Simply redirect to the backend Google OAuth endpoint with redirect URL
+    const redirectUrl = encodeURIComponent(`${window.location.origin}/login`)
+    const backendUrl = `${process.env.NEXT_PUBLIC_API_URL}/google-auth/external/google?redirectUri=${redirectUrl}`
+    window.location.href = backendUrl
+  }
+
   const handleHomeClick = () => {
     router.push("/")
   }
@@ -38,6 +101,7 @@ const LoginPage = () => {
   return (
     <LoginComponent
       onSubmit={handleLogin}
+      onGoogleLogin={handleGoogleLogin}
       onHomeClick={handleHomeClick}
       isLoading={isLoading}
     />
