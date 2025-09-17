@@ -3,7 +3,7 @@ import ContactInfo from "./ContactInfo";
 
 const Footer = () => {
   return (
-    <div className="h-60 bg-black snap-section flex items-end justify-start ">
+    <div className="h-60 bg-footer snap-section flex items-end justify-start ">
       <ContactInfo />
     </div>
   );

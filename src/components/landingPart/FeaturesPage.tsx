@@ -1,5 +1,4 @@
 import React from "react";
-import ScrollToTopArrow from "../scroll-to-top-arrow";
 import ScrollToElement from "../scroll-to-top-arrow";
 import { TimeLineSVG } from "./Timeline";
 
@@ -31,7 +30,7 @@ const FeaturesPage = () => {
   return (
     <section
       id="features"
-      className="h-screen flex flex-col items-center justify-center bg-gradient-to-br from-purple-900 via-indigo-900 to-blue-900 snap-section relative overflow-hidden"
+      className="h-screen flex flex-col items-center justify-center snap-section relative overflow-hidden bg-feature"
     >
       <div className="mx-auto">
         <div className="text-center ">

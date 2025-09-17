@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import ScrollToElement from "../scroll-to-top-arrow";
 
 const ContactPage = () => {
   const [timeLeft, setTimeLeft] = useState({
@@ -66,7 +65,7 @@ const ContactPage = () => {
   ];
 
   return (
-    <section className="h-screen flex items-center justify-center bg-gradient-to-br from-purple-900 via-pink-900 to-purple-800 snap-section relative overflow-hidden">
+    <section className="h-screen flex items-center justify-center bg-contact snap-section relative overflow-hidden">
       {/* Background decorative elements */}
       <div className="absolute top-10 left-10 w-32 h-32 border-2 border-pink-400/30 rounded-full opacity-20"></div>
       <div className="absolute top-20 right-20 w-24 h-24 border-2 border-cyan-400/30 opacity-20 transform rotate-45"></div>

@@ -47,7 +47,7 @@ const HeroPage = () => {
   return (
     <section
       id="hero"
-      className="h-screen flex items-center justify-center bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-800 snap-section"
+      className="h-screen flex items-center justify-center snap-section bg-hero"
     >
       <div className="mx-auto">
         <div

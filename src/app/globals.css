@@ -149,3 +149,34 @@ body {
   height: 100%;
   scroll-behavior: auto; /* disable native smooth scroll */
 }
+
+.bg-hero {
+  background-image: url("/images/bghero.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.bg-feature {
+  background-image: url("/images/bgfeatures.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.bg-stats {
+  background-image: url("/images/bgstat.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.bg-contact {
+  background-image: url("/images/bgcontact.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.bg-footer {
+  background-image: url("/images/bgfooter.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
