@@ -22,7 +22,7 @@ export default function Navbar() {
               <Link
                 key={item.label}
                 href={item.to}
-                className="text-white hover:text-foreground hover:bg-white/20 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 border-b-4 "
+                className="text-white hover:text-foreground hover:bg-white/20 px-3 py-2 rounded-md text-lg font-medium transition-colors duration-200 border-b-4 "
               >
                 {item.label}
               </Link>
@@ -30,7 +30,7 @@ export default function Navbar() {
             <div className="hidden md:flex items-center space-x-4">
               <Link
                 href="/login"
-                className="text-white px-3 py-2 rounded-full text-sm font-medium transition-colors duration-200 border-4 hover:border-pink-500 hover:bg-pink-500/20"
+                className="text-white px-3 py-2 rounded-full text-lg font-medium transition-colors duration-200 border-4 hover:border-pink-500 hover:bg-pink-500/20"
               >
                 Đăng nhập
               </Link>
