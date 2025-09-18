@@ -8,6 +8,8 @@ import {
   loginSchema,
   type LoginFormData,
 } from "../../interfaces/auth/Schema/Login";
+import Image from "next/image";
+import Link from "next/link";
 
 interface LoginComponentProps {
   onSubmit?: (data: LoginFormData) => void;
@@ -41,121 +43,166 @@ const LoginComponent: React.FC<LoginComponentProps> = ({
     onSubmit?.(data);
   };
 
+  const disabled = isSubmitting || isLoading;
+
   return (
-    <div className="bg-login min-h-screen flex flex-col items-center justify-center p-4">
-      {/* FPT Education Logo */}
-      <div className="mb-8 text-center">
-        <div className="flex items-center justify-center mb-2">
-          <span className="text-2xl font-bold text-blue-600">FPT</span>
-          <span className="text-2xl font-bold text-orange-500 mx-1">
-            Education
-          </span>
-          <span className="text-2xl font-bold text-green-600"></span>
-        </div>
-        <h1 className="text-4xl font-bold text-orange-500">FPT UNIVERSITY</h1>
+    <div
+      className="
+        bg-login min-h-dvh flex flex-col items-center justify-center
+        px-4 sm:px-6 lg:px-8 py-[clamp(1rem,4vw,2rem)]
+        overflow-x-hidden
+      "
+    >
+      {/* Logo */}
+      <div className="mb-[clamp(1rem,4vw,2rem)]">
+        <Image
+          src="/images/logo_iia.png"
+          alt="IIA Logo"
+          width={280}
+          height={280}
+          priority
+          sizes="(max-width: 640px) 160px, (max-width: 768px) 200px, 280px"
+          className="h-auto w-[160px] sm:w-[200px] md:w-[240px] lg:w-[280px]"
+        />
       </div>
 
-      {/* Login Form Container */}
-      <div className="relative">
-        {/* Gradient Platform */}
-        <div className="absolute -inset-2 bg-gradient-to-r from-purple-300 to-blue-300 rounded-2xl blur-sm opacity-50"></div>
+      {/* Form Shell */}
+      <div className="relative w-full max-w-md min-w-0">
+        {/* Glow border */}
+        <div className="absolute -inset-2 bg-gradient-to-r from-purple-300 to-blue-300 rounded-2xl blur-sm opacity-50" />
 
-        {/* Main Form Container */}
-        <div className="relative bg-pink-300/50 p-8 w-5xl max-w-md shadow-2xl">
+        {/* Card */}
+        <div
+          className="
+            relative bg-pink-300/50 rounded-2xl
+            p-[clamp(1rem,4vw,2rem)]
+            shadow-2xl w-full
+          "
+        >
           <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-6">
-            {/* Email Field */}
+            {/* Email */}
             <div className="space-y-2">
-              {/* <label
-                htmlFor='email'
-                className='block text-sm font-medium text-pink-300'
-              >
+              <label htmlFor="email" className="sr-only">
                 Email
-              </label> */}
+              </label>
               <input
                 {...register("email")}
                 type="email"
                 id="email"
-                className={`w-full px-4 py-3 bg-white border-0 focus:ring-2 focus:ring-pink-400 focus:outline-none text-gray-900 placeholder-gray-500 ${
-                  errors.email ? "ring-2 ring-red-400" : ""
-                }`}
+                autoComplete="email"
+                aria-invalid={!!errors.email}
+                className={`w-full px-4 py-3 bg-white rounded-lg
+                  border-0 focus:ring-2 focus:ring-pink-400 focus:outline-none
+                  text-gray-900 placeholder-gray-500
+                  text-[clamp(0.95rem,1.3vw,1rem)]
+                  ${errors.email ? "ring-2 ring-red-400" : ""}`}
                 placeholder="Email"
-                disabled={isSubmitting || isLoading}
+                disabled={disabled}
               />
               {errors.email && (
-                <p className="text-red-300 text-sm mt-1">
+                <p
+                  className="text-red-300 text-sm mt-1"
+                  aria-live="polite"
+                  role="alert"
+                >
                   {errors.email.message}
                 </p>
               )}
             </div>
 
-            {/* Password Field */}
+            {/* Password */}
             <div className="space-y-2">
-              {/* <label
-                htmlFor='password'
-                className='block text-sm font-medium text-pink-300'
-              >
+              <label htmlFor="password" className="sr-only">
                 Mật khẩu
-              </label> */}
+              </label>
               <div className="relative">
                 <input
                   {...register("password")}
                   type={showPassword ? "text" : "password"}
                   id="password"
-                  className={`w-full px-4 py-3 bg-white  border-0 focus:ring-2 focus:ring-pink-400 focus:outline-none text-gray-900 placeholder-gray-500 pr-12 ${
-                    errors.password ? "ring-2 ring-red-400" : ""
-                  }`}
+                  autoComplete="current-password"
+                  aria-invalid={!!errors.password}
+                  className={`w-full px-4 py-3 bg-white rounded-lg
+                    border-0 focus:ring-2 focus:ring-pink-400 focus:outline-none
+                    text-gray-900 placeholder-gray-500 pr-12
+                    text-[clamp(0.95rem,1.3vw,1rem)]
+                    ${errors.password ? "ring-2 ring-red-400" : ""}`}
                   placeholder="Mật khẩu"
-                  disabled={isSubmitting || isLoading}
+                  disabled={disabled}
                 />
                 <button
                   type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-pink-500 hover:text-pink-400 disabled:opacity-50"
-                  disabled={isSubmitting || isLoading}
+                  aria-label={showPassword ? "Ẩn mật khẩu" : "Hiện mật khẩu"}
+                  aria-pressed={showPassword}
+                  onClick={() => setShowPassword((v) => !v)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-pink-500 hover:text-pink-400 disabled:opacity-50"
+                  disabled={disabled}
                 >
                   {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                 </button>
               </div>
               {errors.password && (
-                <p className="text-red-300 text-sm mt-1">
+                <p
+                  className="text-red-300 text-sm mt-1"
+                  aria-live="polite"
+                  role="alert"
+                >
                   {errors.password.message}
                 </p>
               )}
             </div>
 
-            {/* Remember Account and Forgot Password */}
-            <div className="flex items-center justify-between">
-              <label className="flex items-center space-x-2 cursor-pointer">
+            {/* Remember / Forgot */}
+            <div className="flex items-center justify-between gap-3">
+              <label className="flex items-center gap-2 cursor-pointer">
                 <input
                   {...register("rememberAccount")}
                   type="checkbox"
-                  className="w-4 h-4 text-pink-500 bg-white border-2 border-white rounded focus:ring-pink-400 focus:ring-2"
-                  disabled={isSubmitting || isLoading}
+                  className="w-4 h-4 text-pink-500 bg-white border-2 border-white rounded focus:ring-2 focus:ring-pink-400"
+                  disabled={disabled}
                 />
-                <span className="text-sm text-white">Ghi nhớ tài khoản</span>
+                <span className="text-sm text-white select-none">
+                  Ghi nhớ tài khoản
+                </span>
               </label>
-              <a
-                href="#"
-                className="text-sm text-blue-400 hover:text-blue-300 underline"
+
+              <Link
+                href="/forgot-password"
+                className="text-sm text-blue-100/90 hover:text-white underline underline-offset-4"
               >
                 Quên mật khẩu
-              </a>
+              </Link>
             </div>
 
-            {/* Login Button and Home Icon */}
-            <div className="flex items-center justify-center space-x-3">
+            {/* Submit / Home */}
+            <div className="flex items-center justify-center gap-3">
               <button
                 type="submit"
-                disabled={isSubmitting || isLoading}
-                className="flex-1 bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 disabled:from-gray-400 disabled:to-gray-500 text-white font-bold py-3 px-6 rounded-full transition-all duration-400 transform hover:scale-105 disabled:hover:scale-100 shadow-lg disabled:cursor-not-allowed"
+                disabled={disabled}
+                className="
+                  flex-1 bg-gradient-to-r from-pink-500 to-purple-600
+                  hover:from-pink-600 hover:to-purple-700
+                  disabled:from-gray-400 disabled:to-gray-500
+                  text-white font-bold py-3 px-6 rounded-full
+                  transition-all duration-300 transform
+                  hover:scale-105 disabled:hover:scale-100
+                  shadow-lg disabled:cursor-not-allowed
+                  text-[clamp(0.95rem,1.3vw,1rem)]
+                "
               >
-                {isSubmitting || isLoading ? "ĐANG XỬ LÝ..." : "ĐĂNG NHẬP"}
+                {disabled ? "ĐANG XỬ LÝ..." : "ĐĂNG NHẬP"}
               </button>
+
               <button
                 type="button"
                 onClick={onHomeClick}
-                className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-md hover:shadow-lg transition-all duration-200 hover:scale-105"
-                disabled={isSubmitting || isLoading}
+                aria-label="Về trang chủ"
+                disabled={disabled}
+                className="
+                  w-10 h-10 bg-white rounded-full flex items-center justify-center
+                  shadow-md hover:shadow-lg transition-all duration-200 hover:scale-105
+                  disabled:opacity-60 disabled:hover:scale-100
+                "
               >
                 <Home size={20} className="text-gray-600" />
               </button>
@@ -171,17 +218,27 @@ const LoginComponent: React.FC<LoginComponentProps> = ({
               </div>
             </div>
 
-            {/* Google Login Button */}
+            {/* Google Login */}
             <button
               type="button"
               onClick={onGoogleLogin}
-              disabled={isSubmitting || isLoading}
-              className="w-full bg-white hover:bg-gray-50 disabled:bg-gray-100 text-gray-700 font-medium py-3 px-6 rounded-full border border-gray-300 transition-all duration-300 transform hover:scale-105 disabled:hover:scale-100 shadow-md hover:shadow-lg disabled:cursor-not-allowed flex items-center justify-center space-x-3"
+              disabled={disabled}
+              className="
+                w-full bg-white hover:bg-gray-50 disabled:bg-gray-100
+                text-gray-700 font-medium py-3 px-6 rounded-full
+                border border-gray-300 transition-all duration-300
+                transform hover:scale-105 disabled:hover:scale-100
+                shadow-md hover:shadow-lg disabled:cursor-not-allowed
+                flex items-center justify-center gap-3
+                text-[clamp(0.95rem,1.3vw,1rem)]
+              "
             >
               <svg
                 className="w-5 h-5"
                 viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
+                focusable="false"
               >
                 <path
                   fill="#4285F4"

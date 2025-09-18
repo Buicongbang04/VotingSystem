@@ -12,8 +12,9 @@ const ContactPage = () => {
 
   useEffect(() => {
     const today = new Date();
+
     const october10th = new Date();
-    october10th.setMonth(9); // October
+    october10th.setMonth(9); // October (0-based)
     october10th.setDate(10);
     october10th.setHours(23, 59, 59, 999);
 
@@ -24,6 +25,7 @@ const ContactPage = () => {
       return;
     }
 
+    // target: 10/11 + 30 days (giữ nguyên logic của bạn)
     const targetDate = new Date();
     targetDate.setMonth(10); // November
     targetDate.setDate(10);
@@ -31,7 +33,7 @@ const ContactPage = () => {
     targetDate.setDate(targetDate.getDate() + 30);
 
     const timer = setInterval(() => {
-      const now = new Date().getTime();
+      const now = Date.now();
       const distance = targetDate.getTime() - now;
 
       if (distance > 0) {
@@ -59,19 +61,48 @@ const ContactPage = () => {
     { value: timeLeft.seconds, label: "GIÂY" },
   ];
 
+  // Responsive circle size
+  const [circleSize, setCircleSize] = useState(200);
+  useEffect(() => {
+    const handleResize = () => {
+      const width = window.innerWidth;
+      if (width < 640) setCircleSize(120);
+      else if (width < 1024) setCircleSize(160);
+      else setCircleSize(200);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
-    <section className="h-screen flex items-center justify-center bg-contact snap-section relative overflow-hidden">
+    <section
+      id="contact"
+      className="
+        bg-contact
+        min-h-dvh flex flex-col items-center justify-center snap-section relative
+        px-4 sm:px-6 lg:px-8
+        w-full max-w-[100vw]
+        overflow-x-hidden overflow-x-clip overflow-y-visible
+      "
+    >
       {/* Background decorative elements */}
       <div className="absolute top-10 left-10 w-32 h-32 border-2 border-pink-400/30 rounded-full opacity-20"></div>
       <div className="absolute top-20 right-20 w-24 h-24 border-2 border-cyan-400/30 opacity-20 transform rotate-45"></div>
       <div className="absolute bottom-20 left-20 w-28 h-28 border-2 border-pink-400/30 opacity-20 transform rotate-12"></div>
       <div className="absolute bottom-10 right-10 w-20 h-20 border-2 border-purple-400/30 rounded-full opacity-20"></div>
 
-      <div className="container mx-auto px-8 text-center relative z-10">
+      {/* Nội dung */}
+      <div className="relative z-10 w-full min-w-0">
         {/* Main Title */}
-        <div className="mb-16">
+        <div className="mb-12">
           <h2
-            className="text-5xl md:text-6xl font-bold text-white mb-8"
+            className="
+              text-center font-bold text-white leading-tight mb-4
+              text-[clamp(1.75rem,5vw,3.5rem)]
+              break-words whitespace-normal [text-wrap:balance]
+              max-w-[90%] md:max-w-4xl mx-auto
+            "
             style={{
               textShadow:
                 "0 0 20px rgba(255, 255, 255, 0.8), 0 0 40px rgba(255, 255, 255, 0.6)",
@@ -81,27 +112,16 @@ const ContactPage = () => {
           </h2>
         </div>
 
-        {/* Countdown Timer - dùng absolute cho từng cái */}
-        <div className="relative w-full h-[400px] top-10 flex justify-between">
-          {/* NGÀY */}
-          <div>
-            <Circle value={timeUnits[0].value} label={timeUnits[0].label} />
-          </div>
-
-          {/* GIỜ */}
-          <div>
-            <Circle value={timeUnits[1].value} label={timeUnits[1].label} />
-          </div>
-
-          {/* PHÚT */}
-          <div>
-            <Circle value={timeUnits[2].value} label={timeUnits[2].label} />
-          </div>
-
-          {/* GIÂY */}
-          <div>
-            <Circle value={timeUnits[3].value} label={timeUnits[3].label} />
-          </div>
+        {/* Countdown Timer */}
+        <div className="flex flex-wrap justify-center gap-6 w-full min-w-0">
+          {timeUnits.map((unit, idx) => (
+            <Circle
+              key={idx}
+              value={unit.value}
+              label={unit.label}
+              size={circleSize}
+            />
+          ))}
         </div>
       </div>
     </section>
@@ -116,7 +136,7 @@ type HUDCircleProps = {
 };
 
 const Circle: React.FC<HUDCircleProps> = ({
-  size = 240,
+  size = 200,
   color = "#ff64d8",
   value,
   label,
@@ -179,7 +199,6 @@ const Circle: React.FC<HUDCircleProps> = ({
         viewBox={`0 0 ${size} ${size}`}
         className="block"
       >
-        {/* 4 cung dày ngoài */}
         <circle
           cx={cx}
           cy={cy}
@@ -192,8 +211,6 @@ const Circle: React.FC<HUDCircleProps> = ({
           strokeDasharray={dashArrayOuter}
           transform={`rotate(-20 ${cx} ${cy})`}
         />
-
-        {/* đường mảnh nằm sát trong */}
         <circle
           cx={cx}
           cy={cy}
@@ -203,11 +220,7 @@ const Circle: React.FC<HUDCircleProps> = ({
           strokeOpacity="0.35"
           strokeWidth={size * 0.006}
         />
-
-        {/* các chấm neo */}
         {anchorDots}
-
-        {/* vòng dashed kiểu “thước” */}
         <circle
           cx={cx}
           cy={cy}
@@ -220,8 +233,6 @@ const Circle: React.FC<HUDCircleProps> = ({
           strokeLinecap="round"
           transform={`rotate(-10 ${cx} ${cy})`}
         />
-
-        {/* vòng mảnh trong cùng */}
         <circle
           cx={cx}
           cy={cy}
@@ -231,8 +242,6 @@ const Circle: React.FC<HUDCircleProps> = ({
           strokeOpacity="0.4"
           strokeWidth={size * 0.005}
         />
-
-        {/* text ở giữa */}
         {value !== undefined && value !== null && (
           <text
             x="50%"
@@ -249,13 +258,12 @@ const Circle: React.FC<HUDCircleProps> = ({
           </text>
         )}
       </svg>
-
       {label && (
         <span
-          className="mt-2 font-bold text-white"
+          className="mt-2 font-bold text-white break-words whitespace-normal"
           style={{
             textShadow: "0 0 6px rgba(255,255,255,0.4)",
-            fontSize: Math.max(14, size * 0.09),
+            fontSize: Math.max(12, size * 0.09),
           }}
         >
           {label}
