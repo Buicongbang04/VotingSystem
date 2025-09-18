@@ -31,7 +31,7 @@ const FeaturesPage = () => {
       "
     >
       {/* Nội dung full-width; giới hạn trên các khung con để không bị bó hẹp */}
-      <div className="w-full min-w-0">
+      <div className="w-full min-w-0 flex flex-col items-center justify-center">
         {/* Title */}
         <div className="text-center mb-[clamp(1rem,3vw,2rem)]">
           <h2
@@ -54,19 +54,10 @@ const FeaturesPage = () => {
         </div>
 
         {/* Timeline */}
-        <div
-          className="
-            relative mx-auto
-            w-full min-w-0
-            max-w-[95%] sm:max-w-3xl md:max-w-5xl lg:max-w-6xl
-          "
-        >
-          {/* Đảm bảo TimeLineSVG có viewBox trong component gốc để responsive mượt */}
-          <TimeLineSVG
-            className="
-              block w-full h-auto max-w-full
-            "
-          />
+        <div className="w-full min-w-0 max-w-[1400px] md:max-w-6xl">
+          <div className="block w-full">
+            <TimeLineSVG />
+          </div>
         </div>
       </div>
 
