@@ -1,13 +1,13 @@
-"use client";
+"use client"
 
-import React, { useState, useEffect } from "react";
-import { cn } from "@/lib/utils";
-import { ArrowUp } from "lucide-react";
-import Link from "next/link";
+import React from "react"
+import { cn } from "@/lib/utils"
+import { ArrowUp } from "lucide-react"
+import Link from "next/link"
 
 interface ScrollToElementProps {
-  className?: string;
-  to: string;
+  className?: string
+  to: string
 }
 
 const ScrollToElement: React.FC<ScrollToElementProps> = ({ className, to }) => {
@@ -19,10 +19,10 @@ const ScrollToElement: React.FC<ScrollToElementProps> = ({ className, to }) => {
       )}
     >
       <Link href={to}>
-        <ArrowUp className="h-10 w-10 text-white" />
+        <ArrowUp className='h-10 w-10 text-white' />
       </Link>
     </div>
-  );
-};
+  )
+}
 
-export default ScrollToElement;
+export default ScrollToElement
