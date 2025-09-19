@@ -8,12 +8,12 @@ import {
 
 export default function Home() {
   return (
-    <main className=''>
+    <>
       <HeroPage />
       <FeaturesPage />
       <StatsPage />
       <ContactPage />
       <Footer />
-    </main>
+    </>
   )
 }

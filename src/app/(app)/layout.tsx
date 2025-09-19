@@ -3,9 +3,5 @@ export default function UserLayout({
 }: {
   children: React.ReactNode
 }) {
-  return (
-    <div className='flex h-screen'>
-      <main className='flex-1 overflow-auto'>{children}</main>
-    </div>
-  )
+  return <main className='flex h-screen'>{children}</main>
 }

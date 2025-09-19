@@ -1,5 +1,6 @@
 import UserNavbar from "../../../components/UserNavbar"
 import AuthGuard from "../../../components/AuthGuard"
+import AppNavbar from "@/src/components/AppNavbar"
 
 export default function UserLayout({
   children,
@@ -8,9 +9,12 @@ export default function UserLayout({
 }) {
   return (
     <AuthGuard>
-      <div className='flex h-screen'>
+      <div className='flex h-screen w-screen'>
         <UserNavbar />
-        <main className='flex-1 overflow-auto'>{children}</main>
+        <main className='flex-1 overflow-auto'>
+          <AppNavbar />
+          {children}
+        </main>
       </div>
     </AuthGuard>
   )

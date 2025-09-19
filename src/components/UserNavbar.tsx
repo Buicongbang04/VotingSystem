@@ -33,7 +33,7 @@ export default function UserNavbar() {
   const pathname = usePathname()
 
   return (
-    <div className='h-screen w-64 bg-[#8B1538] flex flex-col'>
+    <div className='md:h-screen md:w-64 w-screen h-50 bg-[#8B1538] flex flex-col'>
       {/* Header Section */}
       <div className='p-6 border-b border-[#A01A42]'>
         <div className='flex items-center space-x-2 mb-2'>
@@ -46,7 +46,7 @@ export default function UserNavbar() {
       </div>
 
       {/* Navigation Items */}
-      <nav className='flex-1 p-4 space-y-2'>
+      <nav className='flex md:flex-col md:flex-1 p-4 space-y-2'>
         {navigationItems.map((item) => {
           const Icon = item.icon
           const isActive = pathname === item.href
@@ -56,14 +56,14 @@ export default function UserNavbar() {
               key={item.href}
               href={item.href}
               className={cn(
-                "flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors duration-200",
+                "flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors duration-200 w-full",
                 isActive
                   ? "bg-[#6B0F2A] text-white"
                   : "text-white/90 hover:bg-[#7A1232] hover:text-white"
               )}
             >
               <Icon className='w-5 h-5' />
-              <span className='font-medium'>{item.label}</span>
+              <span className='md:block hidden font-medium'>{item.label}</span>
             </Link>
           )
         })}
