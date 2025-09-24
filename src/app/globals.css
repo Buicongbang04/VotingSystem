@@ -157,7 +157,7 @@ body {
   background-repeat: no-repeat;
 }
 .bg-feature {
-  background-image: url("/images/bgfeatures.png");
+  background-image: url("/images/bgfeature.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -191,4 +191,93 @@ body {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+}
+
+.button1 {
+  @apply font-medium text-lg px-6 py-2 rounded-full text-[#F8F8F8] transition-all duration-300;
+  background-image: linear-gradient(
+    90deg,
+    rgba(245, 75, 175, 0) 0%,
+    #f54baf 100%
+  ); /* Default = Gradient 2 */
+  border: 1.6px solid transparent;
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  box-shadow: 0 4px 20px rgba(255, 118, 199, 0.4);
+}
+
+/* Gradient viền */
+.button1::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.6px;
+  background: linear-gradient(80deg, #c81568 0%, #ffe9f3 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* Hover = Gradient 1 */
+.button1:hover {
+  background-image: linear-gradient(80deg, #c81568 0%, #ffe9f3 100%);
+}
+
+/* Click = solid #DB2D7E */
+.button1:active {
+  background-image: none;
+  background-color: #db2d7e;
+}
+
+.button2 {
+  @apply font-medium text-lg px-6 py-2 rounded-full text-[#F8F8F8] transition-all duration-300;
+  background: none; /* default no fill */
+  border: 1.6px solid #f9c3e3;
+}
+
+/* Gradient border khi hover/click */
+.button2::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.6px;
+  background: linear-gradient(80deg, #c81568 0%, #ffe9f3 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0; /* ẩn mặc định */
+  transition: opacity 0.3s ease;
+}
+
+/* Hover = Gradient 3 fill + gradient stroke + shadow */
+.button2:hover {
+  background-image: linear-gradient(180deg, #010101 30%, #65002f 100%);
+  box-shadow: 0 4px 20px rgba(255, 118, 199, 0.4);
+}
+.button2:hover::before {
+  opacity: 1; /* hiện viền gradient */
+}
+
+/* Click = đen + gradient stroke + shadow */
+.button2:active {
+  background: #010101;
+  box-shadow: 0 4px 20px rgba(255, 118, 199, 0.4);
+}
+.button2:active::before {
+  opacity: 1;
+}
+
+@font-face {
+  font-family: "Bolkit Condensed";
+  src: url("/fonts/Bolkit Alternate Condensed Bold .ttf") format("truetype");
+  font-weight: 700; /* hoặc "bold" */
+  font-style: normal;
+}
+
+.font-bolkit {
+  font-family: "Bolkit Condensed", sans-serif;
 }

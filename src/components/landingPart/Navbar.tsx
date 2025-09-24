@@ -16,8 +16,14 @@ export default function Navbar() {
       <div className="w-full mx-auto sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16 px-4 sm:px-6">
           {/* Logo */}
-          <div className="flex items-center space-x-2">
-            <Image src="/images/Logo.png" alt="logo" width={100} height={100} />
+          <div className="flex items-center space-x-2 gap-4">
+            <Image src="/images/Logo.png" alt="logo" width={110} height={110} />
+            <Image
+              src="/images/iia_logo.png"
+              alt="logo"
+              width={80}
+              height={80}
+            />
           </div>
 
           {/* Desktop Menu */}
@@ -33,7 +39,8 @@ export default function Navbar() {
             ))}
             <Link
               href="/login"
-              className="text-white px-3 py-2 rounded-full text-lg font-medium transition-colors duration-200 border-4 hover:border-pink-500 hover:bg-pink-500/20"
+              // className="text-white px-3 py-2 rounded-full text-lg font-medium transition-colors duration-200 border-4 hover:border-pink-500 hover:bg-pink-500/20"
+              className="button1 relative"
             >
               Đăng nhập
             </Link>
