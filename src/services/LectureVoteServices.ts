@@ -7,7 +7,7 @@ import {
   LectureVoteApiResponse,
 } from "../interfaces/LectureVote/LectureVote"
 import { useMutation, useQuery } from "@tanstack/react-query"
-import { useTokenStore } from "../stores/tokenStore"
+import { useTokenStore, useIsAuthenticated } from "../stores/tokenStore"
 
 // Helper function to get authorization headers
 const getAuthHeaders = () => {

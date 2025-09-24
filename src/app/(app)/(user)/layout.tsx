@@ -1,6 +1,7 @@
 import UserNavbar from "../../../components/UserNavbar"
 import AuthGuard from "../../../components/AuthGuard"
 import AppNavbar from "@/src/components/AppNavbar"
+import LenisProvider from "@/src/utils/lenis"
 
 export default function UserLayout({
   children,
@@ -9,13 +10,15 @@ export default function UserLayout({
 }) {
   return (
     <AuthGuard>
-      <div className='flex h-screen w-screen'>
-        <UserNavbar />
-        <main className='flex-1 overflow-auto'>
-          <AppNavbar />
-          {children}
+      <LenisProvider>
+        <main className='md:flex h-screen w-screen '>
+          <UserNavbar />
+          <div className='flex-1 overflow-y-scroll' data-lenis-prevent>
+            <AppNavbar />
+            {children}
+          </div>
         </main>
-      </div>
+      </LenisProvider>
     </AuthGuard>
   )
 }

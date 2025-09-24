@@ -7,6 +7,7 @@ import {
 } from "../interfaces/FeedbackVote/FeedbackVote"
 import { useMutation, useQuery } from "@tanstack/react-query"
 import { useTokenStore } from "../stores/tokenStore"
+import { useIsAuthenticated } from "../stores/accountStore"
 
 // Helper function to get authorization headers
 const getAuthHeaders = () => {
@@ -47,7 +48,7 @@ const FeedbackVoteApi = {
 
 // React Query hooks for GET operations
 export const useGetAllFeedbackVotes = () => {
-  const isAuthenticated = useTokenStore((state) => state.isAuthenticated)
+  const isAuthenticated = useIsAuthenticated()
 
   return useQuery({
     queryKey: ["feedbackVotes"],

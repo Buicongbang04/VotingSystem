@@ -2,16 +2,16 @@ export interface Account {
   studentCode: string
   email: string
   name: string
-  semester: number
-  department: string
+  semester?: number
+  department?: string
 }
 
 export interface CreateAccountRequest {
   studentCode: string
   email: string
   name: string
-  semester: number
-  department: string
+  semester?: number
+  department?: string
 }
 
 export interface UpdateAccountRequest {

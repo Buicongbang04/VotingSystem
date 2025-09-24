@@ -18,6 +18,13 @@ const AuthApi = {
       })
       .then((res) => res.data)
   },
+  refreshToken: async (refreshToken: string) => {
+    return axios
+      .post<Token>(DEFAULT_API + "/auth/refresh", {
+        refreshToken,
+      })
+      .then((res) => res.data)
+  },
 }
 
 export const useLoginApi = () => {
@@ -29,5 +36,11 @@ export const useLoginApi = () => {
 export const useLoginGoogleApi = () => {
   return useMutation({
     mutationFn: (data: any) => AuthApi.loginGoogle(data),
+  })
+}
+
+export const useRefreshTokenApi = () => {
+  return useMutation({
+    mutationFn: (refreshToken: string) => AuthApi.refreshToken(refreshToken),
   })
 }

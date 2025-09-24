@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation"
 import LoginComponent from "../../../components/Auth/LoginComponent"
 import { type LoginFormData } from "../../../interfaces/auth/Schema/Login"
 import { useLoginApi, useLoginGoogleApi } from "../../../services/AuthServices"
-import { useTokenStore, useIsAuthenticated } from "../../../stores/tokenStore"
+import { useLogin, useIsAuthenticated } from "../../../stores/tokenStore"
 
 const LoginPage = () => {
   const [isLoading, setIsLoading] = useState(false)
@@ -14,14 +14,13 @@ const LoginPage = () => {
   const searchParams = useSearchParams()
   const loginMutation = useLoginApi()
   const googleLoginMutation = useLoginGoogleApi()
-  const { setTokens, checkTokenValidity } = useTokenStore()
+  const login = useLogin()
   const isAuthenticated = useIsAuthenticated()
 
   // Check if user is already authenticated and redirect
   useEffect(() => {
     const checkExistingAuth = () => {
-      const isValid = checkTokenValidity()
-      if (isValid) {
+      if (isAuthenticated) {
         console.log("User already authenticated, redirecting to dashboard")
         router.push("/all-show")
       }
@@ -29,7 +28,7 @@ const LoginPage = () => {
     }
 
     checkExistingAuth()
-  }, [checkTokenValidity, router])
+  }, [isAuthenticated, router])
 
   // Check for Google OAuth callback parameters
   useEffect(() => {
@@ -55,18 +54,22 @@ const LoginPage = () => {
         accessToken,
         refreshToken,
       }
-      setTokens(tokens)
-      router.push("/all-show")
+      const success = login(tokens)
+      if (success) {
+        router.push("/all-show")
+      }
     }
-  }, [searchParams, router, setTokens])
+  }, [searchParams, router, login])
 
   // Handle Google OAuth code
   const handleGoogleOAuthCode = async (code: string) => {
     try {
       const tokens = await googleLoginMutation.mutateAsync(code)
       if (tokens.accessToken && tokens.refreshToken) {
-        setTokens(tokens)
-        router.push("/all-show")
+        const success = login(tokens)
+        if (success) {
+          router.push("/all-show")
+        }
       }
     } catch (error) {
       console.error("Google OAuth error:", error)
@@ -86,12 +89,13 @@ const LoginPage = () => {
 
       // Save tokens to Zustand store if they exist
       if (tokens.accessToken && tokens.refreshToken) {
-        setTokens(tokens)
-        console.log("Tokens saved to Zustand store")
+        const success = login(tokens)
+        if (success) {
+          console.log("Tokens saved to Zustand store")
+          // Redirect to dashboard or home page after successful login
+          router.push("/all-show")
+        }
       }
-
-      // Redirect to dashboard or home page after successful login
-      router.push("/all-show")
     } catch (error) {
       console.error("Login error:", error)
       // Handle login error (show toast, etc.)

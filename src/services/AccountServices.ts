@@ -6,7 +6,7 @@ import {
   UpdateAccountRequest,
 } from "../interfaces/Account/Account"
 import { useMutation, useQuery } from "@tanstack/react-query"
-import { useTokenStore } from "../stores/tokenStore"
+import { useTokenStore, useIsAuthenticated } from "../stores/tokenStore"
 
 // Helper function to get authorization headers
 const getAuthHeaders = () => {
@@ -18,7 +18,7 @@ const getAuthHeaders = () => {
   }
 }
 
-const AccountApi = {
+export const AccountApi = {
   // GET - Get all accounts
   getAllAccounts: async () => {
     return axios
@@ -63,7 +63,7 @@ const AccountApi = {
 
 // React Query hooks for GET operations
 export const useGetAllAccounts = () => {
-  const isAuthenticated = useTokenStore((state) => state.isAuthenticated)
+  const isAuthenticated = useIsAuthenticated()
 
   return useQuery({
     queryKey: ["accounts"],
@@ -73,7 +73,7 @@ export const useGetAllAccounts = () => {
 }
 
 export const useGetAccountById = (id: string) => {
-  const isAuthenticated = useTokenStore((state) => state.isAuthenticated)
+  const isAuthenticated = useIsAuthenticated()
 
   return useQuery({
     queryKey: ["account", id],

@@ -1,17 +1,14 @@
 import type { Metadata } from "next"
-import { Geist, Geist_Mono } from "next/font/google"
+import { Geist, Geist_Mono, IBM_Plex_Sans_Condensed } from "next/font/google"
 import "./globals.css"
 import { Navbar } from "../components/landingPart"
 import Providers from "../components/Providers"
 import LenisProvider from "../utils/lenis"
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-})
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const ibmPlexSansCondensed = IBM_Plex_Sans_Condensed({
+  variable: "--font-ibm-plex-sans-condensed",
   subsets: ["latin"],
+  weight: ["100", "200", "300", "400", "500", "600", "700"],
 })
 
 export const metadata: Metadata = {
@@ -26,9 +23,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased `}
-      >
+      <body className={` ${ibmPlexSansCondensed.variable} antialiased `}>
         <Providers>
           <LenisProvider>{children}</LenisProvider>
         </Providers>

@@ -4,17 +4,19 @@ import React, { useState } from "react"
 import { Bell, User, ChevronDown, LogOut, Settings } from "lucide-react"
 import { cn } from "@/lib/utils"
 import Image from "next/image"
+import { useUser } from "../stores/tokenStore"
 
 const AppNavbar = () => {
   const [isProfileOpen, setIsProfileOpen] = useState(false)
   const [notificationCount] = useState(3) // Mock notification count
+  const user = useUser()
 
   const toggleProfile = () => {
     setIsProfileOpen(!isProfileOpen)
   }
 
   return (
-    <div className='h-16 bg-rose-200/40 border-b border-gray-200 shadow-sm'>
+    <div className='h-20 bg-rose-200/40 border-b border-gray-200 shadow-sm'>
       <div className='h-full px-6 flex items-center justify-between'>
         {/* Left Section - Logo/Brand */}
         <div className='flex items-center'>
@@ -53,7 +55,7 @@ const AppNavbar = () => {
               </div>
               <div className='hidden sm:block text-left'>
                 <p className='text-sm font-medium text-gray-800'>
-                  Nguyễn Văn A
+                  {user?.name}
                 </p>
                 <p className='text-xs text-gray-500'>Sinh viên</p>
               </div>
@@ -83,11 +85,9 @@ const AppNavbar = () => {
                       </div>
                       <div>
                         <p className='font-medium text-gray-800'>
-                          Nguyễn Văn A
+                          {user?.name}
                         </p>
-                        <p className='text-sm text-gray-500'>
-                          nguyenvana@fpt.edu.vn
-                        </p>
+                        <p className='text-sm text-gray-500'>{user?.email}</p>
                         <p className='text-xs text-gray-400'>Sinh viên - K15</p>
                       </div>
                     </div>

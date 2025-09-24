@@ -1,12 +1,12 @@
 "use client"
 
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import {
   useTokenStore,
   useIsAuthenticated,
   useUser,
-  useIsLoading,
+  useValidateToken,
 } from "../stores/tokenStore"
 
 interface AuthGuardProps {
@@ -17,54 +17,54 @@ export default function AuthGuard({ children }: AuthGuardProps) {
   const router = useRouter()
   const isAuthenticated = useIsAuthenticated()
   const user = useUser()
-  const isLoading = useIsLoading()
-  const { checkTokenValidity, clearTokens, setLoading } = useTokenStore()
+  const validateToken = useValidateToken()
+  const [isHydrated, setIsHydrated] = useState(false)
 
   useEffect(() => {
-    const checkAuthentication = () => {
-      try {
-        setLoading(true)
+    // Wait for store to hydrate
+    const unsubscribe = useTokenStore.persist.onFinishHydration(() => {
+      setIsHydrated(true)
+    })
 
+    // If already hydrated, set immediately
+    if (useTokenStore.persist.hasHydrated()) {
+      setIsHydrated(true)
+    }
+
+    return unsubscribe
+  }, [])
+
+  useEffect(() => {
+    if (!isHydrated) return
+
+    const checkAuthentication = async () => {
+      try {
         // Check token validity using Zustand store
-        const isValid = checkTokenValidity()
+        const isValid = validateToken()
 
         if (!isValid) {
           console.log("Invalid or expired token, redirecting to login")
-          clearTokens()
           router.push("/login")
           return
         }
 
         // Get current user data after validation
         const currentUser = useTokenStore.getState().user
-        console.log("User authenticated:", {
-          email: currentUser?.email,
-          name: currentUser?.name,
-          role: currentUser?.role,
-          exp: currentUser?.exp
-            ? new Date(currentUser.exp * 1000).toLocaleString()
-            : "N/A",
-        })
+        console.log("User authenticated:", currentUser)
       } catch (error) {
         console.error("Authentication check failed:", error)
-        clearTokens()
         router.push("/login")
-      } finally {
-        setLoading(false)
       }
     }
 
     checkAuthentication()
-  }, []) // Empty dependency array - only run once on mount
+  }, [validateToken, router, isHydrated])
 
-  // Show loading state while checking authentication
-  if (isLoading) {
+  // Show loading while hydrating
+  if (!isHydrated) {
     return (
-      <div className='flex items-center justify-center h-screen'>
-        <div className='text-center'>
-          <div className='animate-spin rounded-full h-12 w-12 border-b-2 border-[#8B1538] mx-auto mb-4'></div>
-          <p className='text-gray-600'>Checking authentication...</p>
-        </div>
+      <div className='flex items-center justify-center min-h-screen'>
+        <div className='text-white'>Loading...</div>
       </div>
     )
   }
