@@ -12,10 +12,8 @@ const Page = () => {
   const redirect = useRouter()
 
   const onJoin = () => {
-    console.log(data)
-
-    if (data?.studentCode) {
-      redirect.push("/")
+    if (data) {
+      redirect.push(`/all-show/${user?.sub}`)
     } else {
       redirect.push("/user-information")
     }

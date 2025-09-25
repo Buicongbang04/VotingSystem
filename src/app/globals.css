@@ -291,78 +291,13 @@ body {
   font-family: "Bolkit Condensed", sans-serif;
 }
 
-/* Custom Color Palette Classes */
-.bg-light-gray {
-  background-color: #f8f8f8;
-}
-
-.bg-light-pink {
-  background-color: #f9c3e3;
-}
-
-.bg-vibrant-pink {
-  background-color: #f54baf;
-}
-
-.bg-dark-pink {
-  background-color: #db2d7e;
-}
-
-.bg-custom-black {
-  background-color: #010101;
-}
-
-.text-light-gray {
-  color: #f8f8f8;
-}
-
-.text-light-pink {
-  color: #f9c3e3;
-}
-
-.text-vibrant-pink {
-  color: #f54baf;
-}
-
-.text-dark-pink {
-  color: #db2d7e;
-}
-
-.text-custom-black {
-  color: #010101;
-}
-
-.border-light-gray {
-  border-color: #f8f8f8;
-}
-
-.border-light-pink {
-  border-color: #f9c3e3;
-}
-
-.border-vibrant-pink {
-  border-color: #f54baf;
-}
-
-.border-dark-pink {
-  border-color: #db2d7e;
-}
-
-.border-custom-black {
-  border-color: #010101;
-}
-
-/* Event Announcement Component Styles */
-.bg-maroon-gradient {
-  background: linear-gradient(135deg, #8b1538 0%, #6b0f2a 100%);
-}
-
-.bg-light-pink-gradient {
-  background: linear-gradient(90deg, #f9c3e3 0%, #fce4ec 100%);
-}
-
-.text-maroon {
-  color: #8b1538;
+/* Custom Color Palette Variables */
+@theme {
+  --color-light-gray: #f8f8f8;
+  --color-light-pink: #f9c3e3;
+  --color-vibrant-pink: #f54baf;
+  --color-dark-pink: #db2d7e;
+  --color-custom-black: #010101;
 }
 
 /* Tooltip styles */

@@ -22,7 +22,10 @@ const accountSchema = z.object({
     .min(1, "Vui lòng nhập mã số sinh viên")
     .min(6, "Mã số sinh viên phải có ít nhất 6 ký tự")
     .max(20, "Mã số sinh viên không được quá 20 ký tự"),
-  semesters: z.string().min(1, "Vui lòng chọn giai đoạn"),
+  semester: z
+    .number()
+    .min(1, "Vui lòng chọn học kỳ")
+    .max(9, "Học kỳ không được quá 9"),
   department: z.string().min(1, "Vui lòng chọn chuyên ngành").optional(),
 })
 
@@ -49,11 +52,7 @@ const majors = [
   "Tài chính",
 ]
 
-const studyPeriods = [
-  "Giai đoạn dự bị",
-  "Giai đoạn chuyên ngành (HK1-HK6)",
-  "Giai đoạn chuyên ngành (HK7-HK9)",
-]
+const studyPeriods = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
 const StudentInfoForm: React.FC<StudentInfoFormProps> = ({
   onConfirm,
@@ -84,19 +83,8 @@ const StudentInfoForm: React.FC<StudentInfoFormProps> = ({
   }
 
   return (
-    <div className='min-h-screen bg-gradient-to-br from-pink-100 via-purple-50 to-pink-200 relative'>
-      {/* Background pattern */}
-      <div className='absolute inset-0 opacity-10'>
-        <div
-          className='absolute inset-0'
-          style={{
-            backgroundImage:
-              "repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0,0,0,.1) 10px, rgba(0,0,0,.1) 20px)",
-          }}
-        />
-      </div>
-
-      <div className='relative z-10 flex items-center justify-center min-h-screen p-4'>
+    <div className='relative'>
+      <div className='relative z-10 flex items-center justify-center p-4'>
         <Card className='w-full max-w-md bg-white/90 backdrop-blur-sm border-0 shadow-xl'>
           <CardHeader className='text-center pb-4'>
             <CardTitle className='text-2xl font-bold bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent'>
@@ -202,7 +190,7 @@ const StudentInfoForm: React.FC<StudentInfoFormProps> = ({
               {/* Study Period Field */}
               <div className='space-y-2 relative'>
                 <label className='text-pink-700 font-medium text-sm'>
-                  Giai đoạn
+                  Học kỳ
                 </label>
                 <div className='relative'>
                   <button
@@ -210,18 +198,20 @@ const StudentInfoForm: React.FC<StudentInfoFormProps> = ({
                     onClick={() => setShowPeriodDropdown(!showPeriodDropdown)}
                     className={cn(
                       "w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all duration-200 bg-white text-left flex items-center justify-between",
-                      errors.semesters ? "border-red-500" : "border-gray-200"
+                      errors.semester ? "border-red-500" : "border-gray-200"
                     )}
                   >
                     <span
                       className={cn(
                         "truncate",
-                        watchedValues.semesters
+                        watchedValues.semester
                           ? "text-gray-900"
                           : "text-gray-400"
                       )}
                     >
-                      {watchedValues.semesters || "Chọn giai đoạn"}
+                      {watchedValues.semester
+                        ? `Học kỳ ${watchedValues.semester}`
+                        : "Chọn học kỳ"}
                     </span>
                     <svg
                       className={cn(
@@ -248,22 +238,22 @@ const StudentInfoForm: React.FC<StudentInfoFormProps> = ({
                           key={period}
                           type='button'
                           onClick={() => {
-                            setValue("semesters", period, {
+                            setValue("semester", period, {
                               shouldValidate: true,
                             })
                             setShowPeriodDropdown(false)
                           }}
                           className='w-full px-4 py-3 text-left hover:bg-pink-50 transition-colors duration-150 text-sm'
                         >
-                          {period}
+                          Học kỳ {period}
                         </button>
                       ))}
                     </div>
                   )}
                 </div>
-                {errors.semesters && (
+                {errors.semester && (
                   <p className='text-red-500 text-xs mt-1'>
-                    {errors.semesters.message}
+                    {errors.semester.message}
                   </p>
                 )}
               </div>

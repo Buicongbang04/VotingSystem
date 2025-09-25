@@ -16,23 +16,24 @@ const AppNavbar = () => {
   }
 
   return (
-    <div className='h-20 bg-rose-200/40 border-b border-gray-200 shadow-sm'>
-      <div className='h-full px-6 flex items-center justify-between'>
+    <div className='h-20'>
+      <div className='h-full px-6 flex items-center justify-center'>
         {/* Left Section - Logo/Brand */}
         <div className='flex items-center'>
           <div className='flex items-center space-x-2'>
             <Image
               src='/images/Logo.png'
               alt='FPT University'
-              width={100}
-              height={100}
+              width={200}
+              height={200}
+              className='object-cover'
             />
           </div>
         </div>
 
         {/* Right Section - Notifications & Profile */}
-        <div className='flex items-center space-x-4'>
-          {/* Bell Icon with Notification Badge */}
+        {/* <div className='flex items-center space-x-4'>
+        
           <div className='relative'>
             <button className='p-2 text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-full transition-colors duration-200'>
               <Bell className='w-5 h-5' />
@@ -44,7 +45,6 @@ const AppNavbar = () => {
             </button>
           </div>
 
-          {/* User Profile Dropdown */}
           <div className='relative'>
             <button
               onClick={toggleProfile}
@@ -67,16 +67,14 @@ const AppNavbar = () => {
               />
             </button>
 
-            {/* Profile Dropdown Menu */}
             {isProfileOpen && (
               <>
-                {/* Backdrop */}
+                
                 <div
                   className='fixed inset-0 z-10'
                   onClick={() => setIsProfileOpen(false)}
                 />
 
-                {/* Dropdown Content */}
                 <div className='absolute right-0 top-full mt-2 w-64 bg-white rounded-lg shadow-lg border border-gray-200 z-20'>
                   <div className='p-4 border-b border-gray-100'>
                     <div className='flex items-center space-x-3'>
@@ -108,7 +106,7 @@ const AppNavbar = () => {
               </>
             )}
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   )

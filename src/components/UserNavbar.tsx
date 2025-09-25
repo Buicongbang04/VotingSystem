@@ -23,8 +23,8 @@ const navigationItems = [
     icon: Trophy,
   },
   {
-    href: "/nam-2025",
-    label: "Năm 2025",
+    href: "/nam-2024",
+    label: "Năm 2024",
     icon: BarChart3,
   },
 ]
@@ -33,17 +33,9 @@ export default function UserNavbar() {
   const pathname = usePathname()
 
   return (
-    <div className='md:h-screen md:w-64 w-screen h-50 bg-[#8B1538] flex flex-col'>
+    <div className='md:h-screen md:w-64 w-screen h-50 bg-gradient-to-b from-vibrant-pink/80 to-vibrant-pink/0 backdrop-blur-md flex flex-col rounded-tr-[30px] md:border-1 border-light-pink md:border-l-0 md:border-b-0'>
       {/* Header Section */}
-      <div className='p-6 border-b border-[#A01A42]'>
-        <div className='flex items-center space-x-2 mb-2'>
-          <div className='w-8 h-8 bg-white rounded flex items-center justify-center'>
-            <span className='text-[#8B1538] font-bold text-sm'>FPT</span>
-          </div>
-          <span className='text-white text-sm font-medium'>Education</span>
-        </div>
-        <h1 className='text-white text-lg font-bold'>FPT UNIVERSITY</h1>
-      </div>
+      <div className='h-30'></div>
 
       {/* Navigation Items */}
       <nav className='flex md:flex-col md:flex-1 p-4 space-y-2'>
@@ -56,10 +48,10 @@ export default function UserNavbar() {
               key={item.href}
               href={item.href}
               className={cn(
-                "flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors duration-200 w-full",
+                "flex items-center space-x-3 px-4 py-3 rounded-2xl transition-colors duration-200 w-full",
                 isActive
-                  ? "bg-[#6B0F2A] text-white"
-                  : "text-white/90 hover:bg-[#7A1232] hover:text-white"
+                  ? "bg-gradient-to-r from-vibrant-pink to-white text-white"
+                  : "text-white/90 hover:bg-vibrant-pink   hover:text-white"
               )}
             >
               <Icon className='w-5 h-5' />
