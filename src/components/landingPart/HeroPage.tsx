@@ -70,7 +70,6 @@ const HeroPage = () => {
           />
         </div>
 
-        {/* Card nội dung: full-width trên mobile, cố định max-w trên tablet/desktop */}
         <div
           className="
             relative

@@ -181,16 +181,22 @@ body {
   background-repeat: no-repeat;
 }
 .bg-gioithieu {
-  background-image: url("/images/bggioithieu.png");
+  background-image: url("/images/bg.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.bg-gioithieu1 {
+  background-image: url("/images/bg1.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 }
 .bg-login {
-  background-image: url("/images/bglogin.png");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  background-image: url("/images/KV.png"), url("/images/bg.png");
+  background-size: cover, cover;
+  background-position: center, center;
+  background-repeat: no-repeat, no-repeat;
 }
 
 .button1 {
