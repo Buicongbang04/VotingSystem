@@ -1,211 +1,118 @@
-import Image from "next/image";
+import React from "react";
 
-export const TimeLineSVG = ({ className }: { className?: string }) => {
+const DEFAULT_MILESTONES = [
+  { id: "01", date: "10.10.2025", title: "Mở cổng bình chọn" },
+  { id: "02", date: "31.10.2025", title: "Kết thúc bình chọn" },
+  { id: "03", date: "01.11.2025", title: "Công bố Top 10" },
+  { id: "04", date: "xx.11.2025", title: "Vinh danh Top 10" },
+];
+
+export default function TimeLine({
+  milestones = DEFAULT_MILESTONES,
+  className = "",
+}) {
+  const [m1, m2, m3, m4] = milestones;
+
   return (
-    <div className={`relative w-full overflow-x-clip ${className ?? ""}`}>
-      {/* Sân khấu cao hơn để có không gian cho zigzag */}
-      <div className="relative w-full min-h-[360px] sm:min-h-[420px] md:min-h-[500px] lg:min-h-[600px]">
-        {/* ====== ZIGZAG LINE (SVG overlay) ====== */}
-        <svg
-          viewBox="0 0 100 100"
-          preserveAspectRatio="none"
-          className="pointer-events-none absolute inset-0 w-full h-full"
+    <div className={`relative ${className}`}>
+      {/* Background */}
+      <div
+        className="pointer-events-none absolute inset-0 -z-10"
+        aria-hidden="true"
+      >
+        <div className="absolute inset-0 bg-gradient-to-b from-fuchsia-900/60 via-black to-black" />
+      </div>
+
+      {/* Diagonal layout – responsive without inline transforms */}
+      <div className="relative flex flex-col h-full w-full py-4 sm:py-6 gap-6 sm:gap-8 overflow-x-hidden">
+        {/* ITEM 1 */}
+        <div
+          className="flex flex-row items-center gap-3 sm:gap-4 transform
+                     translate-x-[20px]  sm:translate-x-[60px]  md:translate-x-[0px]  lg:translate-x-[20px]  xl:translate-x-[120px]
+                     -translate-y-[0px] sm:-translate-y-[0px] md:-translate-y-[0px] lg:-translate-y-[25px] xl:-translate-y-[0px]"
         >
-          {/* Glow */}
-          <defs>
-            <linearGradient id="zig" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#ff7cf3" />
-              <stop offset="60%" stopColor="#9d7cff" />
-              <stop offset="100%" stopColor="#75c6ff" />
-            </linearGradient>
-            <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-              <feGaussianBlur stdDeviation="2.5" result="coloredBlur" />
-              <feMerge>
-                <feMergeNode in="coloredBlur" />
-                <feMergeNode in="SourceGraphic" />
-              </feMerge>
-            </filter>
-          </defs>
-          {/* Polyline zigzag: điểm theo phần trăm (x,y) của khung */}
-          {/* bắt đầu thấp (gần rocket) -> lên A -> xuống nhẹ ở B -> lên C -> lên cao ở D */}
-          <polyline
-            points="
-              6,90
-              25,15
-              40,58
-              60,70
-              75,40
-            "
-            fill="none"
-            stroke="url(#zig)"
-            strokeWidth="1.8"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            filter="url(#glow)"
-            opacity="0.95"
-          />
-          Dấu chấm mốc
-          {[
-            [6, 90],
-            [25, 15],
-            [40, 58],
-            [60, 70],
-            [75, 40],
-          ].map(([x, y], i) => (
-            <circle
-              key={i}
-              cx={x}
-              cy={y}
-              r="1.6"
-              fill="white"
-              stroke="url(#zig)"
-              strokeWidth="1"
-            />
-          ))}
-          {[
-            // anchor(x,y), box(x,y,width,height), align ("left" => mũi line chạm cạnh trái, "right" => cạnh phải)
-            {
-              a: [6, 90],
-              b: { x: 12, y: 78, w: 20, h: 12 },
-              align: "left",
-              title: "Chuẩn bị",
-              desc: "--/--/2025",
-            },
-            {
-              a: [25, 15],
-              b: { x: 28, y: 0, w: 20, h: 12 },
-              align: "left",
-              title: "Bình chọn",
-              desc: "10/10/2025",
-            },
-            {
-              a: [40, 58],
-              b: { x: 43, y: 45, w: 20, h: 12 },
-              align: "left",
-              title: "Kết thúc",
-              desc: "31/10/2025",
-            },
-            {
-              a: [60, 70],
-              b: { x: 62, y: 75, w: 24, h: 12 },
-              align: "left",
-              title: "TOP 10",
-              desc: "01/11/2025",
-            },
-            {
-              a: [75, 40],
-              b: { x: 80, y: 45, w: 20, h: 12 },
-              align: "left",
-              title: "Vinh danh",
-              desc: "31/11/2025",
-            },
-          ].map(({ a, b, align, title, desc }, i) => {
-            const [ax, ay] = a;
-            // Điểm tiếp xúc trên cạnh hộp (trái/phải) — vẽ đường thẳng 1px
-            const bx = align === "left" ? b.x : b.x + b.w;
-            const by = b.y + b.h / 2;
-
-            return (
-              <g key={`callout-${i}`}>
-                {/* LINE: solid 1px từ dot đến box */}
-                <line
-                  x1={ax}
-                  y1={ay}
-                  x2={bx}
-                  y2={by}
-                  stroke="#ffffff"
-                  strokeOpacity="0.9"
-                  strokeWidth="1"
-                  vectorEffect="non-scaling-stroke"
-                />
-
-                {/* BOX: nền tối trong suốt + viền gradient */}
-                <rect
-                  x={b.x}
-                  y={b.y}
-                  width={b.w}
-                  height={b.h}
-                  rx="2.5"
-                  fill="#a5a5a5ff"
-                  fillOpacity="0.55"
-                  stroke="url(#zig)"
-                  strokeWidth="0.6"
-                  vectorEffect="non-scaling-stroke"
-                />
-
-                {/* TEXT: tiêu đề + mô tả (tỷ lệ theo viewBox) */}
-                <text
-                  x={b.x + 2}
-                  y={b.y + 4.6}
-                  fontSize="3"
-                  fontWeight="700"
-                  fill="#ffffff"
-                >
-                  {title}
-                </text>
-                <text x={b.x + 2} y={b.y + 8.9} fontSize="2.6" fill="#d7d9ff">
-                  {desc}
-                </text>
-              </g>
-            );
-          })}
-        </svg>
-        {/* Rocket */}
-        <div className="absolute bottom-[12%] left-[1%] w-[14vw] md:w-[10vw] lg:w-[8vw] [width:clamp(56px,14vw,100px)]">
-          <Image
-            src="/images/tenlua.png"
-            alt="Tên lửa"
-            width={180}
-            height={180}
-            className="w-full h-auto"
-            priority
-          />
+          <div
+            className="text-white/30 leading-none select-none font-bolkit whitespace-nowrap"
+            style={{ fontSize: "clamp(36px, 10vw, 120px)", fontWeight: 300 }}
+          >
+            {m1?.id}
+          </div>
+          <div className="text-center sm:text-left">
+            <div className="text-white font-semibold tracking-wide text-lg sm:text-2xl lg:text-3xl">
+              {m1?.date}
+            </div>
+            <div className="text-white/90 text-base sm:text-xl lg:text-2xl">
+              {m1?.title}
+            </div>
+          </div>
         </div>
 
-        {/* Planet A */}
-        <div className="absolute bottom-[20%] left-[18%] w-[20vw] md:w-[15vw] lg:w-[12vw] [width:clamp(70px,20vw,160px)]">
-          <Image
-            src="/images/planet.png"
-            alt="Hành tinh A"
-            width={300}
-            height={300}
-            className="w-full h-auto"
-          />
+        {/* ITEM 2 */}
+        <div
+          className="flex flex-row items-center gap-3 sm:gap-4 transform
+                     translate-x-[60px]  sm:translate-x-[160px] md:translate-x-[160px] lg:translate-x-[270px] xl:translate-x-[560px]
+                    -translate-y-[10px] sm:-translate-y-[20px] md:-translate-y-[30px] lg:-translate-y-[50px] xl:-translate-y-[100px]"
+        >
+          <div
+            className="text-white/30 leading-none select-none font-bolkit whitespace-nowrap"
+            style={{ fontSize: "clamp(36px, 10vw, 120px)", fontWeight: 300 }}
+          >
+            {m2?.id}
+          </div>
+          <div className="text-center sm:text-left">
+            <div className="text-white font-semibold tracking-wide text-lg sm:text-2xl lg:text-3xl">
+              {m2?.date}
+            </div>
+            <div className="text-white/90 text-base sm:text-xl lg:text-2xl">
+              {m2?.title}
+            </div>
+          </div>
         </div>
 
-        {/* Planet B */}
-        <div className="absolute bottom-[60%] left-[45%] w-[16vw] md:w-[12vw] lg:w-[9vw] [width:clamp(60px,16vw,130px)]">
-          <Image
-            src="/images/planet1.png"
-            alt="Hành tinh B"
-            width={220}
-            height={220}
-            className="w-full h-auto"
-          />
+        {/* ITEM 3 */}
+        <div
+          className="flex flex-row items-center gap-3 sm:gap-4 transform
+                     translate-x-[40px]  sm:translate-x-[120px] md:translate-x-[80px] lg:translate-x-[150px] xl:translate-x-[340px]
+                    -translate-y-[30px] sm:-translate-y-[90px] md:-translate-y-[70px] lg:-translate-y-[80px] xl:-translate-y-[180px]"
+        >
+          <div
+            className="text-white/30 leading-none select-none font-bolkit whitespace-nowrap"
+            style={{ fontSize: "clamp(36px, 10vw, 120px)", fontWeight: 300 }}
+          >
+            {m3?.id}
+          </div>
+          <div className="text-center sm:text-left">
+            <div className="text-white font-semibold tracking-wide text-lg sm:text-2xl lg:text-3xl">
+              {m3?.date}
+            </div>
+            <div className="text-white/90 text-base sm:text-xl lg:text-2xl">
+              {m3?.title}
+            </div>
+          </div>
         </div>
 
-        {/* Planet C */}
-        <div className="absolute bottom-[5%] left-[80%] w-[18vw] md:w-[13vw] lg:w-[10vw] [width:clamp(64px,18vw,140px)]">
-          <Image
-            src="/images/planet2.png"
-            alt="Hành tinh C"
-            width={240}
-            height={240}
-            className="w-full h-auto"
-          />
-        </div>
-
-        {/* Planet D (cao nhất) */}
-        <div className="absolute top-[1%] right-[5%] w-[22vw] md:w-[16vw] lg:w-[12vw] [width:clamp(80px,22vw,180px)]">
-          <Image
-            src="/images/planet4.png"
-            alt="Hành tinh D"
-            width={320}
-            height={320}
-            className="w-full h-auto"
-          />
+        {/* ITEM 4 */}
+        <div
+          className="flex flex-row items-center gap-3 sm:gap-4 transform
+                    translate-x-[80px]  sm:translate-x-[200px] md:translate-x-[300px] lg:translate-x-[420px] xl:translate-x-[760px]
+                    -translate-y-[50px] sm:-translate-y-[100px] md:-translate-y-[100px] lg:-translate-y-[100px] xl:-translate-y-[260px]"
+        >
+          <div
+            className="text-white/30 leading-none select-none font-bolkit whitespace-nowrap"
+            style={{ fontSize: "clamp(36px, 10vw, 120px)", fontWeight: 300 }}
+          >
+            {m4?.id}
+          </div>
+          <div className="text-center sm:text-left">
+            <div className="text-white font-semibold tracking-wide text-lg sm:text-2xl lg:text-3xl">
+              {m4?.date}
+            </div>
+            <div className="text-white/90 text-base sm:text-xl lg:text-2xl">
+              {m4?.title}
+            </div>
+          </div>
         </div>
       </div>
     </div>
   );
-};
+}
