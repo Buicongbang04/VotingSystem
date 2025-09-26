@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react"
 import { Info, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import Image from "next/image"
 
 interface EventAnnouncementProps {
   title?: string
@@ -49,10 +50,16 @@ const EventAnnouncement: React.FC<EventAnnouncementProps> = ({
   }
 
   return (
-    <div className='w-full max-w-3xl flex bg-gradient-to-r from-pink-500 to-pink-400 rounded-2xl shadow-lg overflow-hidden'>
+    <div className='w-full max-w-3xl flex bg-gradient-to-r from-vibrant-pink/0 to-vibrant-pink rounded-2xl shadow-lg overflow-hidden border-gradient  '>
       {/* Left image placeholder */}
-      <div className='w-40 bg-white/20 flex items-center justify-center'>
-        <div className='w-24 h-24 bg-white/30 rounded-lg'></div>
+      <div className='w-50 flex items-center justify-center m-5'>
+        <Image
+          src='/images/event-logo-announcement.png'
+          alt='Event Announcement'
+          width={240}
+          height={206}
+          className='w-full object-cover'
+        />
       </div>
 
       {/* Right content */}
@@ -62,10 +69,10 @@ const EventAnnouncement: React.FC<EventAnnouncementProps> = ({
           <h2 className='text-xl font-semibold'>{title}</h2>
           <div className='relative'>
             <div
-              className='w-6 h-6 bg-white rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-100 transition-colors duration-200'
+              className='w-6 h-6 rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-100 transition-colors duration-200'
               onClick={() => setShowTooltip(!showTooltip)}
             >
-              <Info className='w-4 h-4 text-vibrant-pink' />
+              <Info className='w-5 h-5 text-white' />
             </div>
           </div>
         </div>
@@ -92,15 +99,23 @@ const EventAnnouncement: React.FC<EventAnnouncementProps> = ({
         <div className='mt-6 flex gap-4'>
           <button
             onClick={onJoin}
-            className='flex-1 bg-white text-pink-600 font-medium py-2 rounded-full hover:bg-pink-100 transition'
+            className='w-1/2 bg-gradient-to-r from-transparent to-vibrant-pink text-white font-medium py-2 rounded-full hover:bg-pink-100 transition border-gradient'
           >
             Tham gia
           </button>
           <button
             onClick={onShare}
-            className='flex-1 bg-white text-pink-600 font-medium py-2 rounded-full hover:bg-pink-100 transition'
+            className='w-1/6 bg-transparent border-gradient text-white font-medium py-2 rounded-full hover:bg-pink-100 transition flex justify-center items-center'
           >
-            Chia sẻ
+            <svg
+              xmlns='http://www.w3.org/2000/svg'
+              height='30'
+              viewBox='0 -960 960 960'
+              width='30'
+              fill='#e3e3e3'
+            >
+              <path d='M680-80q-50 0-85-35t-35-85q0-6 3-28L282-392q-16 15-37 23.5t-45 8.5q-50 0-85-35t-35-85q0-50 35-85t85-35q24 0 45 8.5t37 23.5l281-164q-2-7-2.5-13.5T560-760q0-50 35-85t85-35q50 0 85 35t35 85q0 50-35 85t-85 35q-24 0-45-8.5T598-672L317-508q2 7 2.5 13.5t.5 14.5q0 8-.5 14.5T317-452l281 164q16-15 37-23.5t45-8.5q50 0 85 35t35 85q0 50-35 85t-85 35Zm0-80q17 0 28.5-11.5T720-200q0-17-11.5-28.5T680-240q-17 0-28.5 11.5T640-200q0 17 11.5 28.5T680-160ZM200-440q17 0 28.5-11.5T240-480q0-17-11.5-28.5T200-520q-17 0-28.5 11.5T160-480q0 17 11.5 28.5T200-440Zm480-280q17 0 28.5-11.5T720-760q0-17-11.5-28.5T680-800q-17 0-28.5 11.5T640-760q0 17 11.5 28.5T680-720Zm0 520ZM200-480Zm480-280Z' />
+            </svg>
           </button>
         </div>
       </div>
