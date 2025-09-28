@@ -80,7 +80,6 @@ const ContactPage = () => {
     <section
       id="contact"
       className="
-        bg-contact
         min-h-dvh flex flex-col items-center snap-section relative
         px-4 sm:px-6 lg:px-8
       "
