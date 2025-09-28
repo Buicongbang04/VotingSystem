@@ -76,6 +76,7 @@ const Top10Lecturers = ({ className = "" }: Top10LecturersProps) => {
                 lecturer={lecturer}
                 voteCount={lecturer.votes}
                 isVoted={false}
+                showLink={false}
                 className={`h-full ${
                   isMiddle ? "w-56 md:w-64" : "w-48 md:w-56"
                 }`}
@@ -134,6 +135,7 @@ const Top10Lecturers = ({ className = "" }: Top10LecturersProps) => {
                         lecturer={lecturer}
                         voteCount={lecturer.votes}
                         isVoted={false}
+                        showLink={false}
                         className='w-48 md:w-56 h-full'
                         // No onVote or onShare props - making it unvoteable
                       />

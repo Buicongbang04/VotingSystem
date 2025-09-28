@@ -127,7 +127,7 @@ const page = ({ params }: PageProps) => {
     const lecturer = lectures?.data?.find((l) => l.id === lecturerId)
     if (lecturer) {
       const shareText = `Hãy bình chọn cho giảng viên ${lecturer.name} trong cuộc thi "Inspiring Instructor Awards 2025"!`
-      const shareUrl = `${window.location.origin}/all-show/${lecturerId}`
+      const shareUrl = `${window.location.origin}/all-show/lecturers/${lecturerId}`
 
       if (navigator.share) {
         navigator

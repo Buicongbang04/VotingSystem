@@ -3,6 +3,7 @@ import { Heart, Share2 } from "lucide-react"
 import { Lecture } from "../interfaces/Lecture/Lecture"
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
+import Link from "next/link"
 
 interface LecturerCardProps {
   lecturer: Lecture
@@ -11,6 +12,7 @@ interface LecturerCardProps {
   isVoted?: boolean
   voteCount?: number
   isLoading?: boolean
+  showLink?: boolean
   className?: string
 }
 
@@ -21,6 +23,7 @@ const LecturerCard = ({
   isVoted = false,
   voteCount = 0,
   isLoading = false,
+  showLink = true,
   className = "",
 }: LecturerCardProps) => {
   const handleVote = () => {
@@ -35,9 +38,13 @@ const LecturerCard = ({
     }
   }
 
-  return (
+  const CardContent = () => (
     <div
-      className={`relative w-full rounded-3xl overflow-hidden ${className} border-gradient`}
+      className={`relative w-full rounded-3xl overflow-hidden ${className} border-gradient ${
+        showLink
+          ? "cursor-pointer hover:scale-105 transition-transform duration-300"
+          : ""
+      }`}
     >
       {/* Image Section - 60% height */}
       <div className='relative h-sm '>
@@ -112,6 +119,16 @@ const LecturerCard = ({
       </div>
     </div>
   )
+
+  if (showLink) {
+    return (
+      <Link href={`/all-show/lecturers/${lecturer.id}`}>
+        <CardContent />
+      </Link>
+    )
+  }
+
+  return <CardContent />
 }
 
 export default LecturerCard
