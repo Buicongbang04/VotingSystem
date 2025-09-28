@@ -47,10 +47,9 @@ const HeroPage = () => {
       <div className='min-h-dvh flex flex-col'>
         <div
           className='
-          
             pt-[4vh] sm:pt-[8vh] md:pt-[6vh] lg:pt-[4vh] xl:pt-[2vh]
             md:justify-start md:pl-[10vw]
-            lg:pl-[10vw] xl:pl-[45vw]
+            lg:pl-[10vw] xl:pl-[20vw]
           '
         >
           <Image
