@@ -13,7 +13,7 @@ const Page = () => {
 
   const onJoin = () => {
     if (data) {
-      redirect.push(`/all-show/${user?.sub}`)
+      redirect.push(`/all-show/lecturers`)
     } else {
       redirect.push("/user-information")
     }

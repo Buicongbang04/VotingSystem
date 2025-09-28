@@ -84,6 +84,7 @@ const page = () => {
           <div className='text-white text-4xl font-bold'>
             truyền cảm hứng 2025
           </div>
+          <div className='pt-10 text-white text-xl'>Đang đếm ngược</div>
           <div className='text-white text-4xl font-mono font-bold tracking-wider'>
             {formatCountdown()}
           </div>

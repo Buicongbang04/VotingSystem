@@ -1,3 +1,5 @@
+"use client"
+
 import React from "react"
 import LecturerCard from "./LecturerCard"
 import {
@@ -5,6 +7,7 @@ import {
   getTop10Lecturers,
 } from "../data/mockTop10Lecturers"
 import { Trophy, Medal, Award } from "lucide-react"
+import { motion } from "motion/react"
 
 interface Top10LecturersProps {
   className?: string
@@ -45,22 +48,20 @@ const Top10Lecturers = ({ className = "" }: Top10LecturersProps) => {
 
   return (
     <div className={`w-full ${className}`}>
-      {/* Header */}
-      <div className='text-center mb-8'>
-        <h2 className='text-4xl font-bold text-white mb-4'>
-          Top 10 Giảng viên được yêu thích nhất
-        </h2>
-        <p className='text-lg text-gray-300'>
-          Danh sách những giảng viên có số lượt bình chọn cao nhất
-        </p>
-      </div>
-
-      {/* Top 10 Grid */}
-      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6'>
-        {top10Lecturers.map((lecturer, index) => {
+      {/* Top 3 Special Layout */}
+      <div className='flex justify-center items-end gap-2 md:gap-4 mb-12 px-4'>
+        {top10Lecturers.slice(0, 3).map((lecturer, index) => {
           const rank = index + 1
+          const isMiddle = rank === 2
           return (
-            <div key={lecturer.id} className='relative'>
+            <div
+              key={lecturer.id}
+              className={`relative transition-all duration-300 ${
+                isMiddle
+                  ? "transform scale-105 md:scale-110 z-20"
+                  : "transform scale-85 md:scale-90 z-10"
+              }`}
+            >
               {/* Rank Badge */}
               <div
                 className={`absolute -top-3 -right-3 z-10 ${getRankBadgeColor(
@@ -75,34 +76,75 @@ const Top10Lecturers = ({ className = "" }: Top10LecturersProps) => {
                 lecturer={lecturer}
                 voteCount={lecturer.votes}
                 isVoted={false}
-                className='h-full'
+                className={`h-full ${
+                  isMiddle ? "w-56 md:w-64" : "w-48 md:w-56"
+                }`}
                 // No onVote or onShare props - making it unvoteable
               />
 
               {/* Rank Number Overlay */}
-              <div className='absolute top-4 left-4 z-10'>
-                <div
-                  className={`${getRankBadgeColor(
-                    rank
-                  )} text-white rounded-full w-10 h-10 flex items-center justify-center font-bold text-lg shadow-lg`}
-                >
-                  {rank}
-                </div>
-              </div>
             </div>
           )
         })}
       </div>
 
-      {/* Footer Note */}
-      <div className='text-center mt-8 p-4 bg-gray-800/50 rounded-lg'>
-        <p className='text-gray-400 text-sm'>
-          * Danh sách này được cập nhật dựa trên số lượt bình chọn từ sinh viên
-        </p>
-        <p className='text-gray-500 text-xs mt-2'>
-          Tính năng bình chọn đã được tắt cho danh sách Top 10
-        </p>
-      </div>
+      {/* Rest of the lecturers (4-10) with automatic infinite scroll */}
+      <section className='relative mb-8 px-4'>
+        <div className='w-full'>
+          <h3 className='text-2xl font-bold text-white mb-6 text-center'>
+            Các giảng viên khác
+          </h3>
+
+          {/* Infinite scroll container */}
+          <div className='relative '>
+            <motion.div
+              className='flex gap-4 md:gap-6 pb-4'
+              animate={{
+                x: [0, -100 * top10Lecturers.slice(3).length],
+              }}
+              transition={{
+                x: {
+                  repeat: Infinity,
+                  repeatType: "loop",
+                  duration: 20,
+                  ease: "linear",
+                },
+              }}
+            >
+              {/* Duplicate the lecturers for seamless loop */}
+              {[...top10Lecturers.slice(3), ...top10Lecturers.slice(3)].map(
+                (lecturer, index) => {
+                  const rank = (index % top10Lecturers.slice(3).length) + 4
+                  return (
+                    <div
+                      key={`${lecturer.id}-${index}`}
+                      className='relative flex-shrink-0'
+                    >
+                      {/* Rank Badge */}
+                      <div
+                        className={`absolute -top-3 -right-3 z-10 ${getRankBadgeColor(
+                          rank
+                        )} rounded-full p-2 shadow-lg`}
+                      >
+                        {getRankIcon(rank)}
+                      </div>
+
+                      {/* Lecturer Card */}
+                      <LecturerCard
+                        lecturer={lecturer}
+                        voteCount={lecturer.votes}
+                        isVoted={false}
+                        className='w-48 md:w-56 h-full'
+                        // No onVote or onShare props - making it unvoteable
+                      />
+                    </div>
+                  )
+                }
+              )}
+            </motion.div>
+          </div>
+        </div>
+      </section>
     </div>
   )
 }

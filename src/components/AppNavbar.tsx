@@ -19,23 +19,21 @@ const AppNavbar = () => {
     <div className='h-30'>
       <div className='h-full px-6 flex items-center justify-center'>
         {/* Left Section - Logo/Brand */}
-        <div className='flex items-center'>
-          <div className='flex items-center space-x-2'>
-            <Image
-              src='/images/Logo.png'
-              alt='FPT University'
-              width={200}
-              height={200}
-              className='object-cover'
-            />
-            <Image
-              src='/images/iia_Logo.png'
-              alt='FPT University'
-              width={150}
-              height={150}
-              className='object-cover'
-            />
-          </div>
+        <div className='flex items-center space-x-100'>
+          <Image
+            src='/images/Logo.png'
+            alt='FPT University'
+            width={200}
+            height={200}
+            className='object-cover'
+          />
+          <Image
+            src='/images/iia_Logo.png'
+            alt='FPT University'
+            width={150}
+            height={150}
+            className='object-cover'
+          />
         </div>
 
         {/* Right Section - Notifications & Profile */}

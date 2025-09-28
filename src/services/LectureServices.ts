@@ -24,7 +24,10 @@ const LectureApi = {
   // GET - Get all lectures
   getAllLectures: async () => {
     return axios
-      .get<LectureResponse>(DEFAULT_API + "/Lecture", getAuthHeaders())
+      .get<LectureResponse>(
+        DEFAULT_API + "/Lecture?isActive=true",
+        getAuthHeaders()
+      )
       .then((res) => res.data)
   },
 

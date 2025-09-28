@@ -10,6 +10,7 @@ interface LecturerCardProps {
   onShare?: (lecturerId: string) => void
   isVoted?: boolean
   voteCount?: number
+  isLoading?: boolean
   className?: string
 }
 
@@ -19,6 +20,7 @@ const LecturerCard = ({
   onShare,
   isVoted = false,
   voteCount = 0,
+  isLoading = false,
   className = "",
 }: LecturerCardProps) => {
   const handleVote = () => {
@@ -35,7 +37,7 @@ const LecturerCard = ({
 
   return (
     <div
-      className={` relative w-full rounded-3xl overflow-hidden ${className} border-gradient`}
+      className={`relative w-full rounded-3xl overflow-hidden ${className} border-gradient`}
     >
       {/* Image Section - 60% height */}
       <div className='relative h-sm '>
@@ -74,17 +76,18 @@ const LecturerCard = ({
             variant='default'
             size='lg'
             onClick={handleVote}
+            disabled={isLoading}
             className={` bg-transparent border-gradient text-white hover:bg-white/20  rounded-2xl ${
               isVoted ? "bg-white/20" : ""
-            }`}
+            } ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
           >
             <Heart
               className={`w-5 h-5 mr-2 font-bold ${
                 isVoted ? "fill-current" : ""
-              }`}
+              } ${isLoading ? "animate-pulse" : ""}`}
             />
             <span className='text-sm font-medium'>
-              {voteCount.toString().padStart(3, "0")}
+              {isLoading ? "..." : voteCount.toString().padStart(3, "0")}
             </span>
           </Button>
 

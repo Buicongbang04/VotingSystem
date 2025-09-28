@@ -24,21 +24,18 @@ const LectureVoteApi = {
   getTodaysVotesByLecture: async (lectureId: string) => {
     return axios
       .get<LectureVote[]>(
-        DEFAULT_API + `/Lecture/${lectureId}/votes`,
+        DEFAULT_API + `/Lectures/${lectureId}/votes`,
         getAuthHeaders()
       )
       .then((res) => res.data)
   },
 
   // POST - Vote for a lecture
-  voteForLecture: async (
-    lectureId: string,
-    data?: CreateLectureVoteRequest
-  ) => {
+  voteForLecture: async (lectureId: string) => {
     return axios
       .post<LectureVoteApiResponse>(
-        DEFAULT_API + `/Lecture/${lectureId}/votes`,
-        data || {},
+        DEFAULT_API + `/Lectures/${lectureId}/votes`,
+        {},
         getAuthHeaders()
       )
       .then((res) => res.data)
@@ -48,7 +45,7 @@ const LectureVoteApi = {
   cancelTodaysVote: async (lectureId: string) => {
     return axios
       .delete<LectureVoteApiResponse>(
-        DEFAULT_API + `/Lecture/${lectureId}/votes`,
+        DEFAULT_API + `/Lectures/${lectureId}/votes`,
         getAuthHeaders()
       )
       .then((res) => res.data)
@@ -69,13 +66,8 @@ export const useGetTodaysVotesByLecture = (lectureId: string) => {
 // React Query hooks for mutation operations
 export const useVoteForLecture = () => {
   return useMutation({
-    mutationFn: ({
-      lectureId,
-      data,
-    }: {
-      lectureId: string
-      data?: CreateLectureVoteRequest
-    }) => LectureVoteApi.voteForLecture(lectureId, data),
+    mutationFn: ({ lectureId }: { lectureId: string }) =>
+      LectureVoteApi.voteForLecture(lectureId),
   })
 }
 

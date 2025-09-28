@@ -8,6 +8,14 @@ import { Search, Filter, ChevronLeft, ChevronRight } from "lucide-react"
 import { Button } from "@/src/components/ui/button"
 import { Input } from "@/components/ui/input"
 import CustomDropdown from "@/src/components/ui/custom-dropdown"
+import {
+  useVoteForLecture,
+  useCancelTodaysVote,
+  useGetTodaysVotesByLecture,
+} from "@/src/services/LectureVoteServices"
+import { useIsAuthenticated } from "@/src/stores/tokenStore"
+import { toast } from "sonner"
+import { useEffect } from "react"
 
 interface PageProps {
   params: {
@@ -18,10 +26,24 @@ interface PageProps {
 const ITEMS_PER_PAGE = 3
 
 const page = ({ params }: PageProps) => {
-  const { data: lectures, isLoading } = useGetAllLectures()
+  const { data: lectures, isLoading, refetch } = useGetAllLectures()
   const [currentPage, setCurrentPage] = useState(1)
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedDepartment, setSelectedDepartment] = useState("all")
+  const [votedLecturers, setVotedLecturers] = useState<Set<string>>(new Set())
+  const isAuthenticated = useIsAuthenticated()
+  const { mutate: voteForLecture, isPending: isVoting } = useVoteForLecture()
+  const { mutate: cancelVote, isPending: isCancelling } = useCancelTodaysVote()
+
+  // Load user's existing votes when component mounts
+  useEffect(() => {
+    if (isAuthenticated && lectures?.data) {
+      // For now, we'll start with an empty set
+      // In a real implementation, you might want to fetch all user votes
+      // or check each lecturer individually
+      setVotedLecturers(new Set())
+    }
+  }, [isAuthenticated, lectures?.data])
 
   // Filter and search logic
   const filteredLectures = useMemo(() => {
@@ -52,19 +74,81 @@ const page = ({ params }: PageProps) => {
     if (!lectures?.data) return []
     const uniqueDepts = [...new Set(lectures.data.map((l) => l.department))]
     return [
-      { value: "all", label: "ngành học" },
+      { value: "all", label: "Tất cả bộ môn" },
       ...uniqueDepts.map((dept) => ({ value: dept, label: dept })),
     ]
   }, [lectures?.data])
 
   const handleVote = (lecturerId: string) => {
-    console.log("Voted for lecturer:", lecturerId)
-    // TODO: Implement voting logic
+    if (!isAuthenticated) {
+      toast.error("Vui lòng đăng nhập để bình chọn")
+      return
+    }
+
+    const isVoted = votedLecturers.has(lecturerId)
+
+    if (isVoted) {
+      // Cancel vote
+      cancelVote(lecturerId, {
+        onSuccess: () => {
+          setVotedLecturers((prev) => {
+            const newSet = new Set(prev)
+            newSet.delete(lecturerId)
+            return newSet
+          })
+          refetch() // Refresh lecture data to update vote counts
+          toast.success("Đã hủy bình chọn thành công")
+        },
+        onError: (error: any) => {
+          console.error("Error cancelling vote:", error)
+          toast.error("Có lỗi xảy ra khi hủy bình chọn")
+        },
+      })
+    } else {
+      // Vote for lecturer
+      voteForLecture(
+        { lectureId: lecturerId },
+        {
+          onSuccess: () => {
+            setVotedLecturers((prev) => new Set(prev).add(lecturerId))
+            refetch() // Refresh lecture data to update vote counts
+            toast.success("Bình chọn thành công!")
+          },
+          onError: (error: any) => {
+            console.error("Error voting:", error)
+            toast.error("Có lỗi xảy ra khi bình chọn")
+          },
+        }
+      )
+    }
   }
 
   const handleShare = (lecturerId: string) => {
-    console.log("Shared lecturer:", lecturerId)
-    // TODO: Implement sharing logic
+    const lecturer = lectures?.data?.find((l) => l.id === lecturerId)
+    if (lecturer) {
+      const shareText = `Hãy bình chọn cho giảng viên ${lecturer.name} trong cuộc thi "Inspiring Instructor Awards 2025"!`
+      const shareUrl = `${window.location.origin}/all-show/${lecturerId}`
+
+      if (navigator.share) {
+        navigator
+          .share({
+            title: "Inspiring Instructor Awards 2025",
+            text: shareText,
+            url: shareUrl,
+          })
+          .catch(console.error)
+      } else {
+        // Fallback: copy to clipboard
+        navigator.clipboard
+          .writeText(`${shareText}\n${shareUrl}`)
+          .then(() => {
+            toast.success("Đã sao chép link chia sẻ!")
+          })
+          .catch(() => {
+            toast.error("Không thể sao chép link")
+          })
+      }
+    }
   }
 
   const goToPage = (page: number) => {
@@ -105,7 +189,7 @@ const page = ({ params }: PageProps) => {
               value={selectedDepartment}
               onChange={setSelectedDepartment}
               placeholder='Tất cả bộ môn'
-              className='pl-10'
+              className=''
             />
           </div>
           <div className='relative  flex-1 max-w-md'>
@@ -129,7 +213,8 @@ const page = ({ params }: PageProps) => {
               onVote={handleVote}
               onShare={handleShare}
               voteCount={lecturer.votes}
-              isVoted={false} // TODO: Implement user vote check
+              isVoted={votedLecturers.has(lecturer.id)}
+              isLoading={isVoting || isCancelling}
             />
           ))}
         </div>
