@@ -98,26 +98,24 @@ const page = ({ params }: PageProps) => {
         </div>
 
         {/* Search and Filter */}
-        <div className='flex flex-col md:flex-row gap-4 mb-8 justify-center items-center'>
-          <div className='relative flex-1 max-w-md'>
-            <Search className='absolute left-3 top-1/2 transform -translate-y-1/2 text-pink-500 w-4 h-4' />
-            <Input
-              type='text'
-              placeholder='Tìm kiếm'
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className='pl-10 border-pink-500 text-pink-500 placeholder:text-pink-500 focus:border-pink-500 focus:ring-pink-500 bg-gray-200'
-            />
-          </div>
-
+        <div className='flex justify-between md:flex-row gap-4 mb-8 '>
           <div className='relative'>
-            <Filter className='absolute left-3 top-1/2 transform -translate-y-1/2 text-pink-500 w-4 h-4 z-10' />
             <CustomDropdown
               options={departmentOptions}
               value={selectedDepartment}
               onChange={setSelectedDepartment}
               placeholder='Tất cả bộ môn'
               className='pl-10'
+            />
+          </div>
+          <div className='relative  flex-1 max-w-md'>
+            <Search className='absolute left-3 top-0 transform translate-y-1/2 text-pink-500 w-5 h-5' />
+            <Input
+              type='text'
+              placeholder='Tìm kiếm'
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className='pl-10 border-pink-500 text-pink-500 placeholder:text-pink-500 focus:border-pink-500 focus:ring-pink-500 bg-gray-200'
             />
           </div>
         </div>
@@ -130,7 +128,7 @@ const page = ({ params }: PageProps) => {
               lecturer={lecturer}
               onVote={handleVote}
               onShare={handleShare}
-              voteCount={lecturer.votes?.length || 0}
+              voteCount={lecturer.votes}
               isVoted={false} // TODO: Implement user vote check
             />
           ))}
@@ -138,7 +136,7 @@ const page = ({ params }: PageProps) => {
 
         {/* Pagination */}
         {totalPages > 1 && (
-          <div className='flex justify-center items-center space-x-2 space-y-4'>
+          <div className='flex justify-center items-center space-x-2 m-4'>
             <Button
               variant='outline'
               onClick={() => goToPage(currentPage - 1)}

@@ -7,7 +7,7 @@ import {
 } from "../interfaces/FeedbackVote/FeedbackVote"
 import { useMutation, useQuery } from "@tanstack/react-query"
 import { useTokenStore } from "../stores/tokenStore"
-import { useIsAuthenticated } from "../stores/accountStore"
+import { useIsAuthenticated } from "../stores/tokenStore"
 
 // Helper function to get authorization headers
 const getAuthHeaders = () => {

@@ -1,7 +1,7 @@
-import React from "react";
-import ScrollToElement from "../scroll-to-top-arrow";
-import Image from "next/image";
-import { StageCard } from "./StageCard";
+import React from "react"
+import ScrollToElement from "../scroll-to-top-arrow"
+import Image from "next/image"
+import { StageCard } from "./StageCard"
 
 const StatsPage = () => {
   const academicStages = [
@@ -35,82 +35,82 @@ const StatsPage = () => {
         { hearts: 3, instructors: "3 Giảng viên", category: "Chuyên ngành" },
       ],
     },
-  ];
+  ]
 
   return (
     <section
-      id="stats"
-      className="
+      id='stats'
+      className='
         bg-stats
         min-h-dvh flex flex-col items-center justify-center snap-section relative
         px-2 sm:px-4 lg:px-6
-        w-full max-w-[100vw]
-        overflow-x-hidden overflow-x-clip overflow-y-visible
-      "
+        w-full
+        overflow-x-hidden
+      '
     >
       {/* Nội dung chính */}
-      <div className="relative z-10 w-full min-w-0 max-w-[95%] md:max-w-5xl mx-auto">
+      <div className='relative z-10 w-full min-w-0 max-w-[95%] md:max-w-5xl mx-auto'>
         {/* Main Title */}
         <div
-          className="
+          className='
                     flex justify-center md:justify-start items-start
                     pt-[5vh] sm:pt-[8vh] md:pt-[10vh] lg:pt-[12vh] xl:pt-[15vh]
                     md:pl-[8vw] lg:pl-[10vw] xl:pl-[12vw]
-                  "
+                  '
         >
           <Image
-            src="/images/vote.png"
-            alt="logo"
+            src='/images/vote.png'
+            alt='logo'
             width={877}
             height={200}
             priority
-            className="
+            className='
                       h-auto
                       w-[80vw] max-w-[520px]
                       sm:w-[70vw] sm:max-w-[640px]
                       md:w-[55vw] md:max-w-[720px]
                       lg:w-[820px] lg:max-w-[820px]
                       xl:w-[877px] xl:max-w-[877px]
-                    "
-            sizes="
+                    '
+            sizes='
                       (min-width:1280px) 877px,
                       (min-width:1024px) 820px,
                       (min-width:768px) 55vw,
                       (min-width:640px) 70vw,
                       80vw
-                    "
+                    '
           />
         </div>
 
         {/* Voting Rules Section */}
-        <div className="mb-8 sm:mb-10">
-          <h3 className="text-xl sm:text-2xl font-bold text-white mb-4">
+        <div className='mb-8 sm:mb-10'>
+          <h3 className='text-xl sm:text-2xl font-bold text-white mb-4'>
             Quy tắc bình chọn
           </h3>
-          <div className="space-y-2 sm:space-y-3 text-white text-sm sm:text-base break-words whitespace-normal">
-            <div className="flex items-start">
-              <span className="text-white-400 mr-2 sm:mr-3">•</span>
+          <div className='space-y-2 sm:space-y-3 text-white text-sm sm:text-base break-words whitespace-normal'>
+            <div className='flex items-start'>
+              <span className='text-white-400 mr-2 sm:mr-3'>•</span>
               <span>
                 1 sinh viên có 3 lượt bình chọn và chỉ được tham gia 1 lần/ngày
               </span>
             </div>
-            <div className="flex items-start">
-              <span className="text-white-400 mr-2 sm:mr-3">•</span>
+            <div className='flex items-start'>
+              <span className='text-white-400 mr-2 sm:mr-3'>•</span>
               <span>1 phiếu chỉ được bình chọn cho 1 giảng viên/bộ môn</span>
             </div>
           </div>
         </div>
 
         {/* Point Calculation Rules */}
-        <div className="mb-8 sm:mb-12">
+        <div className='mb-8 sm:mb-12'>
           <h3
-            className="italic font-bold text-white pb-4 sm:pb-5 mb-2 sm:mb-4
-                         text-lg sm:text-xl md:text-2xl break-words whitespace-normal"
+            className='italic font-bold text-white pb-4 sm:pb-5 mb-2 sm:mb-4
+                         text-lg sm:text-xl md:text-2xl break-words whitespace-normal'
           >
             Quy tắc tính điểm phụ thuộc vào giai đoạn học của sinh viên:
           </h3>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:gap-40 lg:gap-8 md:gap-4 gap-4">
+          <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4'>
             {academicStages.map((stage, index) => (
               <StageCard
                 key={index}
@@ -123,9 +123,9 @@ const StatsPage = () => {
         </div>
       </div>
 
-      <ScrollToElement to="#features" />
+      <ScrollToElement to='#features' />
     </section>
-  );
-};
+  )
+}
 
-export default StatsPage;
+export default StatsPage

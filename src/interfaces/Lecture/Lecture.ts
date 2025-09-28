@@ -5,8 +5,7 @@ export interface Lecture {
   department: string
   quote: string
   avatarUrl: string
-  isActive?: boolean
-  votes?: Vote[]
+  votes: number
 }
 
 export interface Vote {

@@ -99,13 +99,13 @@ const EventAnnouncement: React.FC<EventAnnouncementProps> = ({
         <div className='mt-6 flex gap-4'>
           <button
             onClick={onJoin}
-            className='w-1/2 bg-gradient-to-r from-transparent to-vibrant-pink text-white font-medium py-2 rounded-full hover:bg-pink-100 transition border-gradient'
+            className='w-1/2 bg-gradient-to-r from-transparent to-vibrant-pink text-white font-medium py-2 rounded-full hover:bg-white transition border-gradient'
           >
             Tham gia
           </button>
           <button
             onClick={onShare}
-            className='w-1/6 bg-transparent border-gradient text-white font-medium py-2 rounded-full hover:bg-pink-100 transition flex justify-center items-center'
+            className='w-1/6 bg-gradient-to-r from-transparent to-vibrant-pink border-gradient text-white font-medium py-2 rounded-full hover:bg-pink-100 transition flex justify-center items-center'
           >
             <svg
               xmlns='http://www.w3.org/2000/svg'
