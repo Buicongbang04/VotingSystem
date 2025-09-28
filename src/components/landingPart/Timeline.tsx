@@ -15,20 +15,10 @@ export default function TimeLine({
 
   return (
     <div className={`relative ${className}`}>
-      {/* Background */}
-      <div
-        className="pointer-events-none absolute inset-0 -z-10"
-        aria-hidden="true"
-      >
-        <div className="absolute inset-0 bg-gradient-to-b from-fuchsia-900/60 via-black to-black" />
-      </div>
-
-      {/* Diagonal layout – responsive without inline transforms */}
-      <div className="relative flex flex-col h-full w-full py-4 sm:py-6 gap-6 sm:gap-8 overflow-x-hidden">
         {/* ITEM 1 */}
         <div
           className="flex flex-row items-center gap-3 sm:gap-4 transform
-                     translate-x-[20px]  sm:translate-x-[60px]  md:translate-x-[0px]  lg:translate-x-[20px]  xl:translate-x-[120px]
+                     translate-x-[20px]  sm:translate-x-[60px]  md:translate-x-[0px]  lg:translate-x-[20px]  xl:translate-x-[100px]
                      -translate-y-[0px] sm:-translate-y-[0px] md:-translate-y-[0px] lg:-translate-y-[25px] xl:-translate-y-[0px]"
         >
           <div
@@ -73,7 +63,7 @@ export default function TimeLine({
         <div
           className="flex flex-row items-center gap-3 sm:gap-4 transform
                      translate-x-[40px]  sm:translate-x-[120px] md:translate-x-[80px] lg:translate-x-[150px] xl:translate-x-[340px]
-                    -translate-y-[30px] sm:-translate-y-[90px] md:-translate-y-[70px] lg:-translate-y-[80px] xl:-translate-y-[180px]"
+                    -translate-y-[30px] sm:-translate-y-[90px] md:-translate-y-[70px] lg:-translate-y-[80px] xl:-translate-y-[130px]"
         >
           <div
             className="text-white/30 leading-none select-none font-bolkit whitespace-nowrap"
@@ -94,8 +84,8 @@ export default function TimeLine({
         {/* ITEM 4 */}
         <div
           className="flex flex-row items-center gap-3 sm:gap-4 transform
-                    translate-x-[80px]  sm:translate-x-[200px] md:translate-x-[300px] lg:translate-x-[420px] xl:translate-x-[760px]
-                    -translate-y-[50px] sm:-translate-y-[100px] md:-translate-y-[100px] lg:-translate-y-[100px] xl:-translate-y-[260px]"
+                    translate-x-[80px]  sm:translate-x-[200px] md:translate-x-[300px] lg:translate-x-[420px] xl:translate-x-[700px]
+                    -translate-y-[50px] sm:-translate-y-[100px] md:-translate-y-[100px] lg:-translate-y-[100px] xl:-translate-y-[150px]"
         >
           <div
             className="text-white/30 leading-none select-none font-bolkit whitespace-nowrap"
@@ -113,6 +103,5 @@ export default function TimeLine({
           </div>
         </div>
       </div>
-    </div>
   );
 }

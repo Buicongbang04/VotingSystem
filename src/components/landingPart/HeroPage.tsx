@@ -36,7 +36,6 @@ const HeroPage = () => {
     <section
       id="hero"
       className="
-        bg-hero
         min-h-dvh snap-section
         px-4 sm:px-6 lg:px-8
         w-full max-w-[100vw]
@@ -50,7 +49,7 @@ const HeroPage = () => {
             flex justify-center items-start
             pt-[4vh] sm:pt-[8vh] md:pt-[6vh] lg:pt-[4vh] xl:pt-[2vh]
             md:justify-start md:pl-[10vw]
-            lg:pl-[10vw] xl:pl-[45vw]
+            lg:pl-[10vw] xl:pl-[20vw]
           "
         >
           <Image

@@ -312,3 +312,21 @@ body {
   border-right: 8px solid transparent;
   border-bottom: 8px solid #f9c3e3;
 }
+
+.kv-bg {
+  background-size: var(--kv-size);
+}
+
+/* Tablet / iPad */
+@media (max-width: 1024px) {
+  .kv-bg {
+    background-size: max(var(--kv-size), 200%);
+  }
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+  .kv-bg {
+    background-size: max(var(--kv-size), 260%);
+  }
+}

@@ -8,7 +8,6 @@ const FeaturesPage = () => {
     <section
       id="features"
       className="
-        bg-feature
         min-h-dvh flex flex-col items-center justify-center
         w-full max-w-[100vw]
         snap-section
@@ -66,7 +65,6 @@ const FeaturesPage = () => {
               mt-6 sm:mt-8 md:mt-10 lg:mt-12
             "
           >
-            {/* Nếu muốn font Bolkit cho toàn bộ timeline, giữ class dưới */}
             <TimeLine className="w-full h-full font-bolkit" />
           </div>
         </div>
