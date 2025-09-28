@@ -36,7 +36,7 @@ const HeroPage = () => {
     <section
       id='hero'
       className='
-        bg-hero
+  
         min-h-dvh snap-section
         px-4 sm:px-6 lg:px-8
         w-full max-w-[100vw]

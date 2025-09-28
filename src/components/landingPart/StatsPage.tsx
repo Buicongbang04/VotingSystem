@@ -41,7 +41,7 @@ const StatsPage = () => {
     <section
       id='stats'
       className='
-        bg-stats
+       
         min-h-dvh flex flex-col items-center justify-center snap-section relative
         px-2 sm:px-4 lg:px-6
         w-full

@@ -50,7 +50,7 @@ const EventAnnouncement: React.FC<EventAnnouncementProps> = ({
   }
 
   return (
-    <div className='w-full max-w-3xl flex bg-gradient-to-r from-vibrant-pink/0 to-vibrant-pink rounded-2xl shadow-lg overflow-hidden border-gradient  '>
+    <div className='w-full flex bg-gradient-to-r from-vibrant-pink/0 to-vibrant-pink rounded-4xl shadow-lg overflow-hidden border-gradient  '>
       {/* Left image placeholder */}
       <div className='w-50 flex items-center justify-center m-5'>
         <Image
@@ -65,14 +65,14 @@ const EventAnnouncement: React.FC<EventAnnouncementProps> = ({
       {/* Right content */}
       <div className='flex-1 p-6 text-white'>
         {/* Title */}
-        <div className='flex items-center justify-between'>
+        <div className='flex gap-5'>
           <h2 className='text-xl font-semibold'>{title}</h2>
           <div className='relative'>
             <div
               className='w-6 h-6 rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-100 transition-colors duration-200'
               onClick={() => setShowTooltip(!showTooltip)}
             >
-              <Info className='w-5 h-5 text-white' />
+              <Info className='w-6 h-6 text-white' />
             </div>
           </div>
         </div>
@@ -90,9 +90,10 @@ const EventAnnouncement: React.FC<EventAnnouncementProps> = ({
             <span>{endTime}</span>
             <span>{endDate}</span>
           </div>
-          <p>
-            <span className='font-semibold'>Trạng thái:</span> {status}
-          </p>
+          <div className='flex flex-col'>
+            <span className='font-semibold'>Trạng thái:</span>
+            <span>{status}</span>
+          </div>
         </div>
 
         {/* Actions */}

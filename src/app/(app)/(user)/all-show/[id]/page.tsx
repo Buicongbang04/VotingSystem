@@ -163,10 +163,10 @@ const page = ({ params }: PageProps) => {
             </div>
 
             <Button
-              variant='outline'
+              variant='default'
               onClick={() => goToPage(currentPage + 1)}
               disabled={currentPage === totalPages}
-              className='flex items-center'
+              className='flex items-center border-gradient bg-transparent'
             >
               Sau
               <ChevronRight className='w-4 h-4 ml-1' />
