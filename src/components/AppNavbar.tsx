@@ -16,7 +16,7 @@ const AppNavbar = () => {
   }
 
   return (
-    <div className='h-20'>
+    <div className='h-30'>
       <div className='h-full px-6 flex items-center justify-center'>
         {/* Left Section - Logo/Brand */}
         <div className='flex items-center'>
@@ -26,6 +26,13 @@ const AppNavbar = () => {
               alt='FPT University'
               width={200}
               height={200}
+              className='object-cover'
+            />
+            <Image
+              src='/images/iia_Logo.png'
+              alt='FPT University'
+              width={150}
+              height={150}
               className='object-cover'
             />
           </div>
