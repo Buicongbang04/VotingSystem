@@ -1,21 +1,28 @@
 "use client"
 
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, Suspense } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import LoginComponent from "../../../components/Auth/LoginComponent"
 import { type LoginFormData } from "../../../interfaces/auth/Schema/Login"
 import { useLoginApi, useLoginGoogleApi } from "../../../services/AuthServices"
 import { useLogin, useIsAuthenticated } from "../../../stores/tokenStore"
 
-const LoginPage = () => {
+// Component that handles search params logic
+const LoginWithSearchParams = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [isCheckingAuth, setIsCheckingAuth] = useState(true)
+  const [isClient, setIsClient] = useState(false)
   const router = useRouter()
   const searchParams = useSearchParams()
   const loginMutation = useLoginApi()
   const googleLoginMutation = useLoginGoogleApi()
   const login = useLogin()
   const isAuthenticated = useIsAuthenticated()
+
+  // Ensure we're on the client side
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
 
   // Check if user is already authenticated and redirect
   useEffect(() => {
@@ -32,6 +39,8 @@ const LoginPage = () => {
 
   // Check for Google OAuth callback parameters
   useEffect(() => {
+    if (!isClient || !searchParams) return
+
     const code = searchParams.get("code")
     const error = searchParams.get("error")
     const accessToken = searchParams.get("access_token")
@@ -59,7 +68,7 @@ const LoginPage = () => {
         router.push("/all-show")
       }
     }
-  }, [searchParams, router, login])
+  }, [isClient, searchParams, router, login])
 
   // Handle Google OAuth code
   const handleGoogleOAuthCode = async (code: string) => {
@@ -134,6 +143,25 @@ const LoginPage = () => {
       onHomeClick={handleHomeClick}
       isLoading={isLoading}
     />
+  )
+}
+
+// Loading component for Suspense fallback
+const LoginLoading = () => (
+  <div className='flex items-center justify-center h-screen'>
+    <div className='text-center'>
+      <div className='animate-spin rounded-full h-12 w-12 border-b-2 border-[#8B1538] mx-auto mb-4'></div>
+      <p className='text-gray-600'>Loading...</p>
+    </div>
+  </div>
+)
+
+// Main LoginPage component with Suspense boundary
+const LoginPage = () => {
+  return (
+    <Suspense fallback={<LoginLoading />}>
+      <LoginWithSearchParams />
+    </Suspense>
   )
 }
 
