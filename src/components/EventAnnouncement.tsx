@@ -124,11 +124,11 @@ const EventAnnouncement: React.FC<EventAnnouncementProps> = ({
       {/* Tooltip Modal */}
       {showTooltip && (
         <div
-          className='fixed inset-0 bg-black/50 flex items-center justify-center z-50 transition-all duration-300 ease-in-out'
+          className='backdrop-blur-3xl fixed inset-0 bg-black/50 flex items-center justify-center z-50 transition-all duration-300 ease-in-out'
           onClick={handleBackdropClick}
         >
           <div className='w-96 max-w-lg transition-all duration-300 ease-in-out animate-in fade-in-0 zoom-in-95'>
-            <div className='bg-light-pink rounded-lg p-6 shadow-2xl border-2 border-vibrant-pink relative'>
+            <div className='bg-gradient-to-r from-transparent to-vibrant-pink rounded-lg p-6 shadow-2xl border-gradient relative'>
               {/* Close button */}
               <button
                 onClick={() => setShowTooltip(false)}
@@ -136,11 +136,11 @@ const EventAnnouncement: React.FC<EventAnnouncementProps> = ({
               >
                 <X className='w-4 h-4 text-vibrant-pink' />
               </button>
-              <h3 className='text-vibrant-pink text-xl font-bold mb-4 text-center'>
+              <h3 className='text-white text-xl font-bold mb-4 text-center'>
                 THỂ LỆ BÌNH CHỌN
               </h3>
 
-              <div className='space-y-4 text-vibrant-pink text-sm'>
+              <div className='space-y-4 text-white text-sm'>
                 <div className='space-y-2'>
                   <p>
                     • Mỗi sinh viên có 3 lượt bình chọn và chỉ được tham gia 1
