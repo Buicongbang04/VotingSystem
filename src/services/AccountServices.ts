@@ -1,5 +1,4 @@
-import axios from "axios"
-import { DEFAULT_API } from "../constants/API"
+import axiosInstance from "../lib/axios"
 import {
   Account,
   CreateAccountRequest,
@@ -8,29 +7,15 @@ import {
 import { useMutation, useQuery } from "@tanstack/react-query"
 import { useTokenStore, useIsAuthenticated } from "../stores/tokenStore"
 
-// Helper function to get authorization headers
-const getAuthHeaders = () => {
-  const accessToken = useTokenStore.getState().accessToken
-  return {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  }
-}
-
 export const AccountApi = {
   // GET - Get all accounts
   getAllAccounts: async () => {
-    return axios
-      .get<Account[]>(DEFAULT_API + "/Account", getAuthHeaders())
-      .then((res) => res.data)
+    return axiosInstance.get<Account[]>("/Account").then((res) => res.data)
   },
 
   // GET - Get account by ID
   getAccountById: async (id: string) => {
-    return axios
-      .get<Account>(DEFAULT_API + `/Account/${id}`, getAuthHeaders())
-      .then((res) => res.data)
+    return axiosInstance.get<Account>(`/Account/${id}`).then((res) => res.data)
   },
 
   // PUT - Update entire account
@@ -41,23 +26,19 @@ export const AccountApi = {
     id: string
     data: CreateAccountRequest
   }) => {
-    return axios
-      .put<Account>(DEFAULT_API + `/Account/${id}`, data, getAuthHeaders())
+    return axiosInstance
+      .put<Account>(`/Account/${id}`, data)
       .then((res) => res.data)
   },
 
   // PATCH - Ban or unban an account
   banAccount: async (id: string) => {
-    return axios
-      .patch(DEFAULT_API + `/Account/${id}/ban`, {}, getAuthHeaders())
-      .then((res) => res.data)
+    return axiosInstance.patch(`/Account/${id}/ban`, {}).then((res) => res.data)
   },
 
   // DELETE - Delete account
   deleteAccount: async (id: string) => {
-    return axios
-      .delete(DEFAULT_API + `/Account/${id}`, getAuthHeaders())
-      .then((res) => res.data)
+    return axiosInstance.delete(`/Account/${id}`).then((res) => res.data)
   },
 }
 

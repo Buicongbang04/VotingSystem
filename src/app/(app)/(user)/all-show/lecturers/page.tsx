@@ -226,23 +226,26 @@ const page = ({ params }: PageProps) => {
               variant='outline'
               onClick={() => goToPage(currentPage - 1)}
               disabled={currentPage === 1}
-              className='flex items-center'
+              className='flex items-center border-gradient bg-transparent'
             >
               <ChevronLeft className='w-4 h-4 mr-1' />
               Trước
             </Button>
 
-            <div className='flex space-x-1'>
+            <div className='flex space-x-1 '>
               {Array.from({ length: totalPages }, (_, i) => i + 1).map(
                 (page) => (
-                  <Button
+                  <button
                     key={page}
-                    variant={currentPage === page ? "default" : "outline"}
                     onClick={() => goToPage(page)}
-                    className='w-10 h-10'
+                    className={`w-10 h-10 rounded-xl ${
+                      currentPage === page
+                        ? "bg-gradient-to-r from-transparent to-vibrant-pink text-white border-gradient"
+                        : "bg-transparen"
+                    }`}
                   >
                     {page}
-                  </Button>
+                  </button>
                 )
               )}
             </div>

@@ -1,17 +1,16 @@
-import axios from "axios"
-import { DEFAULT_API } from "../constants/API"
+import axiosInstance from "../lib/axios"
 import { LoginRequest, Token } from "../interfaces/auth/Schema/Token"
 import { useMutation, useQuery } from "@tanstack/react-query"
 
-const AuthApi = {
+export const AuthApi = {
   login: async (data: LoginRequest) => {
-    return axios
-      .post<Token>(DEFAULT_API + "/auth/login", data)
+    return axiosInstance
+      .post<Token>("/auth/login", data)
       .then((res) => res.data)
   },
   loginGoogle: async (data: any) => {
-    return axios
-      .get<Token>(DEFAULT_API + "/google-auth/external/google", {
+    return axiosInstance
+      .get<Token>("/google-auth/external/google", {
         params: {
           code: data,
         },
@@ -19,8 +18,8 @@ const AuthApi = {
       .then((res) => res.data)
   },
   refreshToken: async (refreshToken: string) => {
-    return axios
-      .post<Token>(DEFAULT_API + "/auth/refresh", {
+    return axiosInstance
+      .post<Token>("/auth/refresh", {
         refreshToken,
       })
       .then((res) => res.data)

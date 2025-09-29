@@ -1,5 +1,4 @@
-import axios from "axios"
-import { DEFAULT_API } from "../constants/API"
+import axiosInstance from "../lib/axios"
 import {
   LectureVote,
   LectureVoteResponse,
@@ -9,45 +8,25 @@ import {
 import { useMutation, useQuery } from "@tanstack/react-query"
 import { useTokenStore, useIsAuthenticated } from "../stores/tokenStore"
 
-// Helper function to get authorization headers
-const getAuthHeaders = () => {
-  const accessToken = useTokenStore.getState().accessToken
-  return {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  }
-}
-
 const LectureVoteApi = {
   // GET - Get today's votes by lecture
   getTodaysVotesByLecture: async (lectureId: string) => {
-    return axios
-      .get<LectureVote[]>(
-        DEFAULT_API + `/Lectures/${lectureId}/votes`,
-        getAuthHeaders()
-      )
+    return axiosInstance
+      .get<LectureVote[]>(`/Lectures/${lectureId}/votes`)
       .then((res) => res.data)
   },
 
   // POST - Vote for a lecture
   voteForLecture: async (lectureId: string) => {
-    return axios
-      .post<LectureVoteApiResponse>(
-        DEFAULT_API + `/Lectures/${lectureId}/votes`,
-        {},
-        getAuthHeaders()
-      )
+    return axiosInstance
+      .post<LectureVoteApiResponse>(`/Lectures/${lectureId}/votes`, {})
       .then((res) => res.data)
   },
 
   // DELETE - Cancel today's vote for a lecture
   cancelTodaysVote: async (lectureId: string) => {
-    return axios
-      .delete<LectureVoteApiResponse>(
-        DEFAULT_API + `/Lectures/${lectureId}/votes`,
-        getAuthHeaders()
-      )
+    return axiosInstance
+      .delete<LectureVoteApiResponse>(`/Lectures/${lectureId}/votes`)
       .then((res) => res.data)
   },
 }

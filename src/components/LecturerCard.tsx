@@ -49,13 +49,15 @@ const LecturerCard = ({
       {/* Image Section - 60% height */}
       <div className='relative h-sm '>
         {lecturer.avatarUrl ? (
-          <Image
-            src={lecturer.avatarUrl}
-            alt={lecturer.name}
-            className='w-full h-full object-cover'
-            width={50}
-            height={50}
-          />
+          <Link href={`/all-show/lecturers/${lecturer.id}`}>
+            <Image
+              src={lecturer.avatarUrl}
+              alt={lecturer.name}
+              className='w-full h-full object-cover'
+              width={50}
+              height={50}
+            />
+          </Link>
         ) : (
           <div className='w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100'>
             <div className='text-gray-400 text-4xl font-bold'>
@@ -119,14 +121,6 @@ const LecturerCard = ({
       </div>
     </div>
   )
-
-  if (showLink) {
-    return (
-      <Link href={`/all-show/lecturers/${lecturer.id}`}>
-        <CardContent />
-      </Link>
-    )
-  }
 
   return <CardContent />
 }

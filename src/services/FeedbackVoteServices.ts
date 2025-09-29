@@ -1,5 +1,4 @@
-import axios from "axios"
-import { DEFAULT_API } from "../constants/API"
+import axiosInstance from "../lib/axios"
 import {
   FeedbackVote,
   CreateFeedbackVoteRequest,
@@ -9,39 +8,25 @@ import { useMutation, useQuery } from "@tanstack/react-query"
 import { useTokenStore } from "../stores/tokenStore"
 import { useIsAuthenticated } from "../stores/tokenStore"
 
-// Helper function to get authorization headers
-const getAuthHeaders = () => {
-  const accessToken = useTokenStore.getState().accessToken
-  return {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  }
-}
-
 const FeedbackVoteApi = {
   // GET - Get all website feedback votes
   getAllFeedbackVotes: async () => {
-    return axios
-      .get<FeedbackVote[]>(DEFAULT_API + "/FeedbackVote", getAuthHeaders())
+    return axiosInstance
+      .get<FeedbackVote[]>("/FeedbackVote")
       .then((res) => res.data)
   },
 
   // POST - Create my website feedback vote
   createFeedbackVote: async (data: CreateFeedbackVoteRequest) => {
-    return axios
-      .post<FeedbackVote>(DEFAULT_API + "/FeedbackVote", data, getAuthHeaders())
+    return axiosInstance
+      .post<FeedbackVote>("/FeedbackVote", data)
       .then((res) => res.data)
   },
 
   // PATCH - Update my website feedback vote
   updateFeedbackVote: async (data: UpdateFeedbackVoteRequest) => {
-    return axios
-      .patch<FeedbackVote>(
-        DEFAULT_API + "/FeedbackVote",
-        data,
-        getAuthHeaders()
-      )
+    return axiosInstance
+      .patch<FeedbackVote>("/FeedbackVote", data)
       .then((res) => res.data)
   },
 }

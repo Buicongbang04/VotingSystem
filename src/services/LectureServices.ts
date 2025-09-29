@@ -1,5 +1,4 @@
-import axios from "axios"
-import { DEFAULT_API } from "../constants/API"
+import axiosInstance from "../lib/axios"
 import {
   Lecture,
   CreateLectureRequest,
@@ -10,77 +9,51 @@ import {
 import { useMutation, useQuery } from "@tanstack/react-query"
 import { useTokenStore } from "../stores/tokenStore"
 
-// Helper function to get authorization headers
-const getAuthHeaders = () => {
-  const accessToken = useTokenStore.getState().accessToken
-  return {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  }
-}
-
 const LectureApi = {
   // GET - Get all lectures
   getAllLectures: async () => {
-    return axios
-      .get<LectureResponse>(
-        DEFAULT_API + "/Lecture?isActive=true",
-        getAuthHeaders()
-      )
+    return axiosInstance
+      .get<LectureResponse>("/Lecture?isActive=true")
       .then((res) => res.data)
   },
 
   // GET - Get a specific lecture by ID
   getLectureById: async (id: string) => {
-    return axios
-      .get<SingleLectureResponse>(
-        DEFAULT_API + `/Lecture/${id}`,
-        getAuthHeaders()
-      )
+    return axiosInstance
+      .get<SingleLectureResponse>(`/Lecture/${id}`)
       .then((res) => res.data)
   },
 
   // POST - Create a new lecture
   createLecture: async (data: CreateLectureRequest) => {
-    return axios
-      .post<SingleLectureResponse>(
-        DEFAULT_API + "/Lecture",
-        data,
-        getAuthHeaders()
-      )
+    return axiosInstance
+      .post<SingleLectureResponse>("/Lecture", data)
       .then((res) => res.data)
   },
 
   // PUT - Update a lecture
   updateLecture: async (id: string, data: UpdateLectureRequest) => {
-    return axios
-      .put<SingleLectureResponse>(
-        DEFAULT_API + `/Lecture/${id}`,
-        data,
-        getAuthHeaders()
-      )
+    return axiosInstance
+      .put<SingleLectureResponse>(`/Lecture/${id}`, data)
       .then((res) => res.data)
   },
 
   // DELETE - Delete a lecture
   deleteLecture: async (id: string) => {
-    return axios
-      .delete(DEFAULT_API + `/Lecture/${id}`, getAuthHeaders())
-      .then((res) => res.data)
+    return axiosInstance.delete(`/Lecture/${id}`).then((res) => res.data)
   },
 
   // POST - Activate a lecturer
   activateLecturer: async (id: string) => {
-    return axios
-      .post(DEFAULT_API + `/Lecture/${id}/activate`, {}, getAuthHeaders())
+    return axiosInstance
+      .post(`/Lecture/${id}/activate`, {})
       .then((res) => res.data)
   },
 
   // POST - Deactivate a lecturer
   deactivateLecturer: async (id: string) => {
-    return axios
-      .post(DEFAULT_API + `/Lecture/${id}/deactivate`, {}, getAuthHeaders())
+    return axiosInstance
+      .post(`/Lecture/${id}/deactivate`, {})
       .then((res) => res.data)
   },
 }
