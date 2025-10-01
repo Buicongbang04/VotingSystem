@@ -4,6 +4,7 @@ import axios, {
   AxiosResponse,
   AxiosError,
 } from "axios"
+import { toast } from "sonner"
 import { DEFAULT_API } from "../constants/API"
 import { useTokenStore } from "../stores/tokenStore"
 import { AuthApi } from "../services/AuthServices"
@@ -124,7 +125,59 @@ axiosInstance.interceptors.response.use(
       }
     }
 
-    // Handle other errors
+    // Handle other errors - show toast notification
+    if (error.response) {
+      // Extract error message from response
+      const errorMessage =
+        (error.response.data as any)?.message ||
+        error.response.statusText ||
+        "Đã xảy ra lỗi"
+
+      // Show toast notification based on status code
+      switch (error.response.status) {
+        case 400:
+          toast.error("Yêu cầu không hợp lệ", {
+            description: errorMessage,
+          })
+          break
+        case 403:
+          toast.error("Không có quyền truy cập", {
+            description: errorMessage,
+          })
+          break
+        case 404:
+          toast.error("Không tìm thấy", {
+            description: errorMessage,
+          })
+          break
+        case 409:
+          toast.error("Xung đột dữ liệu", {
+            description: errorMessage,
+          })
+          break
+        case 500:
+          toast.error("Lỗi máy chủ", {
+            description: errorMessage,
+          })
+          break
+        default:
+          toast.error(`Lỗi ${error.response.status}`, {
+            description: errorMessage,
+          })
+      }
+    } else if (error.request) {
+      // Request was made but no response received
+      toast.error("Lỗi kết nối", {
+        description:
+          "Không nhận được phản hồi từ máy chủ. Vui lòng kiểm tra kết nối.",
+      })
+    } else {
+      // Something else happened
+      toast.error("Lỗi", {
+        description: error.message || "Đã xảy ra lỗi không mong muốn",
+      })
+    }
+
     return Promise.reject(error)
   }
 )
