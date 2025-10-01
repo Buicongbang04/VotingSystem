@@ -213,7 +213,7 @@ const page = ({ params }: PageProps) => {
               onVote={handleVote}
               onShare={handleShare}
               voteCount={lecturer.votes}
-              isVoted={votedLecturers.has(lecturer.id)}
+              isVoted={lecturer.isVoted}
               isLoading={isVoting || isCancelling}
             />
           ))}
