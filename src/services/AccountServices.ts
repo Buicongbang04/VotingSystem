@@ -7,15 +7,30 @@ import {
 import { useMutation, useQuery } from "@tanstack/react-query"
 import { useTokenStore, useIsAuthenticated } from "../stores/tokenStore"
 
+// API Response types
+interface AccountResponse {
+  data: Account[]
+  messages?: string[]
+}
+
+interface SingleAccountResponse {
+  data: Account
+  messages?: string[]
+}
+
 export const AccountApi = {
   // GET - Get all accounts
   getAllAccounts: async () => {
-    return axiosInstance.get<Account[]>("/Account").then((res) => res.data)
+    return axiosInstance
+      .get<AccountResponse>("/Account")
+      .then((res) => res.data)
   },
 
   // GET - Get account by ID
   getAccountById: async (id: string) => {
-    return axiosInstance.get<Account>(`/Account/${id}`).then((res) => res.data)
+    return axiosInstance
+      .get<SingleAccountResponse>(`/Account/${id}`)
+      .then((res) => res.data)
   },
 
   // PUT - Update entire account
@@ -27,18 +42,22 @@ export const AccountApi = {
     data: CreateAccountRequest
   }) => {
     return axiosInstance
-      .put<Account>(`/Account/${id}`, data)
+      .put<SingleAccountResponse>(`/Account/${id}`, data)
       .then((res) => res.data)
   },
 
   // PATCH - Ban or unban an account
   banAccount: async (id: string) => {
-    return axiosInstance.patch(`/Account/${id}/ban`, {}).then((res) => res.data)
+    return axiosInstance
+      .patch<SingleAccountResponse>(`/Account/${id}/ban`, {})
+      .then((res) => res.data)
   },
 
   // DELETE - Delete account
   deleteAccount: async (id: string) => {
-    return axiosInstance.delete(`/Account/${id}`).then((res) => res.data)
+    return axiosInstance
+      .delete<{ messages?: string[] }>(`/Account/${id}`)
+      .then((res) => res.data)
   },
 }
 

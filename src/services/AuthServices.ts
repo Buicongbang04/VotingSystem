@@ -10,7 +10,7 @@ export const AuthApi = {
   },
   loginGoogle: async (data: any) => {
     return axiosInstance
-      .get<Token>("/google-auth/external/google", {
+      .get<Token>("http://localhost:8000/api/google-auth/external/google", {
         params: {
           code: data,
         },

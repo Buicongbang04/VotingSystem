@@ -8,11 +8,17 @@ import { useMutation, useQuery } from "@tanstack/react-query"
 import { useTokenStore } from "../stores/tokenStore"
 import { useIsAuthenticated } from "../stores/tokenStore"
 
+// API Response type
+interface FeedbackVoteResponse {
+  data: FeedbackVote[]
+  messages?: string[]
+}
+
 const FeedbackVoteApi = {
   // GET - Get all website feedback votes
   getAllFeedbackVotes: async () => {
     return axiosInstance
-      .get<FeedbackVote[]>("/FeedbackVote")
+      .get<FeedbackVoteResponse>("/FeedbackVote")
       .then((res) => res.data)
   },
 

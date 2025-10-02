@@ -6,6 +6,7 @@ export interface Lecture {
   quote: string
   avatarUrl: string
   votes: number
+  isVoted: boolean
 }
 
 export interface Vote {

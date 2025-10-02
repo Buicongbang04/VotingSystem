@@ -31,7 +31,7 @@ export default function ParallaxBackground() {
         alt='bg'
         width={2000}
         height={2000}
-        className='w-full h-full object-cover absolute bg-gradient-to-b from-[black] to-[#65002F] scale-105'
+        className='w-full h-full object-cover absolute bg-gradient-to-b from-[black] to-[#65002F] scale-105 brightness-50'
         style={getParallaxTransform(0.02)}
       />
       <Image

@@ -1,9 +1,10 @@
-import React from "react";
-import TextBox from "./TextBox";
-import Image from "next/image";
+import React from "react"
+import TextBox from "./TextBox"
+import Image from "next/image"
 
 const TheLeBinhChon = () => {
   return (
+
     <section className="h-screen flex flex-col md:flex-row items-center justify-center px-6 md:px-10 relative snap-center gap-8 overflow-hidden">
       <div className="absolute inset-0 z-10 flex flex-col justify-center items-center lg:justify-start lg:items-start z-0">
         <div className="mt-[4vh] sm:mt-[6vh] md:mt-[6vh] lg:mt-[6vh] xl:mt-[16vh]
@@ -22,6 +23,7 @@ const TheLeBinhChon = () => {
                       md:w-[55vw] md:max-w-[720px]
                       lg:w-[700px] lg:max-w-[700px]
                       xl:w-[877px] xl:max-w-[877px]
+
                     "
             sizes="
                       (min-width:1280px) 877px,
@@ -76,8 +78,8 @@ const TheLeBinhChon = () => {
           </ul>
         </div>
       </div>
-    </section>
-  );
-};
+    </div>
+  )
+}
 
-export default TheLeBinhChon;
+export default TheLeBinhChon

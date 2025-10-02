@@ -4,22 +4,35 @@ import React, { useState } from "react"
 import { Bell, User, ChevronDown, LogOut, Settings } from "lucide-react"
 import { cn } from "@/lib/utils"
 import Image from "next/image"
-import { useUser } from "../stores/tokenStore"
+import { useRouter } from "next/navigation"
+import { useUser, useLogout } from "../stores/tokenStore"
 
 const AppNavbar = () => {
   const [isProfileOpen, setIsProfileOpen] = useState(false)
-  const [notificationCount] = useState(3) // Mock notification count
   const user = useUser()
+  const logout = useLogout()
+  const router = useRouter()
 
   const toggleProfile = () => {
     setIsProfileOpen(!isProfileOpen)
   }
 
+  const handleLogout = () => {
+    logout()
+    router.push("/login")
+    setIsProfileOpen(false)
+  }
+
+  const handleUserInformation = () => {
+    router.push("/user-information")
+    setIsProfileOpen(false)
+  }
+
   return (
     <div className='h-30'>
-      <div className='h-full px-6 flex items-center justify-center'>
+      <div className='h-full px-6 flex items-center justify-center relative'>
         {/* Left Section - Logo/Brand */}
-        <div className='flex items-center space-x-100'>
+        <div className='flex items-center'>
           <Image
             src='/images/Logo.png'
             alt='FPT University'
@@ -37,32 +50,18 @@ const AppNavbar = () => {
         </div>
 
         {/* Right Section - Notifications & Profile */}
-        {/* <div className='flex items-center space-x-4'>
-        
-          <div className='relative'>
-            <button className='p-2 text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-full transition-colors duration-200'>
-              <Bell className='w-5 h-5' />
-              {notificationCount > 0 && (
-                <span className='absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center'>
-                  {notificationCount > 9 ? "9+" : notificationCount}
-                </span>
-              )}
-            </button>
-          </div>
-
-          <div className='relative'>
+        <div className='flex items-center space-x-4'>
+          <div className='absolute right-0 z-10 -translate-x-10'>
             <button
               onClick={toggleProfile}
               className='flex items-center space-x-2 p-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors duration-200'
             >
-              <div className='w-8 h-8 bg-[#8B1538] rounded-full flex items-center justify-center'>
-                <User className='w-4 h-4 text-white' />
+              <div className='w-8 h-8 bg-white rounded-full flex items-center justify-center'>
+                <User className='w-4 h-4 text-black' />
               </div>
               <div className='hidden sm:block text-left'>
-                <p className='text-sm font-medium text-gray-800'>
-                  {user?.name}
-                </p>
-                <p className='text-xs text-gray-500'>Sinh viên</p>
+                <p className='text-sm font-medium text-white'>{user?.name}</p>
+                <p className='text-xs text-white'>Sinh viên</p>
               </div>
               <ChevronDown
                 className={cn(
@@ -74,9 +73,8 @@ const AppNavbar = () => {
 
             {isProfileOpen && (
               <>
-                
                 <div
-                  className='fixed inset-0 z-10'
+                  className='absolute z-20'
                   onClick={() => setIsProfileOpen(false)}
                 />
 
@@ -91,18 +89,23 @@ const AppNavbar = () => {
                           {user?.name}
                         </p>
                         <p className='text-sm text-gray-500'>{user?.email}</p>
-                        <p className='text-xs text-gray-400'>Sinh viên - K15</p>
                       </div>
                     </div>
                   </div>
 
                   <div className='py-2'>
-                    <button className='w-full flex items-center space-x-3 px-4 py-2 text-gray-700 hover:bg-gray-50 transition-colors duration-200'>
+                    <button
+                      onClick={handleUserInformation}
+                      className='w-full flex items-center space-x-3 px-4 py-2 text-gray-700 hover:bg-gray-50 transition-colors duration-200'
+                    >
                       <Settings className='w-4 h-4' />
-                      <span className='text-sm'>Cài đặt tài khoản</span>
+                      <span className='text-sm'>Thông tin cá nhân</span>
                     </button>
 
-                    <button className='w-full flex items-center space-x-3 px-4 py-2 text-red-600 hover:bg-red-50 transition-colors duration-200'>
+                    <button
+                      onClick={handleLogout}
+                      className='w-full flex items-center space-x-3 px-4 py-2 text-red-600 hover:bg-red-50 transition-colors duration-200'
+                    >
                       <LogOut className='w-4 h-4' />
                       <span className='text-sm'>Đăng xuất</span>
                     </button>
@@ -111,7 +114,7 @@ const AppNavbar = () => {
               </>
             )}
           </div>
-        </div> */}
+        </div>
       </div>
     </div>
   )

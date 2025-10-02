@@ -1,6 +1,6 @@
-import React from "react";
-import TextBox from "./TextBox";
-import Image from "next/image";
+import React from "react"
+import TextBox from "./TextBox"
+import Image from "next/image"
 
 const VinhDanhGiangVien = () => {
   return (
@@ -76,8 +76,8 @@ const VinhDanhGiangVien = () => {
           </ul>
         </div>
       </div>
-    </section>
-  );
-};
+    </div>
+  )
+}
 
-export default VinhDanhGiangVien;
+export default VinhDanhGiangVien

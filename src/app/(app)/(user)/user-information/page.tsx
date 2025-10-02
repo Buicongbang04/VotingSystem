@@ -17,7 +17,7 @@ const page = () => {
       { id: sub || "", data: { ...data, name: name || "" } },
       {
         onSuccess: () => {
-          console.log("Update account successfully")
+          router.push("/all-show")
         },
         onError: () => {
           console.log("Update account failed")
