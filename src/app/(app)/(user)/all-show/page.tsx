@@ -23,7 +23,6 @@ const Page = () => {
   return (
     <div className='flex justify-center items-center pt-30 p-10'>
       <EventAnnouncement onJoin={onJoin} />
-      <FeedbackVoteComponent />
     </div>
   )
 }

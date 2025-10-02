@@ -4,6 +4,9 @@ import React, { useState, useEffect } from "react"
 import { Info, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
+import { useRouter } from "next/navigation"
+import { useUser, useIsAuthenticated } from "../stores/tokenStore"
+import { useGetAccountById } from "../services/AccountServices"
 
 interface EventAnnouncementProps {
   title?: string
@@ -27,6 +30,25 @@ const EventAnnouncement: React.FC<EventAnnouncementProps> = ({
   onShare,
 }) => {
   const [showTooltip, setShowTooltip] = useState(false)
+  const router = useRouter()
+  const user = useUser()
+  const isAuthenticated = useIsAuthenticated()
+
+  // Get account data if user is authenticated
+  const { data: accountData, isLoading: isLoadingAccount } = useGetAccountById(
+    user?.sub || ""
+  )
+
+  // Check if user has student code and redirect if needed
+  useEffect(() => {
+    if (isAuthenticated && !isLoadingAccount && accountData?.data) {
+      const account = accountData.data
+      // Check if student code is missing or empty
+      if (!account.studentCode || account.studentCode.trim() === "") {
+        router.push("/user-information")
+      }
+    }
+  }, [isAuthenticated, isLoadingAccount, accountData, router])
 
   // Close tooltip on escape key
   useEffect(() => {
@@ -46,6 +68,34 @@ const EventAnnouncement: React.FC<EventAnnouncementProps> = ({
   const handleBackdropClick = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
       setShowTooltip(false)
+    }
+  }
+
+  // Handle join button click
+  const handleJoinClick = () => {
+    if (!isAuthenticated) {
+      // Redirect to login if not authenticated
+      router.push("/login")
+      return
+    }
+
+    if (isLoadingAccount) {
+      // Still loading account data, wait
+      return
+    }
+
+    if (accountData?.data) {
+      const account = accountData.data
+      // Check if student code is missing or empty
+      if (!account.studentCode || account.studentCode.trim() === "") {
+        router.push("/user-information")
+        return
+      }
+    }
+
+    // If all checks pass, call the original onJoin function
+    if (onJoin) {
+      onJoin()
     }
   }
 
@@ -99,7 +149,7 @@ const EventAnnouncement: React.FC<EventAnnouncementProps> = ({
         {/* Actions */}
         <div className='mt-6 flex gap-4'>
           <button
-            onClick={onJoin}
+            onClick={handleJoinClick}
             className='w-1/2 bg-gradient-to-r from-transparent to-vibrant-pink text-white font-medium py-2 rounded-full hover:bg-white transition border-gradient'
           >
             Tham gia

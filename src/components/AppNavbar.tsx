@@ -30,9 +30,9 @@ const AppNavbar = () => {
 
   return (
     <div className='h-30'>
-      <div className='h-full px-6 flex items-center justify-center'>
+      <div className='h-full px-6 flex items-center justify-center relative'>
         {/* Left Section - Logo/Brand */}
-        <div className='flex items-center space-x-100'>
+        <div className='flex items-center'>
           <Image
             src='/images/Logo.png'
             alt='FPT University'
@@ -51,13 +51,7 @@ const AppNavbar = () => {
 
         {/* Right Section - Notifications & Profile */}
         <div className='flex items-center space-x-4'>
-          <div className='relative'>
-            <button className='p-2 text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-full transition-colors duration-200'>
-              <Bell className='w-5 h-5' />
-            </button>
-          </div>
-
-          <div className='relative'>
+          <div className='absolute right-0 z-10 -translate-x-10'>
             <button
               onClick={toggleProfile}
               className='flex items-center space-x-2 p-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors duration-200'
@@ -80,7 +74,7 @@ const AppNavbar = () => {
             {isProfileOpen && (
               <>
                 <div
-                  className='fixed inset-0 z-10'
+                  className='absolute z-20'
                   onClick={() => setIsProfileOpen(false)}
                 />
 
@@ -95,7 +89,6 @@ const AppNavbar = () => {
                           {user?.name}
                         </p>
                         <p className='text-sm text-gray-500'>{user?.email}</p>
-                        <p className='text-xs text-gray-400'>Sinh viên - K15</p>
                       </div>
                     </div>
                   </div>
