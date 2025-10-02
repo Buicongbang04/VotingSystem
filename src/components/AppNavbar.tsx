@@ -32,7 +32,7 @@ const AppNavbar = () => {
     <div className='h-30'>
       <div className='h-full px-6 flex items-center justify-center relative'>
         {/* Left Section - Logo/Brand */}
-        <div className='flex items-center'>
+        <div className='flex items-center space-x-10'>
           <Image
             src='/images/Logo.png'
             alt='FPT University'
@@ -61,7 +61,9 @@ const AppNavbar = () => {
               </div>
               <div className='hidden sm:block text-left'>
                 <p className='text-sm font-medium text-white'>{user?.name}</p>
-                <p className='text-xs text-white'>Sinh viên</p>
+                <p className='text-xs text-white'>
+                  {user?.isAdmin == "True" ? "Admin" : "Sinh viên"}
+                </p>
               </div>
               <ChevronDown
                 className={cn(
@@ -74,7 +76,7 @@ const AppNavbar = () => {
             {isProfileOpen && (
               <>
                 <div
-                  className='absolute z-20'
+                  className='fixed inset-0 z-999'
                   onClick={() => setIsProfileOpen(false)}
                 />
 

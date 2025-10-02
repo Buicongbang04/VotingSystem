@@ -159,7 +159,7 @@ export default function AdminFeedbackVotes() {
 
   return (
     <div className='min-h-screen p-6 relative overflow-hidden'>
-      <div className='relative z-10 space-y-6 backdrop-blur-xl'>
+      <div className='relative z-10 space-y-6'>
         {/* Header */}
         <div className='flex items-center justify-between'>
           <div className='flex items-center space-x-4'>
@@ -259,7 +259,7 @@ export default function AdminFeedbackVotes() {
             </div>
           </Card>
 
-          <Card className='p-6 bg-white/10 backdrop-blur-md border-white/20'>
+          <Card className='p-6 bg-white/10  border-white/20'>
             <div className='flex items-center justify-between mb-4'>
               <div className='p-3 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-xl'>
                 <Star className='w-6 h-6 text-purple-400' />

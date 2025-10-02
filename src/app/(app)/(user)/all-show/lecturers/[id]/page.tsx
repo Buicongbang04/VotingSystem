@@ -151,7 +151,7 @@ const page = ({ params }: PageProps) => {
         <div className='max-w-5xl mx-auto '>
           <div className='relative w-full rounded-3xl overflow-hidden border-gradient flex '>
             {/* Image Section */}
-            <div className='relative h-96 md:h-[500px]'>
+            <div className='relative h-96'>
               {lecturer.avatarUrl ? (
                 <Image
                   src={lecturer.avatarUrl}
@@ -167,20 +167,10 @@ const page = ({ params }: PageProps) => {
                   </div>
                 </div>
               )}
-
-              {/* Overlay with vote count */}
-              <div className='absolute top-4 right-4 bg-black/50 backdrop-blur-sm rounded-2xl px-4 py-2'>
-                <div className='flex items-center gap-2 text-white'>
-                  <Heart className='w-5 h-5' />
-                  <span className='text-lg font-bold'>
-                    {lecturer.votes.toString().padStart(3, "0")}
-                  </span>
-                </div>
-              </div>
             </div>
 
             {/* Content Section - Similar to LecturerCard */}
-            <div className='bg-gradient-to-r from-transparent to-vibrant-pink p-8 md:p-12'>
+            <div className='bg-gradient-to-r from-transparent to-vibrant-pink p-8 md:p-12 w-full '>
               {/* Lecturer Info */}
               <div className='mb-8'>
                 <h1 className='text-4xl md:text-5xl font-bold text-white mb-4'>
@@ -194,7 +184,6 @@ const page = ({ params }: PageProps) => {
                   </div>
                   <div className='flex items-center gap-2'>
                     <User className='w-5 h-5' />
-                    <span className='text-lg'>{lecturer.email}</span>
                   </div>
                 </div>
 

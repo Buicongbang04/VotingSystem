@@ -1,4 +1,5 @@
 export interface Account {
+  id: string
   studentCode: string
   email: string
   name: string

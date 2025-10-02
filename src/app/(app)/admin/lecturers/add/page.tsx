@@ -8,6 +8,11 @@ import { Label } from "@/components/ui/label"
 import { ALL_DEPARTMENTS } from "@/src/constants/Departments"
 import { CreateLectureRequest } from "@/src/interfaces/Lecture/Lecture"
 import {
+  useCreateLecture,
+  useImportLecturers,
+  useDownloadTemplate,
+} from "@/src/services/LectureServices"
+import {
   User,
   Mail,
   Building,
@@ -19,9 +24,13 @@ import {
   X,
   CheckCircle,
   AlertCircle,
+  FileSpreadsheet,
+  Download,
+  Loader2,
 } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
+import { toast } from "sonner"
 
 interface FormData {
   name: string
@@ -52,6 +61,15 @@ export default function AddLecturer() {
   const [errors, setErrors] = useState<FormErrors>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [previewImage, setPreviewImage] = useState<string | null>(null)
+
+  // Import functionality state
+  const [isDragOver, setIsDragOver] = useState(false)
+  const [importFile, setImportFile] = useState<File | null>(null)
+
+  // API hooks
+  const createLectureMutation = useCreateLecture()
+  const importLecturersMutation = useImportLecturers()
+  const downloadTemplateMutation = useDownloadTemplate()
 
   // Validation functions
   const validateEmail = (email: string): boolean => {
@@ -132,6 +150,78 @@ export default function AddLecturer() {
     }
   }
 
+  // Import handlers
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault()
+    setIsDragOver(true)
+  }
+
+  const handleDragLeave = (e: React.DragEvent) => {
+    e.preventDefault()
+    setIsDragOver(false)
+  }
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault()
+    setIsDragOver(false)
+
+    const files = Array.from(e.dataTransfer.files)
+    const excelFile = files.find(
+      (file) =>
+        file.type ===
+          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
+        file.type === "application/vnd.ms-excel" ||
+        file.name.endsWith(".xlsx") ||
+        file.name.endsWith(".xls")
+    )
+
+    if (excelFile) {
+      setImportFile(excelFile)
+    } else {
+      toast.error("Vui lòng chọn file Excel (.xlsx hoặc .xls)")
+    }
+  }
+
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (file) {
+      if (
+        file.type ===
+          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
+        file.type === "application/vnd.ms-excel" ||
+        file.name.endsWith(".xlsx") ||
+        file.name.endsWith(".xls")
+      ) {
+        setImportFile(file)
+      } else {
+        toast.error("Vui lòng chọn file Excel (.xlsx hoặc .xls)")
+      }
+    }
+  }
+
+  const handleImport = async () => {
+    if (!importFile) return
+
+    try {
+      await importLecturersMutation.mutateAsync(importFile)
+      toast.success("Import giảng viên thành công!")
+      router.push("/admin/lecturers")
+    } catch (error: any) {
+      console.error("Error importing lecturers:", error)
+      toast.error("Có lỗi xảy ra khi import giảng viên")
+    }
+  }
+
+  const handleDownloadTemplate = async () => {
+    try {
+      await downloadTemplateMutation.mutateAsync()
+      toast.success("Đã tải template thành công!")
+    } catch (error: any) {
+      console.error("Error downloading template:", error)
+      toast.error("Có lỗi xảy ra khi tải template")
+    }
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
@@ -142,7 +232,6 @@ export default function AddLecturer() {
     setIsSubmitting(true)
 
     try {
-      // TODO: Replace with actual API call
       const lecturerData: CreateLectureRequest = {
         name: formData.name.trim(),
         email: formData.email.trim(),
@@ -151,17 +240,12 @@ export default function AddLecturer() {
         avatarUrl: formData.avatarUrl,
       }
 
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 2000))
-
-      console.log("Creating lecturer:", lecturerData)
-
-      // Show success message and redirect
-      alert("Thêm giảng viên thành công!")
+      await createLectureMutation.mutateAsync(lecturerData)
+      toast.success("Thêm giảng viên thành công!")
       router.push("/admin/lecturers")
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error creating lecturer:", error)
-      alert("Có lỗi xảy ra khi thêm giảng viên. Vui lòng thử lại.")
+      toast.error("Có lỗi xảy ra khi thêm giảng viên. Vui lòng thử lại.")
     } finally {
       setIsSubmitting(false)
     }
@@ -199,6 +283,127 @@ export default function AddLecturer() {
               </p>
             </div>
           </div>
+        </div>
+
+        {/* Import Section */}
+        <Card className='p-6 bg-white/10 backdrop-blur-md border-white/20 mb-6'>
+          <div className='flex items-center space-x-3 mb-6'>
+            <FileSpreadsheet className='w-6 h-6 text-vibrant-pink' />
+            <h2 className='text-xl font-semibold text-white'>
+              Import giảng viên từ Excel
+            </h2>
+          </div>
+
+          <div className='grid grid-cols-1 lg:grid-cols-2 gap-6'>
+            {/* Template Download */}
+            <div className='space-y-4'>
+              <h3 className='text-lg font-medium text-white'>Tải template</h3>
+              <p className='text-white/70 text-sm'>
+                Tải file template Excel để điền thông tin giảng viên theo đúng
+                định dạng.
+              </p>
+              <Button
+                onClick={handleDownloadTemplate}
+                disabled={downloadTemplateMutation.isPending}
+                className='bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white flex items-center space-x-2'
+              >
+                {downloadTemplateMutation.isPending ? (
+                  <Loader2 className='w-4 h-4 animate-spin' />
+                ) : (
+                  <Download className='w-4 h-4' />
+                )}
+                <span>Tải template Excel</span>
+              </Button>
+            </div>
+
+            {/* File Upload */}
+            <div className='space-y-4'>
+              <h3 className='text-lg font-medium text-white'>
+                Upload file Excel
+              </h3>
+              <div
+                className={`border-2 border-dashed rounded-lg p-6 text-center transition-colors ${
+                  isDragOver
+                    ? "border-vibrant-pink bg-vibrant-pink/10"
+                    : "border-white/20 hover:border-white/40"
+                }`}
+                onDragOver={handleDragOver}
+                onDragLeave={handleDragLeave}
+                onDrop={handleDrop}
+              >
+                {importFile ? (
+                  <div className='space-y-3'>
+                    <div className='flex items-center justify-center space-x-2'>
+                      <FileSpreadsheet className='w-8 h-8 text-green-400' />
+                      <span className='text-white font-medium'>
+                        {importFile.name}
+                      </span>
+                    </div>
+                    <div className='flex space-x-2 justify-center'>
+                      <Button
+                        onClick={handleImport}
+                        disabled={importLecturersMutation.isPending}
+                        className='bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white'
+                      >
+                        {importLecturersMutation.isPending ? (
+                          <Loader2 className='w-4 h-4 animate-spin mr-2' />
+                        ) : null}
+                        Import giảng viên
+                      </Button>
+                      <Button
+                        onClick={() => setImportFile(null)}
+                        variant='outline'
+                        className='text-white border-white/20 hover:bg-white/10'
+                      >
+                        <X className='w-4 h-4 mr-2' />
+                        Hủy
+                      </Button>
+                    </div>
+                  </div>
+                ) : (
+                  <div className='space-y-3'>
+                    <FileSpreadsheet className='w-12 h-12 text-white/40 mx-auto' />
+                    <div>
+                      <p className='text-white/70 mb-2'>
+                        Kéo thả file Excel vào đây hoặc
+                      </p>
+                      <input
+                        type='file'
+                        accept='.xlsx,.xls'
+                        onChange={handleFileSelect}
+                        className='hidden'
+                        id='excel-upload'
+                      />
+                      <Label
+                        htmlFor='excel-upload'
+                        className='inline-block px-4 py-2 bg-gradient-to-r from-vibrant-pink to-purple-500 hover:from-vibrant-pink/80 hover:to-purple-500/80 text-white rounded-lg cursor-pointer transition-all duration-300 hover:scale-105'
+                      >
+                        Chọn file
+                      </Label>
+                    </div>
+                    <p className='text-white/50 text-xs'>Hỗ trợ: .xlsx, .xls</p>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+
+          <div className='mt-6 pt-6 border-t border-white/20'>
+            <div className='flex items-center space-x-2 text-sm text-white/70'>
+              <AlertCircle className='w-4 h-4' />
+              <span>
+                File Excel phải chứa các cột: AccountName, Name, Email,
+                Department, Quote, AvatarUrl
+              </span>
+            </div>
+          </div>
+        </Card>
+
+        {/* Divider */}
+        <div className='flex items-center space-x-4 mb-6'>
+          <div className='flex-1 h-px bg-white/20'></div>
+          <span className='text-white/50 text-sm'>HOẶC</span>
+          <div className='flex-1 h-px bg-white/20'></div>
         </div>
 
         {/* Form */}

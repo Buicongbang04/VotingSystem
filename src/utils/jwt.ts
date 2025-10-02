@@ -2,9 +2,9 @@ export interface DecodedToken {
   sub?: string // user ID
   email?: string
   name?: string
-  role?: string
   iat?: number // issued at
   exp?: number // expiration
+  isAdmin?: string
   [key: string]: any
 }
 

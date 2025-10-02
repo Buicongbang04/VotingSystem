@@ -3,6 +3,7 @@
 import React, { useState } from "react"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/src/components/ui/button"
+import Link from "next/link"
 import {
   useGetAllAccounts,
   useBanAccount,
@@ -289,18 +290,20 @@ export default function AdminUsers() {
                     </td>
                     <td className='py-3 px-4'>
                       <div className='flex space-x-2'>
+                        <Link href={`/admin/users/${account.id}`}>
+                          <Button
+                            size='sm'
+                            variant='outline'
+                            className=' border-white/20 hover:bg-white/10'
+                          >
+                            <Edit className='w-3 h-3 mr-1' />
+                            Sửa
+                          </Button>
+                        </Link>
                         <Button
                           size='sm'
                           variant='outline'
-                          className='text-white border-white/20 hover:bg-white/10'
-                        >
-                          <Edit className='w-3 h-3 mr-1' />
-                          Sửa
-                        </Button>
-                        <Button
-                          size='sm'
-                          variant='outline'
-                          onClick={() => handleBanAccount(account.studentCode)}
+                          onClick={() => handleBanAccount(account.id)}
                           disabled={banAccountMutation.isPending}
                           className='text-yellow-400 border-yellow-400/20 hover:bg-yellow-400/10'
                         >
@@ -310,9 +313,7 @@ export default function AdminUsers() {
                         <Button
                           size='sm'
                           variant='outline'
-                          onClick={() =>
-                            handleDeleteAccount(account.studentCode)
-                          }
+                          onClick={() => handleDeleteAccount(account.id)}
                           disabled={deleteAccountMutation.isPending}
                           className='text-red-400 border-red-400/20 hover:bg-red-400/10'
                         >

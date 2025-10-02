@@ -39,7 +39,7 @@ export const AccountApi = {
     data,
   }: {
     id: string
-    data: CreateAccountRequest
+    data: UpdateAccountRequest
   }) => {
     return axiosInstance
       .put<SingleAccountResponse>(`/Account/${id}`, data)
@@ -86,7 +86,7 @@ export const useGetAccountById = (id: string) => {
 
 export const useUpdateAccount = () => {
   return useMutation({
-    mutationFn: ({ id, data }: { id: string; data: CreateAccountRequest }) =>
+    mutationFn: ({ id, data }: { id: string; data: UpdateAccountRequest }) =>
       AccountApi.updateAccount({ id, data }),
   })
 }

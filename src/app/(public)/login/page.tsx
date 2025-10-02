@@ -5,7 +5,11 @@ import { useRouter, useSearchParams } from "next/navigation"
 import LoginComponent from "../../../components/Auth/LoginComponent"
 import { type LoginFormData } from "../../../interfaces/auth/Schema/Login"
 import { useLoginApi, useLoginGoogleApi } from "../../../services/AuthServices"
-import { useLogin, useIsAuthenticated } from "../../../stores/tokenStore"
+import {
+  useLogin,
+  useIsAuthenticated,
+  useUser,
+} from "../../../stores/tokenStore"
 
 // Component that handles search params logic
 const LoginWithSearchParams = () => {
@@ -18,6 +22,12 @@ const LoginWithSearchParams = () => {
   const googleLoginMutation = useLoginGoogleApi()
   const login = useLogin()
   const isAuthenticated = useIsAuthenticated()
+  const user = useUser()
+
+  // Helper function to check if user is admin
+  const isAdmin = () => {
+    return user?.isAdmin === "True"
+  }
 
   // Ensure we're on the client side
   useEffect(() => {
@@ -29,13 +39,15 @@ const LoginWithSearchParams = () => {
     const checkExistingAuth = () => {
       if (isAuthenticated) {
         console.log("User already authenticated, redirecting to dashboard")
-        router.push("/all-show")
+        // Redirect admin users to admin dashboard, regular users to all-show
+        const redirectPath = isAdmin() ? "/admin/dashboard" : "/all-show"
+        router.push(redirectPath)
       }
       setIsCheckingAuth(false)
     }
 
     checkExistingAuth()
-  }, [isAuthenticated, router])
+  }, [isAuthenticated, router, user])
 
   // Check for Google OAuth callback parameters
   useEffect(() => {
@@ -65,7 +77,9 @@ const LoginWithSearchParams = () => {
       }
       const success = login(tokens)
       if (success) {
-        router.push("/all-show")
+        // Redirect admin users to admin dashboard, regular users to all-show
+        const redirectPath = isAdmin() ? "/admin/dashboard" : "/all-show"
+        router.push(redirectPath)
       }
     }
   }, [isClient, searchParams, router, login])
@@ -77,7 +91,9 @@ const LoginWithSearchParams = () => {
       if (tokens.accessToken && tokens.refreshToken) {
         const success = login(tokens)
         if (success) {
-          router.push("/all-show")
+          // Redirect admin users to admin dashboard, regular users to all-show
+          const redirectPath = isAdmin() ? "/admin/dashboard" : "/all-show"
+          router.push(redirectPath)
         }
       }
     } catch (error) {
@@ -101,8 +117,9 @@ const LoginWithSearchParams = () => {
         const success = login(tokens)
         if (success) {
           console.log("Tokens saved to Zustand store")
-          // Redirect to dashboard or home page after successful login
-          router.push("/all-show")
+          // Redirect admin users to admin dashboard, regular users to all-show
+          const redirectPath = isAdmin() ? "/admin/dashboard" : "/all-show"
+          router.push(redirectPath)
         }
       }
     } catch (error) {

@@ -113,6 +113,24 @@ const LectureApi = {
         return { success: true, filename }
       })
   },
+
+  // POST - Import lecturers from Excel file
+  importLecturers: async (file: File) => {
+    const formData = new FormData()
+    formData.append("file", file)
+
+    return axiosInstance
+      .post<{ messages?: string[]; success?: boolean }>(
+        "/Lecture/import",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      )
+      .then((res) => res.data)
+  },
 }
 
 // React Query hooks for GET operations
@@ -193,6 +211,12 @@ export const useDeactivateLecturer = () => {
 export const useDownloadTemplate = () => {
   return useMutation({
     mutationFn: () => LectureApi.downloadTemplate(),
+  })
+}
+
+export const useImportLecturers = () => {
+  return useMutation({
+    mutationFn: (file: File) => LectureApi.importLecturers(file),
   })
 }
 

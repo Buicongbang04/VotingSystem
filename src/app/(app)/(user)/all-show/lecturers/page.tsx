@@ -2,7 +2,7 @@
 
 import LecturerCard from "@/src/components/LecturerCard"
 import { Lecture } from "@/src/interfaces/Lecture/Lecture"
-import { useGetAllLectures } from "@/src/services/LectureServices"
+import { useGetActiveLectures } from "@/src/services/LectureServices"
 import React, { useState, useMemo } from "react"
 import { Search, Filter, ChevronLeft, ChevronRight } from "lucide-react"
 import { Button } from "@/src/components/ui/button"
@@ -26,7 +26,7 @@ interface PageProps {
 const ITEMS_PER_PAGE = 3
 
 const page = ({ params }: PageProps) => {
-  const { data: lectures, isLoading, refetch } = useGetAllLectures()
+  const { data: lectures, isLoading, refetch } = useGetActiveLectures()
   const [currentPage, setCurrentPage] = useState(1)
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedDepartment, setSelectedDepartment] = useState("all")
