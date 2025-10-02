@@ -4,11 +4,11 @@ export interface Account {
   name: string
   semester?: number
   department?: string
+  isAdmin: boolean
 }
 
 export interface CreateAccountRequest {
   studentCode: string
-  email: string
   name: string
   semester?: number
   department?: string
