@@ -80,7 +80,7 @@ const ContactPage = () => {
     <section
       id='contact'
       className='
-        min-h-dvh flex flex-col items-center snap-section relative
+        min-h-dvh flex flex-col items-start snap-section relative
         px-4 sm:px-6 lg:px-8
       '
     >
@@ -95,8 +95,8 @@ const ContactPage = () => {
         {/* Main Title */}
         <div
           className='
-                            flex justify-center md:justify-center items-center pt-[13vh] sm:pt-[15vh] md:pt-[13vh] lg:pt-[15vh] xl:pt-[10vh]
-                            xl:mb-50 lg:mb-60 md:mb-50 sm:mb-20 mb-16
+                            flex justify-center md:justify-center items-start pt-[13vh] sm:pt-[15vh] md:pt-[13vh] lg:pt-[15vh] xl:pt-[10vh]
+                            xl:mb-50 lg:mb-60 md:mb-10 sm:mb-20 mb-16
                           '
         >
           <Image
@@ -109,14 +109,14 @@ const ContactPage = () => {
                               h-auto
                               w-[90vw] max-w-[520px]
                               sm:w-[70vw] sm:max-w-[640px]
-                              md:w-[55vw] md:max-w-[720px]
+                              md:w-[80vw] md:max-w-[720px]
                               lg:w-[820px] lg:max-w-[820px]
                               xl:w-[877px] xl:max-w-[877px]
                             '
             sizes='
                               (min-width:1280px) 877px,
                               (min-width:1024px) 820px,
-                              (min-width:768px) 55vw,
+                              (min-width:768px) 80vw,
                               (min-width:640px) 70vw,
                               80vw
                             '
@@ -124,7 +124,7 @@ const ContactPage = () => {
         </div>
 
         {/* Countdown Timer */}
-        <div className='flex flex-wrap justify-center gap-6 w-full min-w-0'>
+        <div className='flex flex-wrap justify-center items-start gap-6 w-full min-w-0'>
           {timeUnits.map((unit, idx) => (
             <Circle
               key={idx}

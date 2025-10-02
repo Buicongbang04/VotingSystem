@@ -1,87 +1,51 @@
-"use client"
-import Background from "@/src/components/landingPart/BackgroundMain"
-import BackgroundKV from "@/src/components/landingPart/BackgroundKV"
-import CacMocThoiGian from "@/src/components/About/CacMocThoiGian"
-import GioiThieuVeChuongTrinh from "@/src/components/About/GioiThieuVeChuongTrinh"
-import TheLeBinhChon from "@/src/components/About/TheLeBinhChon"
-import VinhDanhGiangVien from "@/src/components/About/VinhDanhGiangVien"
-import { Footer } from "@/src/components/landingPart"
-import { useEffect, useRef } from "react"
+"use client";
 
-function PSection({
-  children,
-  speed = 0.15,
-  className = "",
-  kvKey,
-}: {
-  children: React.ReactNode
-  speed?: number
-  className?: string
-  kvKey: "hero" | "features" | "stats" | "contact"
-}) {
-  const ref = useRef<HTMLElement>(null)
+import Background from "@/src/components/landingPart/BackgroundMain";
+import BackgroundKVAbout from "@/src/components/landingPart/BackgroundKVAbout";
 
-  useEffect(() => {
-    const el = ref.current!
-    const onScroll = () => {
-      const rect = el.getBoundingClientRect()
-      const y = rect.top + window.scrollY
-      const viewportY = window.scrollY + window.innerHeight * 0.5
-      const delta = (viewportY - y) * speed
-      el.style.transform = `translateY(${delta.toFixed(1)}px)`
-    }
-    onScroll()
-    window.addEventListener("scroll", onScroll, { passive: true })
-    return () => window.removeEventListener("scroll", onScroll)
-  }, [speed])
+import GioiThieuVeChuongTrinh from "@/src/components/About/GioiThieuVeChuongTrinh";
+import CacMocThoiGian from "@/src/components/About/CacMocThoiGian";
+import TheLeBinhChon from "@/src/components/About/TheLeBinhChon";
+import VinhDanhGiangVien from "@/src/components/About/VinhDanhGiangVien";
+import { Footer } from "@/src/components/landingPart";
 
-  return (
-    <section
-      ref={ref}
-      data-kv={kvKey}
-      className={`relative max-w-7xl mx-auto px-6 py-28 will-change-transform ${className}`}
-    >
-      {children}
-    </section>
-  )
-}
+import Reveal from "@/src/utils/Reveal";
 
-const page = () => {
+export default function Page() {
   return (
     <>
-      <Background src='/images/bg.png' />
-      <BackgroundKV src='/images/KV.png' />
+      <Background src="/images/bg.png" />
+      <BackgroundKVAbout src="/images/KV.png" />
 
-      <PSection
-        kvKey='hero'
-        speed={0.15}
-        className='md:translate-x-8 px-4 sm:px-6 py-24 sm:py-28'
-      >
-        <GioiThieuVeChuongTrinh />
-      </PSection>
+      {/* Intro xuất hiện từ dưới lên */}
+      <section data-kv="intro" className="relative max-w-7xl mx-auto px-4 sm:px-6 py-24 sm:py-28">
+        <Reveal direction="up" threshold={0.3} duration={800}>
+          <GioiThieuVeChuongTrinh />
+        </Reveal>
+      </section>
 
-      <PSection
-        kvKey='features'
-        speed={0.25}
-        className='md:-translate-x-12 -mt-12'
-      >
-        <CacMocThoiGian />
-      </PSection>
+      {/* Timeline: xuất hiện từ trái sang, có stagger nhỏ */}
+      <section data-kv="timeline" className="relative max-w-7xl mx-auto px-4 sm:px-6 py-24 sm:py-28">
+        <Reveal direction="left" threshold={0.3} duration={800}>
+          <CacMocThoiGian />
+        </Reveal>
+      </section>
 
-      <PSection kvKey='stats' speed={0.18} className='md:translate-x-6 -mt-8'>
-        <TheLeBinhChon />
-      </PSection>
+      {/* Rules: xuất hiện từ phải sang */}
+      <section data-kv="rules" className="relative max-w-7xl mx-auto px-4 sm:px-6 py-24 sm:py-28">
+        <Reveal direction="right" threshold={0.3} duration={800}>
+          <TheLeBinhChon />
+        </Reveal>
+      </section>
 
-      <PSection
-        kvKey='contact'
-        speed={0.22}
-        className='md:-translate-x-16 -mt-10'
-      >
-        <VinhDanhGiangVien />
-      </PSection>
+      {/* Honors/ Footer nếu muốn cũng bọc */}
+      <section data-kv="honors" className="relative max-w-7xl mx-auto px-4 sm:px-6 py-24 sm:py-28">
+        <Reveal direction="right" threshold={0.3} duration={800}>
+          <VinhDanhGiangVien />
+        </Reveal>
+      </section>
+
       <Footer />
     </>
-  )
+  );
 }
-
-export default page

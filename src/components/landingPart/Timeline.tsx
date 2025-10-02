@@ -15,93 +15,93 @@ export default function TimeLine({
 
   return (
     <div className={`relative ${className}`}>
-        {/* ITEM 1 */}
+      {/* ITEM 1 */}
+      <div
+        className="flex flex-row items-center gap-3 sm:gap-4 transform
+                     translate-x-[0px]  sm:translate-x-[60px]  md:translate-x-[0px]  lg:translate-x-[0px]  xl:translate-x-[100px]
+                     -translate-y-[0px] sm:-translate-y-[0px] md:-translate-y-[0px] lg:-translate-y-[0px] xl:-translate-y-[0px]"
+      >
         <div
-          className="flex flex-row items-center gap-3 sm:gap-4 transform
-                     translate-x-[20px]  sm:translate-x-[60px]  md:translate-x-[0px]  lg:translate-x-[20px]  xl:translate-x-[100px]
-                     -translate-y-[0px] sm:-translate-y-[0px] md:-translate-y-[0px] lg:-translate-y-[25px] xl:-translate-y-[0px]"
+          className="text-white/30 leading-none select-none font-bolkit whitespace-nowrap"
+          style={{ fontSize: "clamp(26px, 10vw, 90px)", fontWeight: 300 }}
         >
-          <div
-            className="text-white/30 leading-none select-none font-bolkit whitespace-nowrap"
-            style={{ fontSize: "clamp(36px, 10vw, 120px)", fontWeight: 300 }}
-          >
-            {m1?.id}
-          </div>
-          <div className="text-center sm:text-left">
-            <div className="text-white font-semibold tracking-wide text-lg sm:text-2xl lg:text-3xl">
-              {m1?.date}
-            </div>
-            <div className="text-white/90 text-base sm:text-xl lg:text-2xl">
-              {m1?.title}
-            </div>
-          </div>
+          {m1?.id}
         </div>
-
-        {/* ITEM 2 */}
-        <div
-          className="flex flex-row items-center gap-3 sm:gap-4 transform
-                     translate-x-[60px]  sm:translate-x-[160px] md:translate-x-[160px] lg:translate-x-[270px] xl:translate-x-[560px]
-                    -translate-y-[10px] sm:-translate-y-[20px] md:-translate-y-[30px] lg:-translate-y-[50px] xl:-translate-y-[100px]"
-        >
-          <div
-            className="text-white/30 leading-none select-none font-bolkit whitespace-nowrap"
-            style={{ fontSize: "clamp(36px, 10vw, 120px)", fontWeight: 300 }}
-          >
-            {m2?.id}
+        <div className="text-center sm:text-left">
+          <div className="text-white font-semibold tracking-wide text-base sm:text-lg lg:text-xl xl:text-2xl">
+            {m1?.date}
           </div>
-          <div className="text-center sm:text-left">
-            <div className="text-white font-semibold tracking-wide text-lg sm:text-2xl lg:text-3xl">
-              {m2?.date}
-            </div>
-            <div className="text-white/90 text-base sm:text-xl lg:text-2xl">
-              {m2?.title}
-            </div>
-          </div>
-        </div>
-
-        {/* ITEM 3 */}
-        <div
-          className="flex flex-row items-center gap-3 sm:gap-4 transform
-                     translate-x-[40px]  sm:translate-x-[120px] md:translate-x-[80px] lg:translate-x-[150px] xl:translate-x-[340px]
-                    -translate-y-[30px] sm:-translate-y-[90px] md:-translate-y-[70px] lg:-translate-y-[80px] xl:-translate-y-[130px]"
-        >
-          <div
-            className="text-white/30 leading-none select-none font-bolkit whitespace-nowrap"
-            style={{ fontSize: "clamp(36px, 10vw, 120px)", fontWeight: 300 }}
-          >
-            {m3?.id}
-          </div>
-          <div className="text-center sm:text-left">
-            <div className="text-white font-semibold tracking-wide text-lg sm:text-2xl lg:text-3xl">
-              {m3?.date}
-            </div>
-            <div className="text-white/90 text-base sm:text-xl lg:text-2xl">
-              {m3?.title}
-            </div>
-          </div>
-        </div>
-
-        {/* ITEM 4 */}
-        <div
-          className="flex flex-row items-center gap-3 sm:gap-4 transform
-                    translate-x-[80px]  sm:translate-x-[200px] md:translate-x-[300px] lg:translate-x-[420px] xl:translate-x-[700px]
-                    -translate-y-[50px] sm:-translate-y-[100px] md:-translate-y-[100px] lg:-translate-y-[100px] xl:-translate-y-[150px]"
-        >
-          <div
-            className="text-white/30 leading-none select-none font-bolkit whitespace-nowrap"
-            style={{ fontSize: "clamp(36px, 10vw, 120px)", fontWeight: 300 }}
-          >
-            {m4?.id}
-          </div>
-          <div className="text-center sm:text-left">
-            <div className="text-white font-semibold tracking-wide text-lg sm:text-2xl lg:text-3xl">
-              {m4?.date}
-            </div>
-            <div className="text-white/90 text-base sm:text-xl lg:text-2xl">
-              {m4?.title}
-            </div>
+          <div className="text-white/90 text-base sm:text-lg lg:text-xl xl:text-2xl">
+            {m1?.title}
           </div>
         </div>
       </div>
+
+      {/* ITEM 2 */}
+      <div
+        className="flex flex-row items-center gap-3 sm:gap-4 transform
+                     translate-x-[0px]  sm:translate-x-[160px] md:translate-x-[160px] lg:translate-x-[40px] xl:translate-x-[250px]
+                    -translate-y-[0px] sm:-translate-y-[20px] md:-translate-y-[10px] lg:-translate-y-[10px] xl:-translate-y-[0px]"
+      >
+        <div
+          className="text-white/30 leading-none select-none font-bolkit whitespace-nowrap"
+          style={{ fontSize: "clamp(26px, 10vw, 90px)", fontWeight: 300 }}
+        >
+          {m2?.id}
+        </div>
+        <div className="text-center sm:text-left">
+          <div className="text-white font-semibold tracking-wide text-base sm:text-lg lg:text-xl xl:text-2xl">
+            {m2?.date}
+          </div>
+          <div className="text-white/90 text-base sm:text-lg lg:text-xl xl:text-2xl">
+            {m2?.title}
+          </div>
+        </div>
+      </div>
+
+      {/* ITEM 3 */}
+      <div
+        className="flex flex-row items-center gap-3 sm:gap-4 transform
+                     translate-x-[0px]  sm:translate-x-[120px] md:translate-x-[80px] lg:translate-x-[100px] xl:translate-x-[0px]
+                    -translate-y-[0px] sm:-translate-y-[90px] md:-translate-y-[20px] lg:-translate-y-[20px] xl:-translate-y-[10px]"
+      >
+        <div
+          className="text-white/30 leading-none select-none font-bolkit whitespace-nowrap"
+          style={{ fontSize: "clamp(26px, 10vw, 90px)", fontWeight: 300 }}
+        >
+          {m3?.id}
+        </div>
+        <div className="text-center sm:text-left">
+          <div className="text-white font-semibold tracking-wide text-base sm:text-lg lg:text-xl xl:text-2xl">
+            {m3?.date}
+          </div>
+          <div className="text-white/90 text-base sm:text-lg lg:text-xl xl:text-2xl">
+            {m3?.title}
+          </div>
+        </div>
+      </div>
+
+      {/* ITEM 4 */}
+      <div
+        className="flex flex-row items-center gap-3 sm:gap-4 transform
+                    translate-x-[0px]  sm:translate-x-[200px] md:translate-x-[300px] lg:translate-x-[170px] xl:translate-x-[350px]
+                    -translate-y-[0px] sm:-translate-y-[100px] md:-translate-y-[30px] lg:-translate-y-[30px] xl:-translate-y-[20px]"
+      >
+        <div
+          className="text-white/30 leading-none select-none font-bolkit whitespace-nowrap"
+          style={{ fontSize: "clamp(26px, 10vw, 90px)", fontWeight: 300 }}
+        >
+          {m4?.id}
+        </div>
+        <div className="text-center sm:text-left">
+          <div className="text-white font-semibold tracking-wide text-base sm:text-lg lg:text-xl xl:text-2xl">
+            {m4?.date}
+          </div>
+          <div className="text-white/90 text-base sm:text-lg lg:text-xl xl:text-2xl">
+            {m4?.title}
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }

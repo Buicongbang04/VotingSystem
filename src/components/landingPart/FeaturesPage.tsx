@@ -15,13 +15,11 @@ const FeaturesPage = () => {
         overflow-y-visible overflow-x-hidden
       "
     >
-      {/* Nội dung full-width; giới hạn trên các khung con để không bị bó hẹp */}
       <div className="w-full min-w-0 flex flex-col items-center md:items-stretch justify-center">
         <div
           className="
-            flex justify-center md:justify-start items-start
+            flex justify-start md:justify-start items-start
             pt-[4vh] sm:pt-[6vh] md:pt-[6vh] lg:pt-[6vh] xl:pt-[2vh]
-            md:pl-[8vw] lg:pl-[10vw] xl:pl-[12vw]
           "
         >
           <Image
@@ -35,7 +33,7 @@ const FeaturesPage = () => {
               w-[80vw] max-w-[520px]
               sm:w-[70vw] sm:max-w-[640px]
               md:w-[55vw] md:max-w-[720px]
-              lg:w-[820px] lg:max-w-[820px]
+              lg:w-[700px] lg:max-w-[700px]
               xl:w-[877px] xl:max-w-[877px]
             "
             sizes="
@@ -54,15 +52,14 @@ const FeaturesPage = () => {
           <div
             className="
               relative w-full
-              h-[46vh]              
+              h-[50vh]              
               sm:h-[52vh]            
               md:h-[58vh]             
               lg:h-[64vh]  
               xl:h-[68vh] 2xl:h-[72vh]
               overflow-x-hidden
               pr-8 sm:pr-12 md:pr-16 lg:pr-24 xl:pr-32 
-              pl-3 sm:pl-4 md:pl-6 lg:pl-8            
-              mt-6 sm:mt-8 md:mt-10 lg:mt-12
+              pl-3 sm:pl-4 md:pl-6 lg:pl-8
             "
           >
             <TimeLine className="w-full h-full font-bolkit" />
