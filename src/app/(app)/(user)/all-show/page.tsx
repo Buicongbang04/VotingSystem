@@ -1,6 +1,7 @@
 "use client"
 
 import EventAnnouncement from "@/src/components/EventAnnouncement"
+import FeedbackVoteComponent from "@/src/components/FeedbackVoteComponent"
 import { useGetAccountById } from "@/src/services/AccountServices"
 import { useUser } from "@/src/stores/tokenStore"
 import { useRouter } from "next/navigation"
@@ -22,6 +23,7 @@ const Page = () => {
   return (
     <div className='flex justify-center items-center pt-30 p-10'>
       <EventAnnouncement onJoin={onJoin} />
+      <FeedbackVoteComponent />
     </div>
   )
 }

@@ -3,13 +3,7 @@
 import React, { useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import {
-  Users,
-  BarChart3,
-  UserCheck,
-  Database,
-  MessageSquare,
-} from "lucide-react"
+import { Users, BarChart3, UserCheck, MessageSquare } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 const navigationItems = [
@@ -32,11 +26,6 @@ const navigationItems = [
     href: "/admin/feedback",
     label: "Phản hồi người dùng",
     icon: MessageSquare,
-  },
-  {
-    href: "/admin/data",
-    label: "Quản lý dữ liệu",
-    icon: Database,
   },
 ]
 

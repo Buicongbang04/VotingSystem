@@ -31,69 +31,26 @@ export default function AdminUsers() {
 
   // API hooks
   const {
-    data: accounts,
+    data: accountsResponse,
     isLoading,
     isError,
     error,
     refetch,
   } = useGetAllAccounts()
 
-  console.log(accounts)
-
-  // Debug logging
-  React.useEffect(() => {
-    if (accounts) {
-      console.log("Accounts data:", accounts)
-      console.log("Is array:", Array.isArray(accounts))
-      console.log("Type:", typeof accounts)
-    }
-  }, [accounts])
+  // Get accounts data
+  const accounts = accountsResponse?.data || []
 
   const banAccountMutation = useBanAccount()
   const deleteAccountMutation = useDeleteAccount()
 
   // Filter accounts based on search and filters
   const filteredAccounts = React.useMemo(() => {
-    // Handle different possible data structures from API
-    let accountsArray: Account[] = []
-
-    if (accounts) {
-      // Check for data property first (most common API response structure)
-      if (
-        accounts &&
-        typeof accounts === "object" &&
-        "data" in accounts &&
-        Array.isArray(accounts.data)
-      ) {
-        accountsArray = accounts.data
-      } else if (Array.isArray(accounts)) {
-        accountsArray = accounts
-      } else if (
-        accounts &&
-        typeof accounts === "object" &&
-        "items" in accounts &&
-        Array.isArray(accounts)
-      ) {
-        accountsArray = accounts
-      } else {
-        console.warn("Unexpected accounts data structure:", accounts)
-        return []
-      }
-    }
-
-    return accountsArray.filter((account: Account) => {
-      // Safety check for account properties
-      if (!account || typeof account !== "object") {
-        return false
-      }
-
+    return accounts.filter((account: Account) => {
       const matchesSearch =
         account.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        false ||
         account.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        false ||
-        account.studentCode?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        false
+        account.studentCode?.toLowerCase().includes(searchTerm.toLowerCase())
 
       const matchesRole =
         !roleFilter ||
@@ -193,28 +150,6 @@ export default function AdminUsers() {
               >
                 Thử lại
               </Button>
-            </div>
-          </div>
-        </Card>
-      )}
-
-      {/* Data Structure Warning */}
-      {accounts && !Array.isArray(accounts) && (
-        <Card className='p-6 bg-yellow-500/10 backdrop-blur-md border-yellow-500/20'>
-          <div className='flex items-center space-x-3'>
-            <AlertCircle className='w-6 h-6 text-yellow-400' />
-            <div>
-              <h3 className='text-lg font-semibold text-yellow-400 mb-2'>
-                Cảnh báo cấu trúc dữ liệu
-              </h3>
-              <p className='text-yellow-400/80 mb-2'>
-                Dữ liệu từ API không có định dạng mong đợi. Kiểm tra console để
-                xem chi tiết.
-              </p>
-              <p className='text-yellow-400/60 text-sm'>
-                Loại dữ liệu: {typeof accounts} | Có phải array:{" "}
-                {Array.isArray(accounts) ? "Có" : "Không"}
-              </p>
             </div>
           </div>
         </Card>
