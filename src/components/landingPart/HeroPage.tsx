@@ -36,45 +36,31 @@ const HeroPage = () => {
     <section
       id='hero'
       className='
-        width-screen h-screen
-         snap-section
-        px-4 sm:px-6 lg:px-8
+        h-screen
+        px-4
         w-full max-w-[100vw]
         relative
-        overflow-hidden
       '
     >
-      <div className=' flex flex-col'>
-        <div
-          className='
-            pt-[4vh] 
-            sm:pt-[8vh] 
-            md:pt-[6vh] md:justify-start md:pl-[10vw]
-            lg:pl-[35vw] lg:pt-[7vh] 
-            xl:pl-[15vw] xl:pt-[0vh]
-          '
-        >
+      <div className='flex flex-col items-start justify-start -translate-y-30'>
+        <div className='mx-auto '>
           <Image
             src='/images/hero.png'
             alt='logo'
             width={700}
             height={300}
             priority
+            draggable={false}
             className='
-              w-[85vw] max-w-[520px]
-              sm:w-[70vw] sm:max-w-[640px]
-              md:w-[80vw] md:max-w-[720px]
-              lg:w-[700px] lg:max-w-[700px]
-              xl:w-[900px] xl:max-w-[900px]
-              -translate-x-0 
+              w-full
+              translate-x-50
             '
-            sizes='(min-width:1280px) 900px, (min-width:1024px) 700px, (min-width:768px) 55vw, (min-width:640px) 70vw, 85vw'
           />
         </div>
 
         <div
           className='
-            absolute
+          relative
             rounded-3xl
             p-6 sm:p-6 md:p-12 lg:p-14 xl:p-16
             bg-gradient-to-r from-[#1E1E1E]/70 via-[#65002F]/70 to-[#F54BAF]/70
@@ -84,15 +70,13 @@ const HeroPage = () => {
             text-white
             border-gradient
             border-b-0
-            translate-y-3 
-            translate-x-0
-            sm:translate-y-6 sm:translate-x-0
-            md:translate-y-10 md:translate-x-10
-            lg:translate-y-20 lg:translate-x-20
-            xl:translate-y-32 xl:translate-x-32
+            mx-auto
           '
         >
-          <div className='text-[15vw] leading-none absolute opacity-20 top-0'>
+          <div
+            className='text-[15vw] leading-none absolute opacity-20 top-0'
+            draggable={false}
+          >
             ❝
           </div>
 
@@ -185,6 +169,7 @@ const HeroPage = () => {
                   <img
                     src={qrCodeDataUrl}
                     alt='QR Code'
+                    draggable={false}
                     className='
                       border-2 border-gray-200 rounded-lg
                       w-[70vw] max-w-40

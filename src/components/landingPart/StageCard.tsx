@@ -56,6 +56,7 @@ export function StageCard({
                       alt='heart'
                       width={50}
                       height={50}
+                      draggable={false}
                     />
                   </span>
                 ))}

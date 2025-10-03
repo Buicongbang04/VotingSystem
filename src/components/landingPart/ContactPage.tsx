@@ -105,6 +105,7 @@ const ContactPage = () => {
             width={900}
             height={500}
             priority
+            draggable={false}
             className='
                               h-auto
                               w-[90vw] max-w-[520px]

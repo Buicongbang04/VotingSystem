@@ -17,12 +17,19 @@ export default function Navbar() {
         <div className='flex justify-between items-center h-16 px-4 sm:px-6'>
           {/* Logo */}
           <div className='flex items-center space-x-2 gap-4'>
-            <Image src='/images/Logo.png' alt='logo' width={110} height={110} />
+            <Image
+              src='/images/Logo.png'
+              alt='logo'
+              width={110}
+              height={110}
+              draggable={false}
+            />
             <Image
               src='/images/iia_logo.png'
               alt='logo'
               width={80}
               height={80}
+              draggable={false}
             />
           </div>
 

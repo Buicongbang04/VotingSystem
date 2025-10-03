@@ -64,6 +64,7 @@ const StatsPage = () => {
             width={877}
             height={200}
             priority
+            draggable={false}
             className='
                       h-auto
                       w-[80vw] max-w-[520px]

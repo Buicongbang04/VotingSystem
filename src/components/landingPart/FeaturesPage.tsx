@@ -1,56 +1,57 @@
-import React from "react";
-import ScrollToElement from "../scroll-to-top-arrow";
-import Image from "next/image";
-import TimeLine from "./Timeline";
+import React from "react"
+import ScrollToElement from "../scroll-to-top-arrow"
+import Image from "next/image"
+import TimeLine from "./Timeline"
 
 const FeaturesPage = () => {
   return (
     <section
-      id="features"
-      className="
+      id='features'
+      className='
         min-h-dvh flex flex-col items-center justify-center
         w-full max-w-[100vw]
         snap-section
         px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12
         overflow-y-visible overflow-x-hidden
-      "
+      '
     >
-      <div className="w-full min-w-0 flex flex-col items-center md:items-stretch justify-center">
+      <div className='w-full min-w-0 flex flex-col items-center md:items-stretch justify-center'>
         <div
-          className="
+          className='
             flex justify-start md:justify-start items-start
             pt-[4vh] sm:pt-[6vh] md:pt-[6vh] lg:pt-[6vh] xl:pt-[2vh]
-          "
+          '
         >
           <Image
-            src="/images/moc.png"
-            alt="logo"
+            src='/images/moc.png'
+            alt='logo'
             width={877}
             height={200}
             priority
-            className="
+            draggable={false}
+            className='
               h-auto
               w-[80vw] max-w-[520px]
               sm:w-[70vw] sm:max-w-[640px]
               md:w-[55vw] md:max-w-[720px]
               lg:w-[700px] lg:max-w-[700px]
               xl:w-[877px] xl:max-w-[877px]
-            "
-            sizes="
+            '
+            sizes='
               (min-width:1280px) 877px,
               (min-width:1024px) 820px,
               (min-width:768px) 55vw,
               (min-width:640px) 70vw,
               80vw
-            "
+            '
           />
         </div>
 
         {/* Timeline */}
-        <div className="w-full">
+        <div className='w-full'>
           {/* Parent wrapper: chiều cao theo breakpoint + tránh tràn ngang khi item đi chéo */}
           <div
-            className="
+            className='
               relative w-full
               h-[50vh]              
               sm:h-[52vh]            
@@ -60,17 +61,17 @@ const FeaturesPage = () => {
               overflow-x-hidden
               pr-8 sm:pr-12 md:pr-16 lg:pr-24 xl:pr-32 
               pl-3 sm:pl-4 md:pl-6 lg:pl-8
-            "
+            '
           >
-            <TimeLine className="w-full h-full font-bolkit" />
+            <TimeLine className='w-full h-full font-bolkit' />
           </div>
         </div>
       </div>
 
       {/* Scroll to top / Hero */}
-      <ScrollToElement to="#hero" />
+      <ScrollToElement to='#hero' />
     </section>
-  );
-};
+  )
+}
 
-export default FeaturesPage;
+export default FeaturesPage
