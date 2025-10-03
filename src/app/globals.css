@@ -119,6 +119,7 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
@@ -158,7 +159,8 @@
 html,
 body {
   height: 100%;
-  scroll-behavior: auto; /* disable native smooth scroll */
+  scroll-behavior: auto;
+  /* disable native smooth scroll */
 }
 
 .bg-hero {
@@ -167,42 +169,49 @@ body {
   background-position: center;
   background-repeat: no-repeat;
 }
+
 .bg-feature {
   background-image: url("/images/bgfeature.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 }
+
 .bg-stats {
   background-image: url("/images/bgstat.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 }
+
 .bg-contact {
   background-image: url("/images/bgcontact.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 }
+
 .bg-footer {
   background-image: url("/images/bgfooter.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 }
+
 .bg-gioithieu {
   background-image: url("/images/bg.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 }
+
 .bg-gioithieu1 {
   background-image: url("/images/bg1.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 }
+
 .bg-login {
   background-image: url("/images/KV.png"), url("/images/bg.png");
   background-size: cover, cover;
@@ -212,11 +221,10 @@ body {
 
 .button1 {
   @apply font-medium text-lg px-6 py-2 rounded-full text-[#F8F8F8] transition-all duration-300;
-  background-image: linear-gradient(
-    90deg,
-    rgba(245, 75, 175, 0) 0%,
-    #f54baf 100%
-  ); /* Default = Gradient 2 */
+  background-image: linear-gradient(90deg,
+      rgba(245, 75, 175, 0) 0%,
+      #f54baf 100%);
+  /* Default = Gradient 2 */
   border: 1.6px solid transparent;
   background-origin: border-box;
   background-clip: padding-box, border-box;
@@ -250,7 +258,8 @@ body {
 
 .button2 {
   @apply font-medium text-lg px-6 py-2 rounded-full text-[#F8F8F8] transition-all duration-300;
-  background: none; /* default no fill */
+  background: none;
+  /* default no fill */
   border: 1.6px solid #f9c3e3;
 }
 
@@ -266,7 +275,8 @@ body {
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   pointer-events: none;
-  opacity: 0; /* ẩn mặc định */
+  opacity: 0;
+  /* ẩn mặc định */
   transition: opacity 0.3s ease;
 }
 
@@ -275,8 +285,10 @@ body {
   background-image: linear-gradient(180deg, #010101 30%, #65002f 100%);
   box-shadow: 0 4px 20px rgba(255, 118, 199, 0.4);
 }
+
 .button2:hover::before {
-  opacity: 1; /* hiện viền gradient */
+  opacity: 1;
+  /* hiện viền gradient */
 }
 
 /* Click = đen + gradient stroke + shadow */
@@ -284,6 +296,7 @@ body {
   background: #010101;
   box-shadow: 0 4px 20px rgba(255, 118, 199, 0.4);
 }
+
 .button2:active::before {
   opacity: 1;
 }
@@ -291,7 +304,8 @@ body {
 @font-face {
   font-family: "Bolkit Condensed";
   src: url("/fonts/Bolkit Alternate Condensed Bold .ttf") format("truetype");
-  font-weight: 700; /* hoặc "bold" */
+  font-weight: 700;
+  /* hoặc "bold" */
   font-style: normal;
 }
 
@@ -338,15 +352,18 @@ body {
     background-size: max(var(--kv-size), 260%);
   }
 }
+
 .border-gradient {
   position: relative;
   z-index: 0;
 }
+
 .border-gradient::before {
   content: "";
   position: absolute;
   inset: 0;
-  padding: 2px; /* border thickness */
+  padding: 2px;
+  /* border thickness */
   border-radius: inherit;
   background: linear-gradient(90deg, #c81568, #ffe9f3);
 
@@ -356,4 +373,8 @@ body {
   mask-composite: exclude;
 
   z-index: -1;
+}
+
+.snap-start {
+  scroll-snap-align: start;
 }

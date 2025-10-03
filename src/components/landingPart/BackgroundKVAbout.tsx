@@ -1,48 +1,59 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 
-type SectionKey = "hero" | "features" | "stats" | "contact";
+type SectionKey = "intro" | "timeline" | "rules" | "honors";
 type ViewCfg = Record<SectionKey, { pos: string; size: string }>;
 
-export default function BackgroundKV({ src = "/images/KV.png" }: { src?: string }) {
-    const [active, setActive] = useState<SectionKey>("hero");
+export default function BackgroundKVAbout({ src = "/images/KV.png" }: { src?: string }) {
+    const [active, setActive] = useState<SectionKey>("intro");
     const ticking = useRef(false);
+
+    // ---- Responsive states ----
     const [bp, setBp] = useState<"mobile" | "tablet" | "desktop">("desktop");
     const [landscape, setLandscape] = useState(false);
 
-    // ==== mapping của bạn ====
     const viewDesktop: ViewCfg = {
-        hero: { pos: "40% 0%", size: "220%" },
-        features: { pos: "0% 78%", size: "170%" },
-        stats: { pos: "100% 78%", size: "230%" },
-        contact: { pos: "50% 85%", size: "120%" },
+        intro: { pos: "0% 30%", size: "140%" },
+        timeline: { pos: "20% 100%", size: "180%" },
+        rules: { pos: "-10% 20%", size: "180%" },
+        honors: { pos: "100% 60%", size: "180%" },
     };
-    const viewTabletPortrait: ViewCfg = {
-        hero: { pos: "20% -180%", size: "260%" },
-        features: { pos: "0% 100%", size: "280%" },
-        stats: { pos: "100% 100%", size: "260%" },
-        contact: { pos: "50% 100%", size: "200%" },
-    };
-    const viewTabletLandscape: ViewCfg = {
-        hero: { pos: "60% 100%", size: "300%" },
-        features: { pos: "6% 100%", size: "185%" },
-        stats: { pos: "88% 78%", size: "240%" },
-        contact: { pos: "50% 85%", size: "125%" },
-    };
-    const viewMobile: ViewCfg = {
-        hero: { pos: "50% 100%", size: "300%" },
-        features: { pos: "5% 100%", size: "230%" },
-        stats: { pos: "100% 100%", size: "300%" },
-        contact: { pos: "50% 100%", size: "250%" },
-    };
-    const getView = (): ViewCfg =>
-        bp === "desktop" ? viewDesktop : bp === "tablet" ? (landscape ? viewTabletLandscape : viewTabletPortrait) : viewMobile;
 
-    // detect breakpoint + orientation
+    // ==== Tablet (portrait) ====
+    const viewTabletPortrait: ViewCfg = {
+        intro: { pos: "20% -100%", size: "260%" },
+        timeline: { pos: "18% 100%", size: "300%" },
+        rules: { pos: "20% 0%", size: "300%" },
+        honors: { pos: "90% 40%", size: "300%" },
+    };
+
+    // ==== Tablet (landscape) ====
+    const viewTabletLandscape: ViewCfg = {
+        intro: { pos: "50% 10%", size: "230%" },
+        timeline: { pos: "16% 72%", size: "195%" },
+        rules: { pos: "84% 72%", size: "235%" },
+        honors: { pos: "60% 86%", size: "170%" },
+    };
+
+    // ==== Mobile (portrait) ====
+    const viewMobile: ViewCfg = {
+        intro: { pos: "30% 100%", size: "300%" },
+        timeline: { pos: "10% 80%", size: "350%" },
+        rules: { pos: "30% 0%", size: "380%" },
+        honors: { pos: "90% 88%", size: "350%" },
+    };
+
+    const getView = (): ViewCfg => {
+        if (bp === "desktop") return viewDesktop;
+        if (bp === "tablet") return landscape ? viewTabletLandscape : viewTabletPortrait;
+        return viewMobile;
+    };
+
+    // ---- Detect breakpoint + orientation ----
     useEffect(() => {
         const detect = () => {
             const w = window.innerWidth;
-            setBp(w < 768 ? "mobile" : w < 992 && w >= 768 ? "tablet" : "desktop");
+            setBp(w < 640 ? "mobile" : w < 1024 ? "tablet" : "desktop");
             setLandscape(window.matchMedia("(orientation: landscape)").matches);
         };
         detect();
@@ -54,12 +65,12 @@ export default function BackgroundKV({ src = "/images/KV.png" }: { src?: string 
         };
     }, []);
 
-    // ====== GIẢM ĐỘ NHẠY: 70% tiến trình mới nhảy tới phần sau; 30% mới trả về phần trước
+    // ---- Chọn section theo “center-of-viewport” + hysteresis 70%/30% để bớt nhạy ----
     const prevCenterRef = useRef<number | null>(null);
 
     useEffect(() => {
-        const THRESH_FWD = 0.9;  // cuộn xuống: còn ~30% mới nhảy tiếp
-        const THRESH_BACK = 0.1; // cuộn lên  : còn >70% mới trả về trước
+        const THRESH_FWD = 0.7;  // cuộn xuống: khi section hiện tại chỉ còn 30% -> sang section kế
+        const THRESH_BACK = 0.3; // cuộn lên   : khi section hiện tại còn >=70% -> về section trước
 
         const compute = () => {
             ticking.current = false;
@@ -70,12 +81,12 @@ export default function BackgroundKV({ src = "/images/KV.png" }: { src?: string 
             const vh = (window as any).visualViewport?.height ?? window.innerHeight;
             const rawCenter = window.scrollY + vh * 0.5;
 
-            // xác định hướng cuộn bằng center trước đó
+            // hướng cuộn
             const prevC = prevCenterRef.current ?? rawCenter;
             const scrollingDown = rawCenter > prevC;
             prevCenterRef.current = rawCenter;
 
-            // tìm section chứa center
+            // section chứa center
             let idx = sections.findIndex((el) => {
                 const r = el.getBoundingClientRect();
                 const top = r.top + window.scrollY;
@@ -106,7 +117,7 @@ export default function BackgroundKV({ src = "/images/KV.png" }: { src?: string 
                 targetIdx = Math.max(idx - 1, 0);
             }
 
-            const key = (sections[targetIdx].getAttribute("data-kv") ?? "hero") as SectionKey;
+            const key = (sections[targetIdx].getAttribute("data-kv") ?? "intro") as SectionKey;
             setActive((prev) => (prev === key ? prev : key));
         };
 
@@ -141,6 +152,7 @@ export default function BackgroundKV({ src = "/images/KV.png" }: { src?: string 
                  motion-reduce:transition-none"
             style={{
                 backgroundImage: `url('${src}')`,
+                // Dùng CSS var để có thể clamp qua @media (tránh hở mép)
                 "--kv-size": cfg.size,
                 backgroundPosition: cfg.pos,
                 backgroundSize: "var(--kv-size)",

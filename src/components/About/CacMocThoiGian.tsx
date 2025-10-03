@@ -4,8 +4,8 @@ import Image from "next/image";
 
 const CacMocThoiGian = () => {
   return (
-    <section className="bg-gioithieu1 min-h-screen flex flex-col items-start justify-start px-6 md:px-10 relative snap-center gap-8">
-      <div className="pt-[4vh] sm:pt-[6vh] md:pt-[6vh] lg:pt-[6vh] xl:pt-[2vh] px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12">
+    <section className="min-h-screen flex flex-col items-start justify-start px-6 md:px-10 relative snap-center gap-8">
+      <div className="pt-[4vh] sm:pt-[6vh] md:pt-[6vh] lg:pt-[6vh] xl:pt-[2vh]">
         <Image
           src="/images/moc.png"
           alt="logo"
@@ -17,12 +17,12 @@ const CacMocThoiGian = () => {
                       w-[90vw] max-w-[580px]
                       sm:w-[80vw] sm:max-w-[640px]
                       md:w-[55vw] md:max-w-[720px]
-                      lg:w-[820px] lg:max-w-[820px]
+                      lg:w-[700px] lg:max-w-[700px]
                       xl:w-[877px] xl:max-w-[877px]
                     "
           sizes="
                       (min-width:1280px) 877px,
-                      (min-width:1024px) 820px,
+                      (min-width:1024px) 700px,
                       (min-width:768px) 55vw,
                       (min-width:640px) 70vw,
                       80vw
@@ -32,18 +32,18 @@ const CacMocThoiGian = () => {
 
       <div
         className="
-              rounded-3xl p-6 sm:p-6 md:p-12 lg:p-14 xl:p-16
+              rounded-3xl p-4 sm:p-6 md:p-8 lg:p-10 xl:p-12
                         bg-gradient-to-r from-[#1E1E1E]/70 via-[#65002F]/70 to-[#F54BAF]/70
                         border border-[#F9C3E3]/70 backdrop-blur-md
-                        w-full max-w-[95vw] sm:max-w-xl md:max-w-2xl lg:max-w-4xl xl:max-w-4xl
+                        w-full max-w-[95vw] sm:max-w-xl md:max-w-lg lg:max-w-xl xl:max-w-2xl
                         text-white
             "
       >
-        <h3 className="text-white text-2xl md:text-3xl leading-relaxed mb-4 text-center md:text-left">
+        <h3 className="text-white text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl leading-relaxed mb-4">
           Trải qua các giai đoạn sẽ tìm ra được top 10 giảng viên truyền cảm
           hứng nhất năm:
         </h3>
-        <ul className="w-full text-white text-lg pl-10 md:text-2xl space-y-3">
+        <ul className="w-full text-white text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl pl-2 space-y-3">
           <li className="flex items-center">
             <span className="w-2 h-2 bg-white rounded-full mr-3"></span>
             Bình chọn
