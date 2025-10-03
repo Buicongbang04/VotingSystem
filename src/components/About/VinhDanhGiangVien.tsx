@@ -76,7 +76,7 @@ const VinhDanhGiangVien = () => {
           </ul>
         </div>
       </div>
-    </div>
+    </section>
   )
 }
 
