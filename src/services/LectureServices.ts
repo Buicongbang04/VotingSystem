@@ -185,8 +185,8 @@ export const useCreateLecture = () => {
 
 export const useUpdateLecture = () => {
   return useMutation({
-    mutationFn: ({ id, data }: { id: string; data: UpdateLectureRequest }) =>
-      LectureApi.updateLecture(id, data),
+    mutationFn: (data: UpdateLectureRequest) =>
+      LectureApi.updateLecture(data.id, data),
   })
 }
 

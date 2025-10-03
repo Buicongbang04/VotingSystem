@@ -4,7 +4,7 @@ import LecturerCard from "@/src/components/LecturerCard"
 import { Lecture } from "@/src/interfaces/Lecture/Lecture"
 import { useGetActiveLectures } from "@/src/services/LectureServices"
 import React, { useState, useMemo } from "react"
-import { Search, Filter, ChevronLeft, ChevronRight } from "lucide-react"
+import { Search, Filter, ChevronLeft, ChevronRight, Info } from "lucide-react"
 import { Button } from "@/src/components/ui/button"
 import { Input } from "@/components/ui/input"
 import CustomDropdown from "@/src/components/ui/custom-dropdown"
@@ -16,6 +16,7 @@ import {
 import { useIsAuthenticated } from "@/src/stores/tokenStore"
 import { toast } from "sonner"
 import { useEffect } from "react"
+import { VotingRulesModal } from "@/src/components/VotingRulesModal"
 
 interface PageProps {
   params: {
@@ -31,6 +32,7 @@ const page = ({ params }: PageProps) => {
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedDepartment, setSelectedDepartment] = useState("all")
   const [votedLecturers, setVotedLecturers] = useState<Set<string>>(new Set())
+  const [showVotingRules, setShowVotingRules] = useState(false)
   const isAuthenticated = useIsAuthenticated()
   const { mutate: voteForLecture, isPending: isVoting } = useVoteForLecture()
   const { mutate: cancelVote, isPending: isCancelling } = useCancelTodaysVote()
@@ -175,10 +177,17 @@ const page = ({ params }: PageProps) => {
     <div className='min-h-screen'>
       <div className='mx-auto px-4'>
         {/* Header */}
-        <div className='mb-2'>
+        <div className='mb-2 flex items-center'>
           <h2 className='text-4xl font-bold text-white mb-2'>
             Inspiring Instructor Awards 2025
           </h2>
+          <button
+            onClick={() => setShowVotingRules(true)}
+            className='flex items-center justify-center w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 transition-colors duration-200'
+            title='Xem thể lệ bình chọn'
+          >
+            <Info className='w-5 h-5 text-white' />
+          </button>
         </div>
 
         {/* Search and Filter */}
@@ -261,6 +270,12 @@ const page = ({ params }: PageProps) => {
             </Button>
           </div>
         )}
+
+        {/* Voting Rules Modal */}
+        <VotingRulesModal
+          isOpen={showVotingRules}
+          onClose={() => setShowVotingRules(false)}
+        />
       </div>
     </div>
   )

@@ -340,13 +340,15 @@ export default function AdminLecturers() {
                     </td>
                     <td className='py-3 px-4'>
                       <div className='flex space-x-2'>
-                        <Button
-                          size='sm'
-                          variant='outline'
-                          className=' border-white/20 hover:bg-white/10'
-                        >
-                          <Edit className='w-4 h-4' />
-                        </Button>
+                        <Link href={`/admin/lecturers/${lecturer.id}/edit`}>
+                          <Button
+                            size='sm'
+                            variant='outline'
+                            className='text-green-400 border-green-400/20 hover:bg-green-400/10'
+                          >
+                            <Edit className='w-4 h-4' />
+                          </Button>
+                        </Link>
                         <Link href={`/admin/lecturers/${lecturer.id}`}>
                           <Button
                             size='sm'

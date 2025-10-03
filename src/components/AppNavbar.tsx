@@ -50,7 +50,7 @@ const AppNavbar = () => {
         </div>
 
         {/* Right Section - Notifications & Profile */}
-        <div className='flex items-center space-x-4'>
+        <div className='flex items-center space-x-4 z-20'>
           <div className='absolute right-0 z-10 -translate-x-10'>
             <button
               onClick={toggleProfile}
