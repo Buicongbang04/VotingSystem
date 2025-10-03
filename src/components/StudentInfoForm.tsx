@@ -20,13 +20,16 @@ const accountSchema = z.object({
   studentCode: z
     .string()
     .min(1, "Vui lòng nhập mã số sinh viên")
-    .min(6, "Mã số sinh viên phải có ít nhất 6 ký tự")
-    .max(20, "Mã số sinh viên không được quá 20 ký tự"),
+    .regex(
+      /^[A-Z]{2}[0-9]{6}$/,
+      "Mã số sinh viên phải có 2 chữ cái in hoa và 6 số"
+    ),
   semester: z
     .number()
-    .min(1, "Vui lòng chọn học kỳ")
+    .min(0, "Vui lòng chọn học kỳ")
     .max(9, "Học kỳ không được quá 9"),
   department: z.string().min(1, "Vui lòng chọn chuyên ngành").optional(),
+  isAdmin: z.boolean(),
 })
 
 type AccountFormData = z.infer<typeof accountSchema>
@@ -52,7 +55,7 @@ const majors = [
   "Tài chính",
 ]
 
-const studyPeriods = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+const studyPeriods = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 
 const StudentInfoForm: React.FC<StudentInfoFormProps> = ({
   onConfirm,
@@ -67,6 +70,9 @@ const StudentInfoForm: React.FC<StudentInfoFormProps> = ({
   } = useForm<AccountFormData>({
     resolver: zodResolver(accountSchema),
     mode: "onChange",
+    defaultValues: {
+      isAdmin: false,
+    },
   })
 
   const [showMajorDropdown, setShowMajorDropdown] = React.useState(false)
@@ -204,12 +210,12 @@ const StudentInfoForm: React.FC<StudentInfoFormProps> = ({
                     <span
                       className={cn(
                         "truncate",
-                        watchedValues.semester
+                        watchedValues.semester !== undefined
                           ? "text-gray-900"
                           : "text-gray-400"
                       )}
                     >
-                      {watchedValues.semester
+                      {watchedValues.semester !== undefined
                         ? `Học kỳ ${watchedValues.semester}`
                         : "Chọn học kỳ"}
                     </span>

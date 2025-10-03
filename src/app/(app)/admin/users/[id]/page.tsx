@@ -38,6 +38,7 @@ export default function EditUser() {
     name: "",
     semester: undefined,
     department: "",
+    isAdmin: false,
   })
 
   // API hooks
@@ -60,6 +61,7 @@ export default function EditUser() {
         name: account.name || "",
         semester: account.semester || undefined,
         department: account.department || "",
+        isAdmin: account.isAdmin || false,
       })
     }
   }, [accountResponse])
@@ -68,11 +70,17 @@ export default function EditUser() {
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
-    const { name, value } = e.target
+    const { name, value, type } = e.target
     setFormData((prev) => ({
       ...prev,
       [name]:
-        name === "semester" ? (value ? parseInt(value) : undefined) : value,
+        type === "checkbox"
+          ? (e.target as HTMLInputElement).checked
+          : name === "semester"
+          ? value
+            ? parseInt(value)
+            : undefined
+          : value,
     }))
   }
 
@@ -88,6 +96,7 @@ export default function EditUser() {
         name: formData.name || undefined,
         semester: formData.semester || undefined,
         department: formData.department || undefined,
+        isAdmin: formData.isAdmin,
       }
 
       // Remove undefined values
@@ -346,6 +355,7 @@ export default function EditUser() {
                 className='w-full p-3 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-vibrant-pink'
               >
                 <option value=''>Chọn học kỳ</option>
+                <option value='0'>Học kỳ 0</option>
                 <option value='1'>Học kỳ 1</option>
                 <option value='2'>Học kỳ 2</option>
                 <option value='3'>Học kỳ 3</option>
@@ -355,8 +365,31 @@ export default function EditUser() {
                 <option value='7'>Học kỳ 7</option>
                 <option value='8'>Học kỳ 8</option>
                 <option value='9'>Học kỳ 9</option>
-                <option value='10'>Học kỳ 10</option>
               </select>
+            </div>
+
+            {/* Admin Toggle */}
+            <div className='space-y-2'>
+              <Label
+                htmlFor='isAdmin'
+                className='text-white flex items-center space-x-2'
+              >
+                <Shield className='w-4 h-4' />
+                <span>Quyền quản trị</span>
+              </Label>
+              <div className='flex items-center space-x-3 p-3 bg-white/10 border border-white/20 rounded-lg'>
+                <input
+                  type='checkbox'
+                  id='isAdmin'
+                  name='isAdmin'
+                  checked={formData.isAdmin || false}
+                  onChange={handleInputChange}
+                  className='w-5 h-5 text-vibrant-pink bg-white/10 border-white/20 rounded focus:ring-vibrant-pink focus:ring-2'
+                />
+                <label htmlFor='isAdmin' className='text-white text-sm'>
+                  {formData.isAdmin ? "Quản trị viên" : "Người dùng thường"}
+                </label>
+              </div>
             </div>
           </div>
 

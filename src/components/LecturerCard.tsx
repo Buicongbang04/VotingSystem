@@ -59,7 +59,7 @@ const LecturerCard = ({
             />
           </Link>
         ) : (
-          <div className='w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100'>
+          <div className='w-full h-50 flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100'>
             <div className='text-gray-400 text-4xl font-bold'>
               {lecturer.name.charAt(0).toUpperCase()}
             </div>

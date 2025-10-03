@@ -21,4 +21,5 @@ export interface UpdateAccountRequest {
   name?: string
   semester?: number
   department?: string
+  isAdmin?: boolean
 }
