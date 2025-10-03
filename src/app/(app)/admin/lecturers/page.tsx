@@ -112,23 +112,9 @@ export default function AdminLecturers() {
           </p>
         </div>
         <div className='flex space-x-3'>
-          <Button
-            onClick={() => refetch()}
-            disabled={isLoading}
-            variant='outline'
-            className='text-white border-white/20 hover:bg-white/10 flex items-center space-x-2'
-          >
-            {isLoading ? (
-              <Loader2 className='w-4 h-4 animate-spin' />
-            ) : (
-              <RefreshCw className='w-4 h-4' />
-            )}
-            <span>Làm mới</span>
-          </Button>
-          <Button
+          <button
             onClick={handleDownloadTemplate}
             disabled={downloadTemplateMutation.isPending}
-            variant='outline'
             className='text-white border-white/20 hover:bg-white/10 flex items-center space-x-2'
           >
             {downloadTemplateMutation.isPending ? (
@@ -137,7 +123,7 @@ export default function AdminLecturers() {
               <Download className='w-4 h-4' />
             )}
             <span>Tải template Excel</span>
-          </Button>
+          </button>
           <Link href='/admin/lecturers/add'>
             <Button className='bg-vibrant-pink hover:bg-vibrant-pink/80 text-white'>
               Thêm giảng viên mới
@@ -357,7 +343,7 @@ export default function AdminLecturers() {
                         <Button
                           size='sm'
                           variant='outline'
-                          className='text-white border-white/20 hover:bg-white/10'
+                          className=' border-white/20 hover:bg-white/10'
                         >
                           <Edit className='w-4 h-4' />
                         </Button>

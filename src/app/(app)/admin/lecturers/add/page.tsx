@@ -31,6 +31,7 @@ import {
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
+import { CloudinaryButton } from "@/src/components/CloudinaryButton"
 
 interface FormData {
   name: string
@@ -38,6 +39,7 @@ interface FormData {
   department: string
   quote: string
   avatarUrl: string
+  AccountName: string
 }
 
 interface FormErrors {
@@ -46,6 +48,7 @@ interface FormErrors {
   department?: string
   quote?: string
   avatarUrl?: string
+  AccountName?: string
 }
 
 export default function AddLecturer() {
@@ -56,6 +59,7 @@ export default function AddLecturer() {
     department: "",
     quote: "",
     avatarUrl: "",
+    AccountName: "",
   })
 
   const [errors, setErrors] = useState<FormErrors>({})
@@ -106,6 +110,12 @@ export default function AddLecturer() {
       newErrors.avatarUrl = "Ảnh đại diện là bắt buộc"
     }
 
+    if (!formData.AccountName.trim()) {
+      newErrors.AccountName = "Tên tài khoản là bắt buộc"
+    } else if (formData.AccountName.trim().length < 3) {
+      newErrors.AccountName = "Tên tài khoản phải có ít nhất 3 ký tự"
+    }
+
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
   }
@@ -119,35 +129,19 @@ export default function AddLecturer() {
     }
   }
 
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0]
-    if (file) {
-      // Validate file type
-      if (!file.type.startsWith("image/")) {
-        setErrors((prev) => ({
-          ...prev,
-          avatarUrl: "Vui lòng chọn file ảnh hợp lệ",
-        }))
-        return
-      }
+  const handleCloudinaryUpload = (url: string, publicId: string) => {
+    setPreviewImage(url)
+    setFormData((prev) => ({ ...prev, avatarUrl: url }))
+    setErrors((prev) => ({ ...prev, avatarUrl: undefined }))
+    toast.success("Ảnh đã được tải lên thành công!")
+  }
 
-      // Validate file size (max 5MB)
-      if (file.size > 5 * 1024 * 1024) {
-        setErrors((prev) => ({
-          ...prev,
-          avatarUrl: "Kích thước file không được vượt quá 5MB",
-        }))
-        return
-      }
-
-      // Create preview URL
-      const previewUrl = URL.createObjectURL(file)
-      setPreviewImage(previewUrl)
-      setFormData((prev) => ({ ...prev, avatarUrl: file.name }))
-
-      // Clear any existing error
-      setErrors((prev) => ({ ...prev, avatarUrl: undefined }))
-    }
+  const handleCloudinaryError = (error: string) => {
+    setErrors((prev) => ({
+      ...prev,
+      avatarUrl: `Lỗi tải ảnh: ${error}`,
+    }))
+    toast.error("Có lỗi xảy ra khi tải ảnh lên")
   }
 
   // Import handlers
@@ -238,6 +232,7 @@ export default function AddLecturer() {
         department: formData.department,
         quote: formData.quote.trim(),
         avatarUrl: formData.avatarUrl,
+        AccountName: formData.AccountName.trim(),
       }
 
       await createLectureMutation.mutateAsync(lecturerData)
@@ -477,6 +472,34 @@ export default function AddLecturer() {
                     )}
                   </div>
 
+                  {/* Account Name */}
+                  <div>
+                    <Label
+                      htmlFor='accountName'
+                      className='text-white font-medium mb-2 block'
+                    >
+                      Tên tài khoản *
+                    </Label>
+                    <Input
+                      id='accountName'
+                      type='text'
+                      value={formData.AccountName}
+                      onChange={(e) =>
+                        handleInputChange("AccountName", e.target.value)
+                      }
+                      placeholder='Nhập tên tài khoản'
+                      className={`bg-white/10 border-white/20 text-white placeholder-white/50 focus:ring-2 focus:ring-vibrant-pink ${
+                        errors.AccountName ? "border-red-500" : ""
+                      }`}
+                    />
+                    {errors.AccountName && (
+                      <div className='flex items-center space-x-2 mt-2 text-red-400 text-sm'>
+                        <AlertCircle className='w-4 h-4' />
+                        <span>{errors.AccountName}</span>
+                      </div>
+                    )}
+                  </div>
+
                   {/* Department */}
                   <div>
                     <Label
@@ -491,7 +514,7 @@ export default function AddLecturer() {
                       onChange={(e) =>
                         handleInputChange("department", e.target.value)
                       }
-                      className={`w-full p-3 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-vibrant-pink ${
+                      className={`w-full p-3 bg-white/10 border border-white/20 rounded-lg  focus:outline-none focus:ring-2 focus:ring-vibrant-pink ${
                         errors.department ? "border-red-500" : ""
                       }`}
                     >
@@ -582,20 +605,13 @@ export default function AddLecturer() {
 
                   {/* Upload Button */}
                   <div>
-                    <input
-                      type='file'
-                      id='avatar'
-                      accept='image/*'
-                      onChange={handleImageUpload}
-                      className='hidden'
+                    <CloudinaryButton
+                      className='w-full p-3 bg-gradient-to-r from-vibrant-pink to-purple-500 hover:from-vibrant-pink/80 hover:to-purple-500/80 text-white rounded-lg transition-all duration-300 hover:scale-105'
+                      text='Chọn ảnh đại diện'
+                      uploadPreset='votingsystem'
+                      onUploaded={handleCloudinaryUpload}
+                      onError={handleCloudinaryError}
                     />
-                    <Label
-                      htmlFor='avatar'
-                      className='w-full p-3 bg-gradient-to-r from-vibrant-pink to-purple-500 hover:from-vibrant-pink/80 hover:to-purple-500/80 text-white rounded-lg cursor-pointer flex items-center justify-center space-x-2 transition-all duration-300 hover:scale-105'
-                    >
-                      <Upload className='w-4 h-4' />
-                      <span>Chọn ảnh đại diện</span>
-                    </Label>
                     {errors.avatarUrl && (
                       <div className='flex items-center space-x-2 mt-2 text-red-400 text-sm'>
                         <AlertCircle className='w-4 h-4' />
@@ -603,7 +619,7 @@ export default function AddLecturer() {
                       </div>
                     )}
                     <p className='text-white/60 text-xs mt-2'>
-                      Hỗ trợ: JPG, PNG, GIF. Tối đa 5MB
+                      Hỗ trợ: JPG, PNG, GIF. Tự động tối ưu hóa
                     </p>
                   </div>
                 </div>
@@ -651,6 +667,7 @@ export default function AddLecturer() {
                       {Object.keys(errors).length === 0 &&
                       formData.name &&
                       formData.email &&
+                      formData.AccountName &&
                       formData.department &&
                       formData.quote &&
                       formData.avatarUrl ? (

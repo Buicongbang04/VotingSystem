@@ -1,9 +1,9 @@
 "use client"
 
 import React from "react"
-import Top10Lecturers from "../../../../components/Top10Lecturers"
-import LenisProvider from "../../../../utils/lenis"
+
 import Image from "next/image"
+import Top10Lecturers from "@/src/components/Top10Lecturers2023"
 
 const page = () => {
   return (

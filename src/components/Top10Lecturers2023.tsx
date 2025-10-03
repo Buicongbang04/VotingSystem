@@ -1,20 +1,17 @@
 "use client"
 
 import React from "react"
-import LecturerCard from "./LecturerCard"
-import {
-  mockTop10Lecturers,
-  getTop10Lecturers,
-} from "../data/mockTop10Lecturers"
+import { mockTop10Lecturers2023 } from "../data/mockTop10Lecturers"
 import { Trophy, Medal, Award } from "lucide-react"
 import { motion } from "motion/react"
+import MockLecturerCard from "./MockLecturerCard"
 
 interface Top10LecturersProps {
   className?: string
 }
 
 const Top10Lecturers = ({ className = "" }: Top10LecturersProps) => {
-  const top10Lecturers = getTop10Lecturers()
+  const top10Lecturers = mockTop10Lecturers2023
 
   const getRankIcon = (rank: number) => {
     switch (rank) {
@@ -50,9 +47,13 @@ const Top10Lecturers = ({ className = "" }: Top10LecturersProps) => {
     <div className={`w-full ${className}`}>
       {/* Top 3 Special Layout */}
       <div className='flex justify-center items-end gap-2 md:gap-4 mb-12 px-4'>
-        {top10Lecturers.slice(0, 3).map((lecturer, index) => {
-          const rank = index + 1
-          const isMiddle = rank === 2
+        {[
+          top10Lecturers[1], // Rank 2 (left)
+          top10Lecturers[0], // Rank 1 (middle)
+          top10Lecturers[2], // Rank 3 (right)
+        ].map((lecturer, index) => {
+          const rank = index === 0 ? 2 : index === 1 ? 1 : 3
+          const isMiddle = rank === 1
           return (
             <div
               key={lecturer.id}
@@ -72,11 +73,8 @@ const Top10Lecturers = ({ className = "" }: Top10LecturersProps) => {
               </div>
 
               {/* Lecturer Card */}
-              <LecturerCard
+              <MockLecturerCard
                 lecturer={lecturer}
-                voteCount={lecturer.votes}
-                isVoted={false}
-                showLink={false}
                 className={`h-full ${
                   isMiddle ? "w-56 md:w-64" : "w-48 md:w-56"
                 }`}
@@ -131,11 +129,8 @@ const Top10Lecturers = ({ className = "" }: Top10LecturersProps) => {
                       </div>
 
                       {/* Lecturer Card */}
-                      <LecturerCard
+                      <MockLecturerCard
                         lecturer={lecturer}
-                        voteCount={lecturer.votes}
-                        isVoted={false}
-                        showLink={false}
                         className='w-48 md:w-56 h-full'
                         // No onVote or onShare props - making it unvoteable
                       />

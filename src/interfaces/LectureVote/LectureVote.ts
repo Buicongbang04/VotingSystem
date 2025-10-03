@@ -16,3 +16,25 @@ export interface LectureVoteApiResponse {
   data?: any
   message?: string
 }
+
+export interface VoteHistoryParams {
+  page?: number
+  pageSize?: number
+}
+
+export interface VoteHistoryItem {
+  lectureName: string
+  departmentName: string
+  votedAt: string
+}
+
+export interface VoteHistoryResponse {
+  data: {
+    items: VoteHistoryItem[]
+    totalCount: number
+    page: number
+    pageSize: number
+    totalPages: number
+  }
+  message: string
+}

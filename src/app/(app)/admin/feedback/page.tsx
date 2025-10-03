@@ -175,21 +175,6 @@ export default function AdminFeedbackVotes() {
               </p>
             </div>
           </div>
-          <div className='flex space-x-3'>
-            <Button
-              onClick={() => refetch()}
-              disabled={isLoading}
-              variant='outline'
-              className='text-white border-white/20 hover:bg-white/10 flex items-center space-x-2'
-            >
-              {isLoading ? (
-                <Loader2 className='w-4 h-4 animate-spin' />
-              ) : (
-                <RefreshCw className='w-4 h-4' />
-              )}
-              <span>Làm mới</span>
-            </Button>
-          </div>
         </div>
 
         {/* Error State */}

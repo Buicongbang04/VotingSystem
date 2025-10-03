@@ -7,6 +7,13 @@ export interface Lecture {
   avatarUrl: string
   votes: number
   isVoted: boolean
+  AccountName: string
+}
+
+export interface MockLecture {
+  id: string
+  name: string
+  avatarUrl: string
 }
 
 export interface Vote {
@@ -58,6 +65,7 @@ export interface CreateLectureRequest {
   department: string
   quote: string
   avatarUrl: string
+  AccountName: string
 }
 
 export interface UpdateLectureRequest {
@@ -67,6 +75,7 @@ export interface UpdateLectureRequest {
   department?: string
   quote?: string
   avatarUrl?: string
+  AccountName?: string
 }
 
 export interface LectureResponse {
