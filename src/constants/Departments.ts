@@ -25,9 +25,9 @@ export const BASIC_DEPARTMENTS: Department[] = [
     group: "basic",
   },
   {
-    id: "politics",
-    name: "Chính trị",
-    nameEn: "Politics",
+    id: "physical-education",
+    name: "Giáo dục thể chất",
+    nameEn: "Physical Education",
     group: "basic",
   },
   {
@@ -36,73 +36,13 @@ export const BASIC_DEPARTMENTS: Department[] = [
     nameEn: "Mathematics",
     group: "basic",
   },
-  {
-    id: "physical-education",
-    name: "Giáo dục thể chất",
-    nameEn: "Physical Education",
-    group: "basic",
-  },
-  {
-    id: "software-engineering",
-    name: "Kỹ thuật phần mềm",
-    nameEn: "Software Engineering",
-    group: "basic",
-  },
 ]
 
 export const SPECIALIZED_DEPARTMENTS: Department[] = [
   {
-    id: "digital-animation",
-    name: "Hoạt hình kỹ thuật số",
-    nameEn: "Digital Animation",
-    group: "specialized",
-  },
-  {
-    id: "multimedia-communications",
-    name: "Quản trị Truyền thông đa phương tiện",
-    nameEn: "Multimedia Communications Management",
-    group: "specialized",
-  },
-  {
-    id: "japanese-language",
-    name: "Tiếng Nhật",
-    nameEn: "Japanese Language",
-    group: "specialized",
-  },
-  {
-    id: "business-administration",
-    name: "Quản trị doanh nghiệp",
-    nameEn: "Business Administration",
-    group: "specialized",
-  },
-  {
-    id: "graphic-design",
-    name: "Thiết kế đồ họa",
-    nameEn: "Graphic Design",
-    group: "specialized",
-  },
-  {
-    id: "tourism-hotel-management",
-    name: "Quản trị Du lịch và khách sạn",
-    nameEn: "Tourism and Hotel Management",
-    group: "specialized",
-  },
-  {
-    id: "cf",
-    name: "CF",
-    nameEn: "CF",
-    group: "specialized",
-  },
-  {
-    id: "startup-development",
-    name: "Phát triển khởi nghiệp",
-    nameEn: "Startup Development",
-    group: "specialized",
-  },
-  {
-    id: "specialized-english",
-    name: "Tiếng Anh chuyên ngành",
-    nameEn: "Specialized English",
+    id: "software-engineering",
+    name: "Kỹ thuật phần mềm",
+    nameEn: "Software Engineering",
     group: "specialized",
   },
   {
@@ -112,9 +52,63 @@ export const SPECIALIZED_DEPARTMENTS: Department[] = [
     group: "specialized",
   },
   {
-    id: "its",
-    name: "ITS",
-    nameEn: "ITS",
+    id: "artificial-intelligence",
+    name: "Trí tuệ nhân tạo",
+    nameEn: "Artificial Intelligence",
+    group: "specialized",
+  },
+  {
+    id: "information-systems",
+    name: "Hệ thống thông tin",
+    nameEn: "Information Systems",
+    group: "specialized",
+  },
+  {
+    id: "computer-fundamentals",
+    name: "Nền tảng máy tính",
+    nameEn: "Computer Fundamentals",
+    group: "specialized",
+  },
+  {
+    id: "business-administration",
+    name: "Quản trị doanh nghiệp",
+    nameEn: "Business Administration",
+    group: "specialized",
+  },
+  {
+    id: "startup-development",
+    name: "Phát triển khởi nghiệp",
+    nameEn: "Startup Development",
+    group: "specialized",
+  },
+  {
+    id: "communication-technology",
+    name: "Công nghệ truyền thông",
+    nameEn: "Communication Technology",
+    group: "specialized",
+  },
+  {
+    id: "digital-fine-arts",
+    name: "Thiết kế mỹ thuật số",
+    nameEn: "Digital Fine Arts Design",
+    group: "specialized",
+  },
+  {
+    id: "english",
+    name: "Tiếng Anh",
+    nameEn: "English",
+    group: "specialized",
+  },
+  {
+    id: "japanese-language",
+    name: "Tiếng Nhật",
+    nameEn: "Japanese Language",
+    group: "specialized",
+  },
+  {
+    id: "politics",
+    name: "Chính trị",
+    nameEn: "Politics",
     group: "specialized",
   },
 ]

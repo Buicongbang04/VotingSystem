@@ -165,6 +165,47 @@ const page = ({ params }: PageProps) => {
     setCurrentPage(Math.max(1, Math.min(page, totalPages)))
   }
 
+  // Generate pagination items with ellipsis
+  const getPaginationItems = () => {
+    const items = []
+    const maxVisiblePages = 5 // Show max 5 page numbers
+
+    if (totalPages <= maxVisiblePages) {
+      // Show all pages if total is small
+      for (let i = 1; i <= totalPages; i++) {
+        items.push(i)
+      }
+    } else {
+      // Always show first page
+      items.push(1)
+
+      if (currentPage > 3) {
+        items.push("...")
+      }
+
+      // Show pages around current page
+      const start = Math.max(2, currentPage - 1)
+      const end = Math.min(totalPages - 1, currentPage + 1)
+
+      for (let i = start; i <= end; i++) {
+        if (i !== 1 && i !== totalPages) {
+          items.push(i)
+        }
+      }
+
+      if (currentPage < totalPages - 2) {
+        items.push("...")
+      }
+
+      // Always show last page
+      if (totalPages > 1) {
+        items.push(totalPages)
+      }
+    }
+
+    return items
+  }
+
   if (isLoading) {
     return (
       <div className='flex justify-center items-center min-h-screen'>
@@ -251,44 +292,56 @@ const page = ({ params }: PageProps) => {
 
         {/* Pagination */}
         {totalPages > 1 && (
-          <div className='flex justify-center items-center space-x-2 m-4'>
-            <Button
-              variant='outline'
-              onClick={() => goToPage(currentPage - 1)}
-              disabled={currentPage === 1}
-              className='flex items-center border-gradient bg-transparent'
-            >
-              <ChevronLeft className='w-4 h-4 mr-1' />
-              Trước
-            </Button>
-
-            <div className='flex space-x-1 '>
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map(
-                (page) => (
-                  <button
-                    key={page}
-                    onClick={() => goToPage(page)}
-                    className={`w-10 h-10 rounded-xl ${
-                      currentPage === page
-                        ? "bg-gradient-to-r from-transparent to-vibrant-pink text-white border-gradient"
-                        : "bg-transparen"
-                    }`}
-                  >
-                    {page}
-                  </button>
-                )
-              )}
+          <div className='flex flex-col items-center space-y-4 m-4'>
+            {/* Page info */}
+            <div className='text-white/70 text-sm'>
+              Trang {currentPage} của {totalPages} ({filteredLectures.length}{" "}
+              giảng viên)
             </div>
 
-            <Button
-              variant='default'
-              onClick={() => goToPage(currentPage + 1)}
-              disabled={currentPage === totalPages}
-              className='flex items-center border-gradient bg-transparent'
-            >
-              Sau
-              <ChevronRight className='w-4 h-4 ml-1' />
-            </Button>
+            {/* Pagination controls */}
+            <div className='flex items-center space-x-2 flex-wrap justify-center'>
+              <Button
+                variant='outline'
+                onClick={() => goToPage(currentPage - 1)}
+                disabled={currentPage === 1}
+                className='flex items-center border-gradient bg-transparent text-white hover:bg-white/10'
+                size='sm'
+              >
+                <ChevronLeft className='w-4 h-4 mr-1' />
+                Trước
+              </Button>
+
+              <div className='flex space-x-1 flex-wrap justify-center'>
+                {getPaginationItems().map((item, index) => (
+                  <button
+                    key={index}
+                    onClick={() => typeof item === "number" && goToPage(item)}
+                    disabled={item === "..."}
+                    className={`w-10 h-10 rounded-xl text-sm font-medium transition-all duration-200 ${
+                      item === "..."
+                        ? "text-white/50 cursor-default"
+                        : currentPage === item
+                        ? "bg-gradient-to-r from-transparent to-vibrant-pink text-white border border-white/30 shadow-lg"
+                        : "bg-transparent text-white/70 hover:text-white hover:bg-white/10 border border-white/20"
+                    }`}
+                  >
+                    {item}
+                  </button>
+                ))}
+              </div>
+
+              <Button
+                variant='outline'
+                onClick={() => goToPage(currentPage + 1)}
+                disabled={currentPage === totalPages}
+                className='flex items-center border-gradient bg-transparent text-white hover:bg-white/10'
+                size='sm'
+              >
+                Sau
+                <ChevronRight className='w-4 h-4 ml-1' />
+              </Button>
+            </div>
           </div>
         )}
 

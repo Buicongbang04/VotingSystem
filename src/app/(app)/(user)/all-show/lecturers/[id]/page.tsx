@@ -15,12 +15,13 @@ import Link from "next/link"
 import { Lecture } from "@/src/interfaces/Lecture/Lecture"
 
 interface PageProps {
-  params: {
+  params: Promise<{
     id: string
-  }
+  }>
 }
 
 const page = ({ params }: PageProps) => {
+  const resolvedParams = React.use(params)
   const { data: lectures, isLoading, refetch } = useGetAllLectures()
   const [votedLecturers, setVotedLecturers] = useState<Set<string>>(new Set())
   const isAuthenticated = useIsAuthenticated()
@@ -28,7 +29,7 @@ const page = ({ params }: PageProps) => {
   const { mutate: cancelVote, isPending: isCancelling } = useCancelTodaysVote()
 
   // Find the specific lecturer by ID
-  const lecturer = lectures?.data?.find((l) => l.id === params.id)
+  const lecturer = lectures?.data?.find((l) => l.id === resolvedParams.id)
 
   // Load user's existing votes when component mounts
   useEffect(() => {
