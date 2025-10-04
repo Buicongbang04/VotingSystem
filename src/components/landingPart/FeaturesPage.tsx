@@ -67,9 +67,6 @@ const FeaturesPage = () => {
           </div>
         </div>
       </div>
-
-      {/* Scroll to top / Hero */}
-      <ScrollToElement to='#hero' />
     </section>
   )
 }

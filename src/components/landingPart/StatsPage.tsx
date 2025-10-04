@@ -124,8 +124,6 @@ const StatsPage = () => {
           </div>
         </div>
       </div>
-
-      <ScrollToElement to='#features' />
     </section>
   )
 }
