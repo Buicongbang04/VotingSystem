@@ -98,6 +98,35 @@ const EventAnnouncement: React.FC<EventAnnouncementProps> = ({
     }
   }
 
+  // Handle share button click
+  const handleShareClick = () => {
+    if (onShare) {
+      // Call custom onShare function if provided
+      onShare()
+    } else {
+      // Default behavior: use native share API
+      const shareText = `Tham gia cuộc thi "Inspiring Instructor Awards 2025" - Hãy bình chọn cho giảng viên yêu thích của bạn!`
+      const shareUrl = `${window.location.origin}/`
+
+      if (navigator.share) {
+        navigator
+          .share({
+            title: "Inspiring Instructor Awards 2025",
+            text: shareText,
+            url: shareUrl,
+          })
+          .catch((error) => {
+            console.log("Error sharing:", error)
+            // Fallback: copy to clipboard
+            navigator.clipboard.writeText(`${shareText} ${shareUrl}`)
+          })
+      } else {
+        // Fallback: copy to clipboard
+        navigator.clipboard.writeText(`${shareText} ${shareUrl}`)
+      }
+    }
+  }
+
   return (
     <div className='w-full flex bg-gradient-to-r from-vibrant-pink/0 to-vibrant-pink rounded-4xl shadow-lg overflow-hidden border-gradient  '>
       {/* Left image placeholder */}
@@ -154,7 +183,7 @@ const EventAnnouncement: React.FC<EventAnnouncementProps> = ({
             Tham gia
           </button>
           <button
-            onClick={onShare}
+            onClick={handleShareClick}
             className='w-1/6 bg-gradient-to-r from-transparent to-vibrant-pink border-gradient text-white font-medium py-2 rounded-full hover:bg-pink-100 transition flex justify-center items-center'
           >
             <svg

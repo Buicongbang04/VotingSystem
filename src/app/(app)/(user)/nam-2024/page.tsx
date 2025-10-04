@@ -10,8 +10,8 @@ const page = () => {
       <Image
         src='/images/top-24.png'
         alt='Nam 2024'
-        width={500}
-        height={500}
+        width={700}
+        height={700}
         className='mx-auto'
       />
 

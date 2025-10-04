@@ -4,6 +4,7 @@ import { Lecture } from "../interfaces/Lecture/Lecture"
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 
 interface LecturerCardProps {
   lecturer: Lecture
@@ -26,6 +27,8 @@ const LecturerCard = ({
   showLink = true,
   className = "",
 }: LecturerCardProps) => {
+  const router = useRouter()
+
   const handleVote = () => {
     if (onVote) {
       onVote(lecturer.id)
@@ -54,14 +57,24 @@ const LecturerCard = ({
               src={lecturer.avatarUrl}
               alt={lecturer.name}
               className='w-full h-full object-cover'
-              width={50}
-              height={50}
+              width={1000}
+              height={1000}
             />
           </Link>
         ) : (
-          <div className='w-full h-50 flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100'>
+          <div className='w-full flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100'>
             <div className='text-gray-400 text-4xl font-bold'>
-              {lecturer.name.charAt(0).toUpperCase()}
+              <Image
+                src={
+                  "https://res.cloudinary.com/dtcinkqwf/image/upload/v1759552442/0_c%C3%B3_h%C3%ACnh_ksqjxi.png"
+                }
+                alt='default avatar w-full h-full'
+                width={1000}
+                height={1000}
+                onClick={() => {
+                  router.push(`/all-show/lecturers/${lecturer.id}`)
+                }}
+              />
             </div>
           </div>
         )}

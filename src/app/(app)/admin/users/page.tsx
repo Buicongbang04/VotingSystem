@@ -175,7 +175,7 @@ export default function AdminUsers() {
           <select
             value={roleFilter}
             onChange={(e) => setRoleFilter(e.target.value)}
-            className='p-3 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-vibrant-pink'
+            className='p-3 bg-white border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-vibrant-pink'
           >
             <option value=''>Tất cả vai trò</option>
             <option value='User'>Người dùng</option>
@@ -184,7 +184,7 @@ export default function AdminUsers() {
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className='p-3 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-vibrant-pink'
+            className='p-3 bg-white border border-white/20 rounded-lg  focus:outline-none focus:ring-2 focus:ring-vibrant-pink'
           >
             <option value=''>Tất cả trạng thái</option>
             <option value='Active'>Hoạt động</option>

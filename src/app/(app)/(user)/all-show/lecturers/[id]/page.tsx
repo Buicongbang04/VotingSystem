@@ -151,19 +151,26 @@ const page = ({ params }: PageProps) => {
         <div className='max-w-5xl mx-auto '>
           <div className='relative w-full rounded-3xl overflow-hidden border-gradient flex '>
             {/* Image Section */}
-            <div className='relative h-96'>
+            <div className='relative w-full'>
               {lecturer.avatarUrl ? (
                 <Image
                   src={lecturer.avatarUrl}
                   alt={lecturer.name}
                   className='w-full h-full object-cover'
-                  width={500}
-                  height={500}
+                  width={1000}
+                  height={1000}
                 />
               ) : (
                 <div className='w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100'>
                   <div className='text-gray-400 text-8xl font-bold'>
-                    {lecturer.name.charAt(0).toUpperCase()}
+                    <Image
+                      src={
+                        "https://res.cloudinary.com/dtcinkqwf/image/upload/v1759552442/0_c%C3%B3_h%C3%ACnh_ksqjxi.png"
+                      }
+                      alt='default avatar w-full h-full'
+                      width={1000}
+                      height={1000}
+                    />
                   </div>
                 </div>
               )}

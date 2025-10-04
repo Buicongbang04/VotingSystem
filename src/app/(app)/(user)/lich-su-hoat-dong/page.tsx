@@ -152,7 +152,7 @@ const VoteHistoryPage = () => {
                         <th className='text-left py-4 px-6 font-semibold text-pink-700'>
                           <div className='flex items-center gap-2'>
                             <Building className='h-4 w-4' />
-                            Khoa/Bộ môn
+                            Khoa
                           </div>
                         </th>
                         <th className='text-left py-4 px-6 font-semibold text-pink-700'>
