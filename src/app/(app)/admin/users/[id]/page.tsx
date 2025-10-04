@@ -325,7 +325,7 @@ export default function EditUser() {
                 className='text-white flex items-center space-x-2'
               >
                 <Building className='w-4 h-4' />
-                <span>Khoa/Bộ môn</span>
+                <span>Khoa</span>
               </Label>
               <Input
                 id='department'

@@ -36,7 +36,7 @@ const HeroPage = () => {
     <section
       id='hero'
       className='
-        h-screen
+        
         px-4
         w-full max-w-[100vw]
         relative
@@ -71,6 +71,7 @@ const HeroPage = () => {
             border-gradient
             border-b-0
             mx-auto
+            z-20
           '
         >
           <div

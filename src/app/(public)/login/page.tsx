@@ -3,8 +3,7 @@
 import React, { useState, useEffect, Suspense } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import LoginComponent from "../../../components/Auth/LoginComponent"
-import { type LoginFormData } from "../../../interfaces/auth/Schema/Login"
-import { useLoginApi, useLoginGoogleApi } from "../../../services/AuthServices"
+import { useLoginGoogleApi } from "../../../services/AuthServices"
 import {
   useLogin,
   useIsAuthenticated,
@@ -13,12 +12,10 @@ import {
 
 // Component that handles search params logic
 const LoginWithSearchParams = () => {
-  const [isLoading, setIsLoading] = useState(false)
   const [isCheckingAuth, setIsCheckingAuth] = useState(true)
   const [isClient, setIsClient] = useState(false)
   const router = useRouter()
   const searchParams = useSearchParams()
-  const loginMutation = useLoginApi()
   const googleLoginMutation = useLoginGoogleApi()
   const login = useLogin()
   const isAuthenticated = useIsAuthenticated()
@@ -101,35 +98,6 @@ const LoginWithSearchParams = () => {
     }
   }
 
-  const handleLogin = async (data: LoginFormData) => {
-    setIsLoading(true)
-    try {
-      console.log("Login data:", data)
-
-      // Make API call to authenticate the user
-      const tokens = await loginMutation.mutateAsync({
-        email: data.email,
-        password: data.password,
-      })
-
-      // Save tokens to Zustand store if they exist
-      if (tokens.accessToken && tokens.refreshToken) {
-        const success = login(tokens)
-        if (success) {
-          console.log("Tokens saved to Zustand store")
-          // Redirect admin users to admin dashboard, regular users to all-show
-          const redirectPath = isAdmin() ? "/admin/dashboard" : "/all-show"
-          router.push(redirectPath)
-        }
-      }
-    } catch (error) {
-      console.error("Login error:", error)
-      // Handle login error (show toast, etc.)
-    } finally {
-      setIsLoading(false)
-    }
-  }
-
   const handleGoogleLogin = () => {
     // Simply redirect to the backend Google OAuth endpoint with redirect URL
     const redirectUrl = encodeURIComponent(`${window.location.origin}/login`)
@@ -155,10 +123,8 @@ const LoginWithSearchParams = () => {
 
   return (
     <LoginComponent
-      onSubmit={handleLogin}
       onGoogleLogin={handleGoogleLogin}
       onHomeClick={handleHomeClick}
-      isLoading={isLoading}
     />
   )
 }

@@ -86,7 +86,7 @@ export default function EditLecturer() {
         department: lecture.department || "",
         quote: lecture.quote || "",
         avatarUrl: lecture.avatarUrl || "",
-        AccountName: lecture.AccountName || "",
+        AccountName: lecture.accountName || "",
       })
       setPreviewImage(lecture.avatarUrl || null)
     }
@@ -178,7 +178,7 @@ export default function EditLecturer() {
         department: formData.department,
         quote: formData.quote.trim(),
         avatarUrl: formData.avatarUrl,
-        AccountName: formData.AccountName.trim(),
+        accountName: formData.AccountName.trim(),
       }
 
       await updateLectureMutation.mutateAsync(lecturerData)
@@ -392,7 +392,11 @@ export default function EditLecturer() {
                     >
                       <option value=''>Chọn khoa</option>
                       {ALL_DEPARTMENTS.map((dept) => (
-                        <option key={dept.id} value={dept.name}>
+                        <option
+                          className='text-black'
+                          key={dept.id}
+                          value={dept.name}
+                        >
                           {dept.name}
                         </option>
                       ))}

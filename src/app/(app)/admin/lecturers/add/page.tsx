@@ -39,7 +39,7 @@ interface FormData {
   department: string
   quote: string
   avatarUrl: string
-  AccountName: string
+  accountName: string
 }
 
 interface FormErrors {
@@ -48,7 +48,7 @@ interface FormErrors {
   department?: string
   quote?: string
   avatarUrl?: string
-  AccountName?: string
+  accountName?: string
 }
 
 export default function AddLecturer() {
@@ -59,7 +59,7 @@ export default function AddLecturer() {
     department: "",
     quote: "",
     avatarUrl: "",
-    AccountName: "",
+    accountName: "",
   })
 
   const [errors, setErrors] = useState<FormErrors>({})
@@ -110,10 +110,10 @@ export default function AddLecturer() {
       newErrors.avatarUrl = "Ảnh đại diện là bắt buộc"
     }
 
-    if (!formData.AccountName.trim()) {
-      newErrors.AccountName = "Tên tài khoản là bắt buộc"
-    } else if (formData.AccountName.trim().length < 3) {
-      newErrors.AccountName = "Tên tài khoản phải có ít nhất 3 ký tự"
+    if (!formData.accountName.trim()) {
+      newErrors.accountName = "Tên tài khoản là bắt buộc"
+    } else if (formData.accountName.trim().length < 3) {
+      newErrors.accountName = "Tên tài khoản phải có ít nhất 3 ký tự"
     }
 
     setErrors(newErrors)
@@ -232,7 +232,7 @@ export default function AddLecturer() {
         department: formData.department,
         quote: formData.quote.trim(),
         avatarUrl: formData.avatarUrl,
-        AccountName: formData.AccountName.trim(),
+        accountName: formData.accountName.trim(),
       }
 
       await createLectureMutation.mutateAsync(lecturerData)
@@ -483,19 +483,19 @@ export default function AddLecturer() {
                     <Input
                       id='accountName'
                       type='text'
-                      value={formData.AccountName}
+                      value={formData.accountName}
                       onChange={(e) =>
-                        handleInputChange("AccountName", e.target.value)
+                        handleInputChange("accountName", e.target.value)
                       }
                       placeholder='Nhập tên tài khoản'
                       className={`bg-white/10 border-white/20 text-white placeholder-white/50 focus:ring-2 focus:ring-vibrant-pink ${
-                        errors.AccountName ? "border-red-500" : ""
+                        errors.accountName ? "border-red-500" : ""
                       }`}
                     />
-                    {errors.AccountName && (
+                    {errors.accountName && (
                       <div className='flex items-center space-x-2 mt-2 text-red-400 text-sm'>
                         <AlertCircle className='w-4 h-4' />
-                        <span>{errors.AccountName}</span>
+                        <span>{errors.accountName}</span>
                       </div>
                     )}
                   </div>
@@ -667,7 +667,7 @@ export default function AddLecturer() {
                       {Object.keys(errors).length === 0 &&
                       formData.name &&
                       formData.email &&
-                      formData.AccountName &&
+                      formData.accountName &&
                       formData.department &&
                       formData.quote &&
                       formData.avatarUrl ? (

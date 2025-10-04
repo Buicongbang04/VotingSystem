@@ -2,7 +2,7 @@
 
 import React from "react"
 import { mockTop10Lecturers2023 } from "../data/mockTop10Lecturers"
-import { Trophy, Medal, Award } from "lucide-react"
+import { Crown } from "lucide-react"
 import { motion } from "motion/react"
 import MockLecturerCard from "./MockLecturerCard"
 
@@ -16,11 +16,11 @@ const Top10Lecturers = ({ className = "" }: Top10LecturersProps) => {
   const getRankIcon = (rank: number) => {
     switch (rank) {
       case 1:
-        return <Trophy className='w-6 h-6 text-yellow-500' />
+        return <Crown className='w-6 h-6 text-white' />
       case 2:
-        return <Medal className='w-6 h-6 text-gray-400' />
+        return <Crown className='w-6 h-6 text-white' />
       case 3:
-        return <Award className='w-6 h-6 text-amber-600' />
+        return <Crown className='w-6 h-6 text-white' />
       default:
         return (
           <span className='text-lg font-bold text-white bg-pink-500 rounded-full w-8 h-8 flex items-center justify-center'>
