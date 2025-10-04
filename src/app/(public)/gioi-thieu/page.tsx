@@ -10,6 +10,7 @@ import VinhDanhGiangVien from "@/src/components/About/VinhDanhGiangVien";
 import { Footer } from "@/src/components/landingPart";
 
 import Reveal from "@/src/utils/Reveal";
+import ScrollToTop from "@/src/components/scroll-to-top-arrow";
 
 export default function Page() {
   return (
@@ -44,6 +45,7 @@ export default function Page() {
           <VinhDanhGiangVien />
         </Reveal>
       </section>
+      <ScrollToTop />
 
       <Footer />
     </>

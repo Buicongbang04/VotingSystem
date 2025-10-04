@@ -9,6 +9,7 @@ import {
   Footer,
 } from "../../components/landingPart";
 import { useEffect, useRef } from "react";
+import ScrollToTop from "@/src/components/scroll-to-top-arrow";
 
 function PSection({
   children,
@@ -72,6 +73,7 @@ export default function Home() {
         <ContactPage />
       </PSection>
       <Footer />
+      <ScrollToTop />
     </>
   );
 }

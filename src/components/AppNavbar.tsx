@@ -42,7 +42,7 @@ const AppNavbar = () => {
           />
           <Image
             src='/images/iia_Logo.png'
-            alt='FPT University'
+            alt='IIA Logo'
             width={150}
             height={150}
             className='object-cover'
