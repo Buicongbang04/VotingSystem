@@ -15,9 +15,6 @@ const FeedbackPage = () => {
 
   return (
     <div className='min-h-screen'>
-      {/* Background Pattern */}
-      <div className="absolute inset-0 bg-[url('/images/bgLeaf.png')] opacity-10 bg-repeat"></div>
-
       {/* Header */}
       <div className='relative z-10 pt-8 pb-6'>
         <div className='max-w-4xl mx-auto px-4'>
@@ -43,7 +40,7 @@ const FeedbackPage = () => {
       </div>
 
       {/* Main Content */}
-      <div className='relative z-10 pb-12'>
+      <div className='relative pb-12'>
         <div className='max-w-2xl mx-auto px-4'>
           <FeedbackVoteComponent className='w-full' />
 
@@ -58,14 +55,6 @@ const FeedbackPage = () => {
             </p>
           </div>
         </div>
-      </div>
-
-      {/* Decorative Elements */}
-      <div className='absolute top-20 left-10 opacity-20'>
-        <div className='w-32 h-32 bg-gradient-to-r from-pink-400 to-purple-400 rounded-full blur-3xl'></div>
-      </div>
-      <div className='absolute bottom-20 right-10 opacity-20'>
-        <div className='w-40 h-40 bg-gradient-to-r from-blue-400 to-indigo-400 rounded-full blur-3xl'></div>
       </div>
     </div>
   )
