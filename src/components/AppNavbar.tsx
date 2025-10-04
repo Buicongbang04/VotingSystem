@@ -29,22 +29,22 @@ const AppNavbar = () => {
   }
 
   return (
-    <div className='h-30'>
+    <div className='h-16 pt-10'>
       <div className='h-full px-6 flex items-center justify-center relative'>
         {/* Left Section - Logo/Brand */}
         <div className='flex items-center space-x-10'>
           <Image
             src='/images/Logo.png'
             alt='FPT University'
-            width={200}
-            height={200}
+            width={100}
+            height={100}
             className='object-cover'
           />
           <Image
             src='/images/iia_Logo.png'
             alt='IIA Logo'
-            width={150}
-            height={150}
+            width={100}
+            height={100}
             className='object-cover'
           />
         </div>

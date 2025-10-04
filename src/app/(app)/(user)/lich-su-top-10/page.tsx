@@ -26,12 +26,11 @@ const page = () => {
       return
     }
 
-    // target: 10/11 + 30 days
+    // target: 31/10
     const targetDate = new Date()
-    targetDate.setMonth(10) // November
-    targetDate.setDate(10)
+    targetDate.setMonth(9) // October (0-based)
+    targetDate.setDate(31)
     targetDate.setHours(23, 59, 59, 999)
-    targetDate.setDate(targetDate.getDate() + 30)
 
     const timer = setInterval(() => {
       const now = Date.now()

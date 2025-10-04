@@ -10,6 +10,7 @@ import {
   BarChart3,
   ChevronDown,
   ChevronUp,
+  MessageCircle,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 
@@ -40,6 +41,11 @@ const navigationItems = [
         icon: BarChart3,
       },
     ],
+  },
+  {
+    href: "/feedback",
+    label: "Đánh giá",
+    icon: MessageCircle,
   },
 ]
 

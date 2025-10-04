@@ -4,7 +4,14 @@ import LecturerCard from "@/src/components/LecturerCard"
 import { Lecture } from "@/src/interfaces/Lecture/Lecture"
 import { useGetActiveLectures } from "@/src/services/LectureServices"
 import React, { useState, useMemo } from "react"
-import { Search, Filter, ChevronLeft, ChevronRight, Info } from "lucide-react"
+import {
+  Search,
+  Filter,
+  ChevronLeft,
+  ChevronRight,
+  Info,
+  MessageCircle,
+} from "lucide-react"
 import { Button } from "@/src/components/ui/button"
 import { Input } from "@/components/ui/input"
 import CustomDropdown from "@/src/components/ui/custom-dropdown"
@@ -17,6 +24,7 @@ import { useIsAuthenticated } from "@/src/stores/tokenStore"
 import { toast } from "sonner"
 import { useEffect } from "react"
 import { VotingRulesModal } from "@/src/components/VotingRulesModal"
+import Link from "next/link"
 
 interface PageProps {
   params: {
@@ -177,17 +185,30 @@ const page = ({ params }: PageProps) => {
     <div className='min-h-screen'>
       <div className='mx-auto px-4'>
         {/* Header */}
-        <div className='mb-2 flex items-center'>
-          <h2 className='text-4xl font-bold text-white mb-2'>
-            Inspiring Instructor Awards 2025
-          </h2>
-          <button
-            onClick={() => setShowVotingRules(true)}
-            className='flex items-center justify-center w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 transition-colors duration-200'
-            title='Xem thể lệ bình chọn'
-          >
-            <Info className='w-5 h-5 text-white' />
-          </button>
+        <div className='mb-2 flex items-center justify-between'>
+          <div className='flex items-center'>
+            <h2 className='text-4xl font-bold text-white mb-2'>
+              Inspiring Instructor Awards 2025
+            </h2>
+            <button
+              onClick={() => setShowVotingRules(true)}
+              className='flex items-center justify-center w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 transition-colors duration-200 ml-4'
+              title='Xem thể lệ bình chọn'
+            >
+              <Info className='w-5 h-5 text-white' />
+            </button>
+          </div>
+
+          {/* Feedback Button */}
+          <Link href='/feedback'>
+            <Button
+              variant='ghost'
+              className='text-white hover:text-gray-300 hover:bg-white/10 border border-white/20'
+            >
+              <MessageCircle className='w-4 h-4 mr-2' />
+              Đánh giá
+            </Button>
+          </Link>
         </div>
 
         {/* Search and Filter */}
