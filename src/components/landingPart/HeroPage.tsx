@@ -43,20 +43,36 @@ const HeroPage = () => {
       '
     >
       <div className='flex flex-col items-start justify-start -translate-y-30'>
-        <div className='mx-auto '>
-          <Image
-            src='/images/hero.png'
-            alt='logo'
-            width={700}
-            height={300}
-            priority
-            draggable={false}
-            className='
-              w-full
-              translate-x-50
-            '
-          />
-        </div>
+        <div
+                  className='
+                    flex justify-start md:justify-start items-start
+                    pt-[4vh] sm:pt-[6vh] md:pt-[6vh] lg:pt-[6vh] xl:pt-[2vh]
+                  '
+                >
+                  <Image
+                    src='/images/hero.png'
+                    alt='logo'
+                    width={877}
+                    height={200}
+                    priority
+                    draggable={false}
+                    className='
+                      h-auto
+                      w-[80vw] max-w-[520px]
+                      sm:w-[70vw] sm:max-w-[640px]
+                      md:w-[55vw] md:max-w-[720px]
+                      lg:w-[700px] lg:max-w-[700px]
+                      xl:w-[877px] xl:max-w-[877px]
+                    '
+                    sizes='
+                      (min-width:1280px) 877px,
+                      (min-width:1024px) 820px,
+                      (min-width:768px) 55vw,
+                      (min-width:640px) 70vw,
+                      80vw
+                    '
+                  />
+                </div>
 
         <div
           className='

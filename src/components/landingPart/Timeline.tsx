@@ -4,7 +4,7 @@ const DEFAULT_MILESTONES = [
   { id: "01", date: "10.10.2025", title: "Mở cổng bình chọn" },
   { id: "02", date: "31.10.2025", title: "Kết thúc bình chọn" },
   { id: "03", date: "01.11.2025", title: "Công bố Top 10" },
-  { id: "04", date: "xx.11.2025", title: "Vinh danh Top 10" },
+  { id: "04", date: "11.2025", title: "Vinh danh Top 10" },
 ];
 
 export default function TimeLine({
