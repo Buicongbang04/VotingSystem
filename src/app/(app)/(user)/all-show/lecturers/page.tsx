@@ -215,31 +215,17 @@ const page = ({ params }: PageProps) => {
   }
 
   const handleShare = (lecturerId: string) => {
-    const lecturer = lectures?.data?.find((l) => l.id === lecturerId)
-    if (lecturer) {
-      const shareText = `Hãy bình chọn cho giảng viên ${lecturer.name} trong cuộc thi "Inspiring Instructor Awards 2025"!`
-      const shareUrl = `${window.location.origin}/all-show/lecturers/${lecturerId}`
+    const shareUrl =
+      "https://daihoc.fpt.edu.vn/hcm/giang-vien-truyen-cam-hung-2025/"
 
-      if (navigator.share) {
-        navigator
-          .share({
-            title: "Inspiring Instructor Awards 2025",
-            text: shareText,
-            url: shareUrl,
-          })
-          .catch(console.error)
-      } else {
-        // Fallback: copy to clipboard
-        navigator.clipboard
-          .writeText(`${shareText}\n${shareUrl}`)
-          .then(() => {
-            toast.success("Đã sao chép link chia sẻ!")
-          })
-          .catch(() => {
-            toast.error("Không thể sao chép link")
-          })
-      }
-    }
+    navigator.clipboard
+      .writeText(shareUrl)
+      .then(() => {
+        toast.success("Đã sao chép link chia sẻ!")
+      })
+      .catch(() => {
+        toast.error("Không thể sao chép link")
+      })
   }
 
   const goToPage = (page: number) => {

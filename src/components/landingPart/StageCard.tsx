@@ -23,7 +23,7 @@ export function StageCard({
 }: StageCardProps) {
   return (
     <div
-      className={`relative rounded-[32px] overflow-hidden flex flex-col items-center justify-center w-full sm:w-[60px] md:w-[240px] lg:w-[300px] ${className} border-gradient`}
+      className={`relative rounded-[32px] overflow-hidden flex flex-col items-center justify-center w-full sm:w-[60px] md:w-[240px] lg:w-[300px] ${className} border-gradient h-90`}
       style={{
         background:
           "linear-gradient(90deg, rgba(245, 75, 175, 0) 0%, #F54BAF 100%)",

@@ -2,6 +2,7 @@ import React from "react"
 import ScrollToElement from "../scroll-to-top-arrow"
 import Image from "next/image"
 import { StageCard } from "./StageCard"
+import Reveal from "@/src/utils/Reveal"
 
 const StatsPage = () => {
   const academicStages = [
@@ -114,12 +115,19 @@ const StatsPage = () => {
 
           <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-3 gap-4 ml-0 sm:ml-0 md:ml-40 lg:ml-0 xl:ml-0'>
             {academicStages.map((stage, index) => (
-              <StageCard
+              <Reveal
                 key={index}
-                title={stage.title}
-                subtitle={stage.subtitle}
-                rules={stage.rules}
-              />
+                direction='up'
+                threshold={0.3}
+                duration={600}
+                delay={index * 200}
+              >
+                <StageCard
+                  title={stage.title}
+                  subtitle={stage.subtitle}
+                  rules={stage.rules}
+                />
+              </Reveal>
             ))}
           </div>
         </div>

@@ -2,6 +2,7 @@
 
 import Image from "next/image"
 import React, { useState, useEffect } from "react"
+import Reveal from "@/src/utils/Reveal"
 
 const ContactPage = () => {
   const [timeLeft, setTimeLeft] = useState({
@@ -127,12 +128,15 @@ const ContactPage = () => {
         {/* Countdown Timer */}
         <div className='flex flex-wrap justify-center items-start gap-6 w-full min-w-0'>
           {timeUnits.map((unit, idx) => (
-            <Circle
+            <Reveal
               key={idx}
-              value={unit.value}
-              label={unit.label}
-              size={circleSize}
-            />
+              direction='up'
+              threshold={0.3}
+              duration={600}
+              delay={idx * 150}
+            >
+              <Circle value={unit.value} label={unit.label} size={circleSize} />
+            </Reveal>
           ))}
         </div>
       </div>

@@ -104,26 +104,18 @@ const EventAnnouncement: React.FC<EventAnnouncementProps> = ({
       // Call custom onShare function if provided
       onShare()
     } else {
-      // Default behavior: use native share API
-      const shareText = `Tham gia cuộc thi "Inspiring Instructor Awards 2025" - Hãy bình chọn cho giảng viên yêu thích của bạn!`
-      const shareUrl = `${window.location.origin}/`
+      // Default behavior: copy to clipboard
+      const shareUrl =
+        "https://daihoc.fpt.edu.vn/hcm/giang-vien-truyen-cam-hung-2025/"
 
-      if (navigator.share) {
-        navigator
-          .share({
-            title: "Inspiring Instructor Awards 2025",
-            text: shareText,
-            url: shareUrl,
-          })
-          .catch((error) => {
-            console.log("Error sharing:", error)
-            // Fallback: copy to clipboard
-            navigator.clipboard.writeText(`${shareText} ${shareUrl}`)
-          })
-      } else {
-        // Fallback: copy to clipboard
-        navigator.clipboard.writeText(`${shareText} ${shareUrl}`)
-      }
+      navigator.clipboard
+        .writeText(shareUrl)
+        .then(() => {
+          alert("Link đã được sao chép!")
+        })
+        .catch(() => {
+          alert("Không thể sao chép link")
+        })
     }
   }
 

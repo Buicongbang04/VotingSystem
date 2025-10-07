@@ -1,79 +1,64 @@
-'use client';
-import Background from "@/src/components/landingPart/BackgroundMain";
-import BackgroundKV from "@/src/components/landingPart/BackgroundKV";
+"use client"
+import Background from "@/src/components/landingPart/BackgroundMain"
+import BackgroundKV from "@/src/components/landingPart/BackgroundKV"
 import {
   HeroPage,
   FeaturesPage,
   StatsPage,
   ContactPage,
   Footer,
-} from "../../components/landingPart";
-import { useEffect, useRef } from "react";
-import ScrollToTop from "@/src/components/scroll-to-top-arrow";
-
-function PSection({
-  children,
-  speed = 0.15,
-  className = "",
-  kvKey,
-}: {
-  children: React.ReactNode;
-  speed?: number;
-  className?: string;
-  kvKey: "hero" | "features" | "stats" | "contact";
-}) {
-  const ref = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    const el = ref.current!;
-    const onScroll = () => {
-      const rect = el.getBoundingClientRect();
-      const y = rect.top + window.scrollY;
-      const viewportY = window.scrollY + window.innerHeight * 0.5;
-      const delta = (viewportY - y) * speed;
-      el.style.transform = `translateY(${delta.toFixed(1)}px)`;
-    };
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, [speed]);
-
-  return (
-    <section
-      ref={ref}
-      data-kv={kvKey}
-      className={`relative max-w-7xl mx-auto px-6 py-28 will-change-transform ${className}`}
-    >
-      {children}
-    </section>
-  );
-}
+} from "../../components/landingPart"
+import ScrollToTop from "@/src/components/scroll-to-top-arrow"
+import Reveal from "@/src/utils/Reveal"
 
 export default function Home() {
   return (
     <>
+      <Background src='/images/bg.png' />
+      <BackgroundKV src='/images/KV.png' />
 
-      <Background src="/images/bg.png" />
+      {/* Hero section - appears from bottom */}
+      <section
+        data-kv='hero'
+        className='relative max-w-7xl mx-auto px-4 sm:px-6 py-24 sm:py-28'
+      >
+        <Reveal direction='up' threshold={0.3} duration={800}>
+          <HeroPage />
+        </Reveal>
+      </section>
 
-      <BackgroundKV src="/images/KV.png" />
+      {/* Features section - appears from left */}
+      <section
+        data-kv='features'
+        className='relative max-w-7xl mx-auto px-4 sm:px-6 py-24 sm:py-28'
+      >
+        <Reveal direction='left' threshold={0.3} duration={800}>
+          <FeaturesPage />
+        </Reveal>
+      </section>
 
-      <PSection kvKey="hero" speed={0.2} className="md:-translate-x-12 px-4 sm:px-6 py-24 sm:py-28">
-        <HeroPage />
-      </PSection>
+      {/* Stats section - appears from right */}
+      <section
+        data-kv='stats'
+        className='relative max-w-7xl mx-auto px-4 sm:px-6 py-24 sm:py-28'
+      >
+        <Reveal direction='right' threshold={0.3} duration={800}>
+          <StatsPage />
+        </Reveal>
+      </section>
 
-      <PSection kvKey="features" speed={0.2} className="md:translate-x-16 -mt-8">
-        <FeaturesPage />
-      </PSection>
+      {/* Contact section - appears from bottom */}
+      <section
+        data-kv='contact'
+        className='relative max-w-7xl mx-auto px-4 sm:px-6 py-24 sm:py-28'
+      >
+        <Reveal direction='up' threshold={0.3} duration={800}>
+          <ContactPage />
+        </Reveal>
+      </section>
 
-      <PSection kvKey="stats" speed={0.2} className="md:-translate-x-20 -mt-6">
-        <StatsPage />
-      </PSection>
-
-      <PSection kvKey="contact" speed={0.2} className="md:translate-x-12 -mt-6">
-        <ContactPage />
-      </PSection>
       <Footer />
       <ScrollToTop />
     </>
-  );
+  )
 }
