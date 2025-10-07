@@ -14,7 +14,7 @@ const LectureVoteApi = {
   // GET - Get today's votes by lecture
   getTodaysVotesByLecture: async (lectureId: string) => {
     return axiosInstance
-      .get<LectureVote[]>(`/Lectures/${lectureId}/votes`)
+      .get<LectureVoteResponse>(`/Lectures/${lectureId}/votes`)
       .then((res) => res.data)
   },
 

@@ -1,12 +1,14 @@
 "use client"
 
 import React, { useState, useEffect } from "react"
+import { useQueryClient } from "@tanstack/react-query"
 import { useGetAllLectures } from "@/src/services/LectureServices"
 import {
   useVoteForLecture,
   useCancelTodaysVote,
+  useGetTodaysVotesByLecture,
 } from "@/src/services/LectureVoteServices"
-import { useIsAuthenticated } from "@/src/stores/tokenStore"
+import { useIsAuthenticated, useUser } from "@/src/stores/tokenStore"
 import { toast } from "sonner"
 import { Button } from "@/src/components/ui/button"
 import { Heart, Share2, ArrowLeft, User, Building, Quote } from "lucide-react"
@@ -22,14 +24,24 @@ interface PageProps {
 
 const page = ({ params }: PageProps) => {
   const resolvedParams = React.use(params)
+  const queryClient = useQueryClient()
   const { data: lectures, isLoading, refetch } = useGetAllLectures()
   const [votedLecturers, setVotedLecturers] = useState<Set<string>>(new Set())
   const isAuthenticated = useIsAuthenticated()
+  const user = useUser()
   const { mutate: voteForLecture, isPending: isVoting } = useVoteForLecture()
   const { mutate: cancelVote, isPending: isCancelling } = useCancelTodaysVote()
 
+  // Check if user has voted for this specific lecturer today
+  const { data: todaysVotes, isLoading: isLoadingVotes } =
+    useGetTodaysVotesByLecture(resolvedParams.id)
+
   // Find the specific lecturer by ID
   const lecturer = lectures?.data?.find((l) => l.id === resolvedParams.id)
+
+  // Check if current user has voted for this lecturer today
+  const hasUserVoted =
+    todaysVotes?.data?.some((vote) => vote.email === user?.email) || false
 
   // Load user's existing votes when component mounts
   useEffect(() => {
@@ -44,23 +56,33 @@ const page = ({ params }: PageProps) => {
       return
     }
 
-    const isVoted = votedLecturers.has(lecturerId)
-
-    if (isVoted) {
+    if (hasUserVoted) {
       // Cancel vote
       cancelVote(lecturerId, {
-        onSuccess: () => {
+        onSuccess: (response) => {
           setVotedLecturers((prev) => {
             const newSet = new Set(prev)
             newSet.delete(lecturerId)
             return newSet
           })
+          // Invalidate relevant queries to update the UI
+          queryClient.invalidateQueries({
+            queryKey: ["lectureVotes", lecturerId, "today"],
+          })
+          queryClient.invalidateQueries({
+            queryKey: ["lectures"],
+          })
+          queryClient.invalidateQueries({
+            queryKey: ["lecture", lecturerId],
+          })
           refetch()
-          toast.success("Đã hủy bình chọn thành công")
+          toast.success(response?.message || "Đã hủy bình chọn thành công")
         },
         onError: (error: any) => {
           console.error("Error cancelling vote:", error)
-          toast.error("Có lỗi xảy ra khi hủy bình chọn")
+          const errorMessage =
+            error?.response?.data?.message || "Có lỗi xảy ra khi hủy bình chọn"
+          toast.error(errorMessage)
         },
       })
     } else {
@@ -68,14 +90,26 @@ const page = ({ params }: PageProps) => {
       voteForLecture(
         { lectureId: lecturerId },
         {
-          onSuccess: () => {
+          onSuccess: (response) => {
             setVotedLecturers((prev) => new Set(prev).add(lecturerId))
+            // Invalidate relevant queries to update the UI
+            queryClient.invalidateQueries({
+              queryKey: ["lectureVotes", lecturerId, "today"],
+            })
+            queryClient.invalidateQueries({
+              queryKey: ["lectures"],
+            })
+            queryClient.invalidateQueries({
+              queryKey: ["lecture", lecturerId],
+            })
             refetch()
-            toast.success("Bình chọn thành công!")
+            toast.success(response?.message || "Bình chọn thành công!")
           },
           onError: (error: any) => {
             console.error("Error voting:", error)
-            toast.error("Có lỗi xảy ra khi bình chọn")
+            const errorMessage =
+              error?.response?.data?.message || "Có lỗi xảy ra khi bình chọn"
+            toast.error(errorMessage)
           },
         }
       )
@@ -108,7 +142,7 @@ const page = ({ params }: PageProps) => {
     }
   }
 
-  if (isLoading) {
+  if (isLoading || isLoadingVotes) {
     return (
       <div className='flex justify-center items-center min-h-screen'>
         <div className='text-lg text-white'>Loading lecturer details...</div>
@@ -133,7 +167,7 @@ const page = ({ params }: PageProps) => {
     )
   }
 
-  const isVoted = votedLecturers.has(lecturer.id)
+  const isVoted = hasUserVoted
 
   return (
     <div className='min-h-screen'>
@@ -213,7 +247,9 @@ const page = ({ params }: PageProps) => {
                   onClick={() => handleVote(lecturer.id)}
                   disabled={isVoting || isCancelling}
                   className={`bg-transparent border-gradient text-white hover:bg-white/20 rounded-2xl ${
-                    isVoted ? "bg-white/20" : ""
+                    isVoted
+                      ? "bg-red-500/20 border-red-400 hover:bg-red-500/30"
+                      : ""
                   } ${
                     isVoting || isCancelling
                       ? "opacity-50 cursor-not-allowed"
@@ -228,6 +264,8 @@ const page = ({ params }: PageProps) => {
                   <span className='text-sm font-medium'>
                     {isVoting || isCancelling
                       ? "..."
+                      : isVoted
+                      ? "Hủy bình chọn"
                       : lecturer.votes.toString().padStart(3, "0")}
                   </span>
                 </Button>

@@ -4,6 +4,7 @@ import LecturerCard from "@/src/components/LecturerCard"
 import { Lecture } from "@/src/interfaces/Lecture/Lecture"
 import { useGetActiveLectures } from "@/src/services/LectureServices"
 import React, { useState, useMemo } from "react"
+import { useQueryClient } from "@tanstack/react-query"
 import {
   Search,
   Filter,
@@ -41,6 +42,7 @@ interface PageProps {
 const ITEMS_PER_PAGE = 3
 
 const page = ({ params }: PageProps) => {
+  const queryClient = useQueryClient()
   const { data: lectures, isLoading, refetch } = useGetActiveLectures()
   const [currentPage, setCurrentPage] = useState(1)
   const [searchTerm, setSearchTerm] = useState("")
@@ -155,18 +157,30 @@ const page = ({ params }: PageProps) => {
     if (isVoted) {
       // Cancel vote
       cancelVote(lecturerId, {
-        onSuccess: () => {
+        onSuccess: (response) => {
           setVotedLecturers((prev) => {
             const newSet = new Set(prev)
             newSet.delete(lecturerId)
             return newSet
           })
+          // Invalidate relevant queries to update the UI
+          queryClient.invalidateQueries({
+            queryKey: ["lectureVotes", lecturerId, "today"],
+          })
+          queryClient.invalidateQueries({
+            queryKey: ["lectures"],
+          })
+          queryClient.invalidateQueries({
+            queryKey: ["lecture", lecturerId],
+          })
           refetch() // Refresh lecture data to update vote counts
-          toast.success("Đã hủy bình chọn thành công")
+          toast.success(response?.message || "Đã hủy bình chọn thành công")
         },
         onError: (error: any) => {
           console.error("Error cancelling vote:", error)
-          toast.error("Có lỗi xảy ra khi hủy bình chọn")
+          const errorMessage =
+            error?.response?.data?.message || "Có lỗi xảy ra khi hủy bình chọn"
+          toast.error(errorMessage)
         },
       })
     } else {
@@ -174,14 +188,26 @@ const page = ({ params }: PageProps) => {
       voteForLecture(
         { lectureId: lecturerId },
         {
-          onSuccess: () => {
+          onSuccess: (response) => {
             setVotedLecturers((prev) => new Set(prev).add(lecturerId))
+            // Invalidate relevant queries to update the UI
+            queryClient.invalidateQueries({
+              queryKey: ["lectureVotes", lecturerId, "today"],
+            })
+            queryClient.invalidateQueries({
+              queryKey: ["lectures"],
+            })
+            queryClient.invalidateQueries({
+              queryKey: ["lecture", lecturerId],
+            })
             refetch() // Refresh lecture data to update vote counts
-            toast.success("Bình chọn thành công!")
+            toast.success(response?.message || "Bình chọn thành công!")
           },
           onError: (error: any) => {
             console.error("Error voting:", error)
-            toast.error("Có lỗi xảy ra khi bình chọn")
+            const errorMessage =
+              error?.response?.data?.message || "Có lỗi xảy ra khi bình chọn"
+            toast.error(errorMessage)
           },
         }
       )
