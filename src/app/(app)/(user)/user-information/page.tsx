@@ -16,7 +16,11 @@ const page = () => {
     updateAccount(
       {
         id: sub || "",
-        data: { ...data, name: name || "", isAdmin: isAdmin || false },
+        data: {
+          ...data,
+          name: name || "",
+          isAdmin: isAdmin == "True" ? true : false,
+        },
       },
       {
         onSuccess: () => {

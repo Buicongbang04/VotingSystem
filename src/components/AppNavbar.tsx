@@ -41,7 +41,7 @@ const AppNavbar = () => {
             className='object-cover'
           />
           <Image
-            src='/images/iia_Logo.png'
+            src='/images/iia_logo.png'
             alt='IIA Logo'
             width={100}
             height={100}
