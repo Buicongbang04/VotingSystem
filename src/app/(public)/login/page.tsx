@@ -55,6 +55,9 @@ const LoginWithSearchParams = () => {
     const accessToken = searchParams.get("access_token")
     const refreshToken = searchParams.get("refresh_token")
 
+    // Check if we're in a popup window
+    const isPopup = window.opener && window.opener !== window
+
     if (code) {
       console.log("Google OAuth code received:", code)
       // Handle Google OAuth code
@@ -63,20 +66,46 @@ const LoginWithSearchParams = () => {
 
     if (error) {
       console.log("Google OAuth error:", error)
+      if (isPopup) {
+        // Send error message to parent window
+        window.opener?.postMessage(
+          {
+            type: "GOOGLE_AUTH_ERROR",
+            error: error,
+          },
+          window.location.origin
+        )
+        window.close()
+      }
     }
 
     // If tokens are provided directly in URL parameters, save them
     if (accessToken && refreshToken) {
       console.log("Tokens received from URL parameters")
-      const tokens = {
-        accessToken,
-        refreshToken,
-      }
-      const success = login(tokens)
-      if (success) {
-        // Redirect admin users to admin dashboard, regular users to all-show
-        const redirectPath = isAdmin() ? "/admin/dashboard" : "/all-show"
-        router.push(redirectPath)
+
+      if (isPopup) {
+        // Send success message to parent window
+        window.opener?.postMessage(
+          {
+            type: "GOOGLE_AUTH_SUCCESS",
+            accessToken,
+            refreshToken,
+          },
+          window.location.origin
+        )
+        window.close()
+      } else {
+        // Handle direct redirect (fallback)
+        const tokens = {
+          accessToken,
+          refreshToken,
+        }
+        const success = login(tokens)
+        if (success) {
+          // Redirect admin users to admin dashboard, regular users to all-show
+          const redirectPath = isAdmin() ? "/admin/dashboard" : "/all-show"
+          router.push(redirectPath)
+        }
       }
     }
   }, [isClient, searchParams, router, login])
@@ -86,23 +115,102 @@ const LoginWithSearchParams = () => {
     try {
       const tokens = await googleLoginMutation.mutateAsync(code)
       if (tokens.accessToken && tokens.refreshToken) {
+        // Check if we're in a popup window
+        const isPopup = window.opener && window.opener !== window
+
+        if (isPopup) {
+          // Send success message to parent window
+          window.opener?.postMessage(
+            {
+              type: "GOOGLE_AUTH_SUCCESS",
+              accessToken: tokens.accessToken,
+              refreshToken: tokens.refreshToken,
+            },
+            window.location.origin
+          )
+          window.close()
+        } else {
+          // Handle direct redirect (fallback)
+          const success = login(tokens)
+          if (success) {
+            // Redirect admin users to admin dashboard, regular users to all-show
+            const redirectPath = isAdmin() ? "/admin/dashboard" : "/all-show"
+            router.push(redirectPath)
+          }
+        }
+      }
+    } catch (error) {
+      console.error("Google OAuth error:", error)
+
+      // Check if we're in a popup window
+      const isPopup = window.opener && window.opener !== window
+      if (isPopup) {
+        // Send error message to parent window
+        window.opener?.postMessage(
+          {
+            type: "GOOGLE_AUTH_ERROR",
+            error: error instanceof Error ? error.message : "Unknown error",
+          },
+          window.location.origin
+        )
+        window.close()
+      }
+    }
+  }
+
+  const handleGoogleLogin = () => {
+    // Open Google OAuth in a popup window
+    const redirectUrl = encodeURIComponent(`${window.location.origin}/login`)
+    const backendUrl = `${process.env.NEXT_PUBLIC_API_URL}/google-auth/external/google?redirectUri=${redirectUrl}`
+
+    // Open popup window
+    const popup = window.open(
+      backendUrl,
+      "googleAuth",
+      "width=500,height=600,scrollbars=yes,resizable=yes"
+    )
+
+    // Listen for messages from the popup
+    const messageListener = (event: MessageEvent) => {
+      // Check if the message is from our popup
+      if (event.origin !== window.location.origin) return
+
+      if (event.data.type === "GOOGLE_AUTH_SUCCESS") {
+        const { accessToken, refreshToken } = event.data
+        console.log("Tokens received from popup:", {
+          accessToken,
+          refreshToken,
+        })
+
+        const tokens = { accessToken, refreshToken }
         const success = login(tokens)
+
         if (success) {
           // Redirect admin users to admin dashboard, regular users to all-show
           const redirectPath = isAdmin() ? "/admin/dashboard" : "/all-show"
           router.push(redirectPath)
         }
-      }
-    } catch (error) {
-      console.error("Google OAuth error:", error)
-    }
-  }
 
-  const handleGoogleLogin = () => {
-    // Simply redirect to the backend Google OAuth endpoint with redirect URL
-    const redirectUrl = encodeURIComponent(`${window.location.origin}/login`)
-    const backendUrl = `${process.env.NEXT_PUBLIC_API_URL}/google-auth/external/google?redirectUri=${redirectUrl}`
-    window.location.href = backendUrl
+        // Clean up
+        window.removeEventListener("message", messageListener)
+        popup?.close()
+      } else if (event.data.type === "GOOGLE_AUTH_ERROR") {
+        console.error("Google OAuth error from popup:", event.data.error)
+        window.removeEventListener("message", messageListener)
+        popup?.close()
+      }
+    }
+
+    // Add message listener
+    window.addEventListener("message", messageListener)
+
+    // Check if popup was closed manually
+    const checkClosed = setInterval(() => {
+      if (popup?.closed) {
+        clearInterval(checkClosed)
+        window.removeEventListener("message", messageListener)
+      }
+    }, 1000)
   }
 
   const handleHomeClick = () => {
