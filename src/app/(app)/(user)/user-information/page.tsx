@@ -9,12 +9,15 @@ import React from "react"
 
 const page = () => {
   const { mutate: updateAccount } = useUpdateAccount()
-  const { sub, name } = useUser() as DecodedToken
+  const { sub, name, isAdmin } = useUser() as DecodedToken
   const router = useRouter()
 
   const onComplete = (data: any) => {
     updateAccount(
-      { id: sub || "", data: { ...data, name: name || "" } },
+      {
+        id: sub || "",
+        data: { ...data, name: name || "", isAdmin: isAdmin || false },
+      },
       {
         onSuccess: () => {
           router.push("/all-show")

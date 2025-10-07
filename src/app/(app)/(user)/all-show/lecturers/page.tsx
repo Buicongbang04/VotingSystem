@@ -20,11 +20,17 @@ import {
   useCancelTodaysVote,
   useGetTodaysVotesByLecture,
 } from "@/src/services/LectureVoteServices"
-import { useIsAuthenticated } from "@/src/stores/tokenStore"
+import { useIsAuthenticated, useUser } from "@/src/stores/tokenStore"
 import { toast } from "sonner"
 import { useEffect } from "react"
 import { VotingRulesModal } from "@/src/components/VotingRulesModal"
 import Link from "next/link"
+import { useGetAccountById } from "@/src/services/AccountServices"
+import {
+  BASIC_DEPARTMENTS,
+  SPECIALIZED_DEPARTMENTS,
+  ALL_DEPARTMENTS,
+} from "@/src/constants/Departments"
 
 interface PageProps {
   params: {
@@ -42,8 +48,14 @@ const page = ({ params }: PageProps) => {
   const [votedLecturers, setVotedLecturers] = useState<Set<string>>(new Set())
   const [showVotingRules, setShowVotingRules] = useState(false)
   const isAuthenticated = useIsAuthenticated()
+  const user = useUser()
   const { mutate: voteForLecture, isPending: isVoting } = useVoteForLecture()
   const { mutate: cancelVote, isPending: isCancelling } = useCancelTodaysVote()
+
+  // Get current user account information
+  const { data: accountData, isLoading: isLoadingAccount } = useGetAccountById(
+    user?.sub || ""
+  )
 
   // Load user's existing votes when component mounts
   useEffect(() => {
@@ -54,6 +66,54 @@ const page = ({ params }: PageProps) => {
       setVotedLecturers(new Set())
     }
   }, [isAuthenticated, lectures?.data])
+
+  // Get allowed departments based on semester
+  const getAllowedDepartments = useMemo(() => {
+    const semester = accountData?.data?.semester ?? 0
+
+    if (semester === 0) {
+      // Only basic departments for semester 0
+      return BASIC_DEPARTMENTS.map((dept) => dept.name)
+    } else if (semester >= 1 && semester <= 6) {
+      // Both basic and specialized for semesters 1-6
+      return ALL_DEPARTMENTS.map((dept) => dept.name)
+    } else if (semester >= 7 && semester <= 9) {
+      // Only specialized departments for semesters 7-9
+      return SPECIALIZED_DEPARTMENTS.map((dept) => dept.name)
+    }
+
+    // Default to all departments if semester is not recognized
+    return ALL_DEPARTMENTS.map((dept) => dept.name)
+  }, [accountData?.data?.semester])
+
+  // Get unique departments for filter based on semester
+  const departmentOptions = useMemo(() => {
+    if (!lectures?.data) return []
+
+    // Filter departments based on semester
+    const allowedDepts = lectures.data
+      .map((l) => l.department)
+      .filter((dept) => getAllowedDepartments.includes(dept))
+
+    const uniqueDepts = [...new Set(allowedDepts)]
+
+    return [
+      { value: "all", label: "Tất cả bộ môn" },
+      ...uniqueDepts.map((dept) => ({ value: dept, label: dept })),
+    ]
+  }, [lectures?.data, getAllowedDepartments])
+
+  // Reset selected department when allowed departments change
+  useEffect(() => {
+    if (departmentOptions.length > 0 && selectedDepartment !== "all") {
+      const isCurrentDeptAllowed = departmentOptions.some(
+        (option) => option.value === selectedDepartment
+      )
+      if (!isCurrentDeptAllowed) {
+        setSelectedDepartment("all")
+      }
+    }
+  }, [departmentOptions, selectedDepartment])
 
   // Filter and search logic
   const filteredLectures = useMemo(() => {
@@ -69,25 +129,20 @@ const page = ({ params }: PageProps) => {
         selectedDepartment === "all" ||
         lecturer.department === selectedDepartment
 
-      return matchesSearch && matchesDepartment
+      // Check if lecturer's department is allowed based on semester
+      const isDepartmentAllowed = getAllowedDepartments.includes(
+        lecturer.department
+      )
+
+      return matchesSearch && matchesDepartment && isDepartmentAllowed
     })
-  }, [lectures?.data, searchTerm, selectedDepartment])
+  }, [lectures?.data, searchTerm, selectedDepartment, getAllowedDepartments])
 
   // Pagination logic
   const totalPages = Math.ceil(filteredLectures.length / ITEMS_PER_PAGE)
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE
   const endIndex = startIndex + ITEMS_PER_PAGE
   const currentLectures = filteredLectures.slice(startIndex, endIndex)
-
-  // Get unique departments for filter
-  const departmentOptions = useMemo(() => {
-    if (!lectures?.data) return []
-    const uniqueDepts = [...new Set(lectures.data.map((l) => l.department))]
-    return [
-      { value: "all", label: "Tất cả bộ môn" },
-      ...uniqueDepts.map((dept) => ({ value: dept, label: dept })),
-    ]
-  }, [lectures?.data])
 
   const handleVote = (lecturerId: string) => {
     if (!isAuthenticated) {
@@ -206,7 +261,7 @@ const page = ({ params }: PageProps) => {
     return items
   }
 
-  if (isLoading) {
+  if (isLoading || isLoadingAccount) {
     return (
       <div className='flex justify-center items-center min-h-screen'>
         <div className='text-lg'>Loading lecturers...</div>

@@ -59,7 +59,10 @@ export default function EditUser() {
         studentCode: account.studentCode || "",
         email: account.email || "",
         name: account.name || "",
-        semester: account.semester || undefined,
+        semester:
+          account.semester !== undefined && account.semester !== null
+            ? account.semester
+            : undefined,
         department: account.department || "",
         isAdmin: account.isAdmin || false,
       })
@@ -94,7 +97,10 @@ export default function EditUser() {
         studentCode: formData.studentCode || undefined,
         email: formData.email || undefined,
         name: formData.name || undefined,
-        semester: formData.semester || undefined,
+        semester:
+          formData.semester !== undefined && formData.semester !== null
+            ? formData.semester
+            : undefined,
         department: formData.department || undefined,
         isAdmin: formData.isAdmin,
       }
@@ -352,7 +358,7 @@ export default function EditUser() {
                 name='semester'
                 value={formData.semester || ""}
                 onChange={handleInputChange}
-                className='w-full p-3 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-vibrant-pink'
+                className='w-full p-3 bg-white/10 border border-white/20 rounded-lg text-black focus:outline-none focus:ring-2 focus:ring-vibrant-pink'
               >
                 <option value=''>Chọn học kỳ</option>
                 <option value='0'>Học kỳ 0</option>

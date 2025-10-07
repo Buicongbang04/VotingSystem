@@ -263,7 +263,8 @@ export default function AdminUsers() {
                       {account.department || "Chưa cập nhật"}
                     </td>
                     <td className='py-3 px-4 text-white/80'>
-                      {account.semester
+                      {account.semester !== undefined &&
+                      account.semester !== null
                         ? `Học kỳ ${account.semester}`
                         : "Chưa cập nhật"}
                     </td>

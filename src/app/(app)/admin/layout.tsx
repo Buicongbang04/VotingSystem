@@ -1,5 +1,5 @@
 import AdminNavbar from "@/src/components/AdminNavbar"
-import AuthGuard from "../../../components/AuthGuard"
+import AdminGuard from "../../../components/AdminGuard"
 import AppNavbar from "@/src/components/AppNavbar"
 import LenisProvider from "@/src/utils/lenis"
 import ParallaxBackground from "@/src/components/ParallaxBackground"
@@ -10,7 +10,7 @@ export default function AdminLayout({
   children: React.ReactNode
 }) {
   return (
-    <AuthGuard>
+    <AdminGuard>
       <LenisProvider>
         <ParallaxBackground />
 
@@ -22,6 +22,6 @@ export default function AdminLayout({
           </div>
         </main>
       </LenisProvider>
-    </AuthGuard>
+    </AdminGuard>
   )
 }

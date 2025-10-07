@@ -106,6 +106,12 @@ export const useSetUser = () => useTokenStore((state) => state.setUser)
 export const useValidateToken = () =>
   useTokenStore((state) => state.validateToken)
 
+// Admin check selector
+export const useIsAdmin = () => {
+  const user = useTokenStore((state) => state.user)
+  return user?.isAdmin === "True"
+}
+
 // Actions object (use sparingly to avoid re-renders)
 export const useTokenActions = () => ({
   login: useLogin(),

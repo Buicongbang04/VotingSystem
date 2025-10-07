@@ -76,6 +76,29 @@ export const authUtils = {
       })
     }
   },
+
+  /**
+   * Check if the current user has admin privileges
+   */
+  isAdmin: (): boolean => {
+    const user = useTokenStore.getState().user
+    return user?.isAdmin === "True"
+  },
+
+  /**
+   * Check if the current user has admin privileges (async version)
+   */
+  isAdminAsync: async (): Promise<boolean> => {
+    const store = useTokenStore.getState()
+    const isValid = store.validateToken()
+
+    if (!isValid) {
+      return false
+    }
+
+    const user = store.user
+    return user?.isAdmin === "True"
+  },
 }
 
 // Make it available globally for debugging in development
