@@ -21,28 +21,6 @@ const LoginComponent: React.FC<LoginComponentProps> = ({
         h-screen
       '
     >
-      {/* Logo */}
-      <div className='mb-[clamp(1rem,4vw,2rem)] flex flex-row items-center md:translate-y-5 md:translate-x-5 lg:translate-y-[-5] gap-15 sm:gap-20 md:gap-25 lg:gap-35'>
-        <Image
-          src='/images/Logo.png'
-          alt='IIA Logo'
-          width={280}
-          height={280}
-          priority
-          sizes='(max-width: 640px) 160px, (max-width: 768px) 200px, 280px'
-          className='h-auto w-[160px] sm:w-[200px] md:w-[240px] lg:w-[280px] sm:visible invisible md:visible lg:visible xl:visible'
-        />
-        <Image
-          src='/images/iia_logo.png'
-          alt='IIA Logo'
-          width={280}
-          height={280}
-          priority
-          sizes='(max-width: 640px) 160px, (max-width: 768px) 200px, 280px'
-          className='h-auto w-[160px] sm:w-[200px] md:w-[240px] lg:w-[280px] sm:visible invisible md:visible lg:visible xl:visible'
-        />
-      </div>
-
       {/* Form Shell */}
       <div className='relative w-full max-w-md min-w-0'>
         {/* Glow border */}

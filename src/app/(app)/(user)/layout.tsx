@@ -14,7 +14,7 @@ export default function UserLayout({
       <LenisProvider>
         <ParallaxBackground />
 
-        <main className='md:flex h-screen w-screen backdrop-blur-xs'>
+        <main className='flex flex-col md:flex-row h-screen w-screen backdrop-blur-xs'>
           <UserNavbar />
           <div className='flex-1 overflow-y-scroll' data-lenis-prevent>
             <AppNavbar />

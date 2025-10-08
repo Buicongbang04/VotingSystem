@@ -29,23 +29,25 @@ const AppNavbar = () => {
   }
 
   return (
-    <div className='h-16 pt-10'>
-      <div className='h-full px-6 flex items-center justify-center relative'>
+    <div className='h-20 pt-10'>
+      <div className='h-full px-4 md:px-6 flex items-center justify-center relative'>
         {/* Left Section - Logo/Brand */}
-        <div className='flex items-center space-x-10'>
+        <div className='hidden items-center space-x-4 md:flex'>
           <Image
             src='/images/Logo.png'
             alt='FPT University'
-            width={100}
-            height={100}
-            className='object-cover'
+            width={150}
+            height={150}
+            className='object-cover '
+            draggable={false}
           />
           <Image
             src='/images/iia_logo.png'
             alt='IIA Logo'
             width={100}
             height={100}
-            className='object-cover'
+            className='object-cover '
+            draggable={false}
           />
         </div>
 
@@ -60,7 +62,6 @@ const AppNavbar = () => {
                 <User className='w-4 h-4 text-black' />
               </div>
               <div className='hidden sm:block text-left'>
-                <p className='text-sm font-medium text-white'>{user?.name}</p>
                 <p className='text-xs text-white'>
                   {user?.isAdmin == "True" ? "Admin" : "Sinh viên"}
                 </p>
@@ -87,9 +88,6 @@ const AppNavbar = () => {
                         <User className='w-6 h-6 text-white' />
                       </div>
                       <div>
-                        <p className='font-medium text-gray-800'>
-                          {user?.name}
-                        </p>
                         <p className='text-sm text-gray-500'>{user?.email}</p>
                       </div>
                     </div>

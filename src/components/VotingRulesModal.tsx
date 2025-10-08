@@ -30,14 +30,14 @@ export const VotingRulesModal: React.FC<VotingRulesModalProps> = ({
           {/* Close button */}
           <button
             onClick={onClose}
-            className='absolute top-2 right-2 rounded-full flex items-center justify-center hover:bg-gray-100 hover:scale-110 transition-all duration-200'
+            className='absolute top-2 right-2 rounded-full flex items-center justify-center hover:bg-gray-100 hover:scale-110 transition-all duration-200 translate-x-5 -translate-y-7'
           >
             <Image
               src='/images/heart.png'
               alt='Close'
-              width={50}
-              height={50}
-              className='w-10 h-10 text-vibrant-pink transform rotate-45'
+              width={100}
+              height={100}
+              className='w-20 h-20 text-vibrant-pink transform rotate-20'
             />
           </button>
           <h3 className='text-white text-xl font-bold mb-4 text-center'>
@@ -58,10 +58,10 @@ export const VotingRulesModal: React.FC<VotingRulesModalProps> = ({
                 Quy tắc tính điểm phụ thuộc vào giai đoạn học của sinh viên:
               </p>
 
-              <div className='space-y-2 ml-4 flex gap-4'>
-                <div>
-                  <p className='font-bold'>GIAI ĐOẠN DỰ BỊ:</p>
-                  <div className='flex gap-2'>
+              <div className='space-y-2 ml-4 flex gap-4 justify-center items-center'>
+                <div className='text-center'>
+                  <p className='font-bold '>GIAI ĐOẠN DỰ BỊ:</p>
+                  <div className='flex gap-2 justify-center'>
                     <Image
                       src='/images/heart.png'
                       alt='Phase 1'
@@ -88,10 +88,9 @@ export const VotingRulesModal: React.FC<VotingRulesModalProps> = ({
                   <p className='ml-4'>3 giảng viên nhóm ngành cơ bản</p>
                 </div>
 
-                <div>
-                  <p className='font-bold'>
-                    GIAI ĐOẠN CHUYÊN NGÀNH (HK1 - HKG):
-                  </p>
+                <div className='text-center'>
+                  <p className='font-bold '>GIAI ĐOẠN CHUYÊN NGÀNH</p>
+                  (HK1 - HK6):
                   <p className='ml-4 flex gap-2 justify-center items-center'>
                     <Image
                       src='/images/heart.png'
@@ -121,10 +120,9 @@ export const VotingRulesModal: React.FC<VotingRulesModalProps> = ({
                   </p>
                 </div>
 
-                <div>
-                  <p className='font-bold'>
-                    GIAI ĐOẠN CHUYÊN NGÀNH (HK7 - HK9):
-                  </p>
+                <div className='text-center'>
+                  <p className='font-bold'>GIAI ĐOẠN CHUYÊN NGÀNH</p>
+                  (HK7 - HK9):
                   <div className='flex gap-2'>
                     <Image
                       src='/images/heart.png'

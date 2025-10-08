@@ -13,6 +13,7 @@ import {
   MessageCircle,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
+import Image from "next/image"
 
 const navigationItems = [
   {
@@ -66,12 +67,29 @@ export default function UserNavbar() {
   }
 
   return (
-    <div className='md:h-screen md:w-64 w-screen h-50 bg-gradient-to-b from-vibrant-pink/80 to-vibrant-pink/0 backdrop-blur-md flex flex-col rounded-tr-[30px] md:border-1 border-light-pink md:border-l-0 md:border-b-0'>
+    <div className='md:h-screen md:w-64 w-full h-auto bg-gradient-to-b from-vibrant-pink/80 to-vibrant-pink/0 backdrop-blur-md flex flex-col rounded-tr-[30px] md:border-1 border-light-pink md:border-l-0 md:border-b-0'>
       {/* Header Section */}
-      <div className='h-30'></div>
+      <div className='pt-10 flex justify-center items-center space-x-4 '>
+        <Image
+          src='/images/Logo.png'
+          alt='FPT University'
+          width={150}
+          height={150}
+          className='object-cover '
+          draggable={false}
+        />
+        <Image
+          src='/images/iia_logo.png'
+          alt='IIA Logo'
+          width={100}
+          height={100}
+          className='object-cover '
+          draggable={false}
+        />
+      </div>
 
       {/* Navigation Items */}
-      <nav className='flex md:flex-col p-4 space-y-2 justify-between'>
+      <nav className='flex md:flex-col p-4 space-y-2 md:space-y-2 md:justify-start justify-between flex-wrap'>
         {navigationItems.map((item) => {
           const Icon = item.icon
           const isActive = pathname === item.href

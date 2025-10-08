@@ -21,7 +21,7 @@ const Page = () => {
   }
 
   return (
-    <div className='flex justify-center items-center pt-30 p-10'>
+    <div className='flex justify-center items-center pt-10 md:pt-30 p-4 md:p-10'>
       <EventAnnouncement onJoin={onJoin} />
     </div>
   )

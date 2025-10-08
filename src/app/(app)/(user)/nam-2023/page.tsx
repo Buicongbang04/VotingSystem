@@ -13,7 +13,7 @@ const page = () => {
         alt='Nam 2023'
         width={700}
         height={700}
-        className='mx-auto'
+        className='mx-auto w-full max-w-sm md:max-w-md lg:max-w-lg'
       />
 
       <Top10Lecturers />

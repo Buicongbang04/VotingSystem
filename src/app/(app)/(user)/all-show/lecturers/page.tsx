@@ -47,7 +47,6 @@ const page = ({ params }: PageProps) => {
   const [currentPage, setCurrentPage] = useState(1)
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedDepartment, setSelectedDepartment] = useState("all")
-  const [votedLecturers, setVotedLecturers] = useState<Set<string>>(new Set())
   const [showVotingRules, setShowVotingRules] = useState(false)
   const isAuthenticated = useIsAuthenticated()
   const user = useUser()
@@ -58,16 +57,6 @@ const page = ({ params }: PageProps) => {
   const { data: accountData, isLoading: isLoadingAccount } = useGetAccountById(
     user?.sub || ""
   )
-
-  // Load user's existing votes when component mounts
-  useEffect(() => {
-    if (isAuthenticated && lectures?.data) {
-      // For now, we'll start with an empty set
-      // In a real implementation, you might want to fetch all user votes
-      // or check each lecturer individually
-      setVotedLecturers(new Set())
-    }
-  }, [isAuthenticated, lectures?.data])
 
   // Get allowed departments based on semester
   const getAllowedDepartments = useMemo(() => {
@@ -152,17 +141,14 @@ const page = ({ params }: PageProps) => {
       return
     }
 
-    const isVoted = votedLecturers.has(lecturerId)
+    // Find the lecturer to check if they're already voted
+    const lecturer = lectures?.data?.find((l) => l.id === lecturerId)
+    const isVoted = lecturer?.isVoted || false
 
     if (isVoted) {
       // Cancel vote
       cancelVote(lecturerId, {
         onSuccess: (response) => {
-          setVotedLecturers((prev) => {
-            const newSet = new Set(prev)
-            newSet.delete(lecturerId)
-            return newSet
-          })
           // Invalidate relevant queries to update the UI
           queryClient.invalidateQueries({
             queryKey: ["lectureVotes", lecturerId, "today"],
@@ -189,7 +175,6 @@ const page = ({ params }: PageProps) => {
         { lectureId: lecturerId },
         {
           onSuccess: (response) => {
-            setVotedLecturers((prev) => new Set(prev).add(lecturerId))
             // Invalidate relevant queries to update the UI
             queryClient.invalidateQueries({
               queryKey: ["lectureVotes", lecturerId, "today"],
@@ -291,19 +276,19 @@ const page = ({ params }: PageProps) => {
 
   return (
     <div className='min-h-screen'>
-      <div className='mx-auto px-4'>
+      <div className='mx-auto px-4 pt-10'>
         {/* Header */}
-        <div className='mb-2 flex items-center justify-between'>
-          <div className='flex items-center'>
-            <h2 className='text-4xl font-bold text-white mb-2'>
+        <div className='mb-2 flex flex-col md:flex-row items-start md:items-center justify-between gap-4'>
+          <div className='flex items-center flex-wrap'>
+            <h2 className='text-2xl md:text-4xl font-bold text-white mb-2'>
               Inspiring Instructor Awards 2025
             </h2>
             <button
               onClick={() => setShowVotingRules(true)}
-              className='flex items-center justify-center w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 transition-colors duration-200 ml-4'
+              className='flex items-center justify-center w-8 h-8 md:w-10 md:h-10 rounded-full bg-white/10 hover:bg-white/20 transition-colors duration-200 ml-2 md:ml-4'
               title='Xem thể lệ bình chọn'
             >
-              <Info className='w-5 h-5 text-white' />
+              <Info className='w-4 h-4 md:w-5 md:h-5 text-white' />
             </button>
           </div>
 
@@ -311,33 +296,33 @@ const page = ({ params }: PageProps) => {
           <Link href='/feedback'>
             <Button
               variant='ghost'
-              className='text-white hover:text-gray-300 hover:bg-white/10 border border-white/20'
+              className='text-white hover:text-gray-300 hover:bg-white/10 border border-white/20 text-sm md:text-base'
             >
               <MessageCircle className='w-4 h-4 mr-2' />
-              Đánh giá
+              <span className='hidden sm:inline'>Đánh giá</span>
             </Button>
           </Link>
         </div>
 
         {/* Search and Filter */}
-        <div className='flex justify-between md:flex-row gap-4 mb-8 '>
-          <div className='relative'>
+        <div className='flex flex-col sm:flex-row gap-4 mb-8'>
+          <div className='relative w-full sm:w-auto'>
             <CustomDropdown
               options={departmentOptions}
               value={selectedDepartment}
               onChange={setSelectedDepartment}
               placeholder='Tất cả bộ môn'
-              className=''
+              className='w-full sm:w-auto'
             />
           </div>
-          <div className='relative  flex-1 max-w-md'>
+          <div className='relative flex-1 max-w-md'>
             <Search className='absolute left-3 top-0 transform translate-y-1/2 text-pink-500 w-5 h-5' />
             <Input
               type='text'
               placeholder='Tìm kiếm'
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className='pl-10 border-pink-500 text-pink-500 placeholder:text-pink-500 focus:border-pink-500 focus:ring-pink-500 bg-gray-200'
+              className='pl-10 border-pink-500 text-pink-500 placeholder:text-pink-500 focus:border-pink-500 focus:ring-pink-500 bg-gray-200 w-full'
             />
           </div>
         </div>
@@ -361,31 +346,31 @@ const page = ({ params }: PageProps) => {
         {totalPages > 1 && (
           <div className='flex flex-col items-center space-y-4 m-4'>
             {/* Page info */}
-            <div className='text-white/70 text-sm'>
+            <div className='text-white/70 text-xs md:text-sm text-center px-4'>
               Trang {currentPage} của {totalPages} ({filteredLectures.length}{" "}
               giảng viên)
             </div>
 
             {/* Pagination controls */}
-            <div className='flex items-center space-x-2 flex-wrap justify-center'>
+            <div className='flex items-center space-x-1 md:space-x-2 flex-wrap justify-center max-w-full'>
               <Button
                 variant='outline'
                 onClick={() => goToPage(currentPage - 1)}
                 disabled={currentPage === 1}
-                className='flex items-center border-gradient bg-transparent text-white hover:bg-white/10'
+                className='flex items-center border-gradient bg-transparent text-white hover:bg-white/10 text-xs md:text-sm'
                 size='sm'
               >
-                <ChevronLeft className='w-4 h-4 mr-1' />
-                Trước
+                <ChevronLeft className='w-3 h-3 md:w-4 md:h-4 mr-1' />
+                <span className='hidden sm:inline'>Trước</span>
               </Button>
 
-              <div className='flex space-x-1 flex-wrap justify-center'>
+              <div className='flex space-x-1 flex-wrap justify-center max-w-xs overflow-x-auto'>
                 {getPaginationItems().map((item, index) => (
                   <button
                     key={index}
                     onClick={() => typeof item === "number" && goToPage(item)}
                     disabled={item === "..."}
-                    className={`w-10 h-10 rounded-xl text-sm font-medium transition-all duration-200 ${
+                    className={`w-8 h-8 md:w-10 md:h-10 rounded-xl text-xs md:text-sm font-medium transition-all duration-200 ${
                       item === "..."
                         ? "text-white/50 cursor-default"
                         : currentPage === item
@@ -402,11 +387,11 @@ const page = ({ params }: PageProps) => {
                 variant='outline'
                 onClick={() => goToPage(currentPage + 1)}
                 disabled={currentPage === totalPages}
-                className='flex items-center border-gradient bg-transparent text-white hover:bg-white/10'
+                className='flex items-center border-gradient bg-transparent text-white hover:bg-white/10 text-xs md:text-sm'
                 size='sm'
               >
-                Sau
-                <ChevronRight className='w-4 h-4 ml-1' />
+                <span className='hidden sm:inline'>Sau</span>
+                <ChevronRight className='w-3 h-3 md:w-4 md:h-4 ml-1' />
               </Button>
             </div>
           </div>

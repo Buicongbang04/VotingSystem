@@ -65,26 +65,34 @@ const page = () => {
 
   return (
     <>
-      <div className='flex p-10 gap-6'>
+      <div className='flex flex-col md:flex-row p-4 md:p-10 gap-4 md:gap-6'>
         <EventComponent to='/nam-2023'>
-          <h1 className='text-white text-4xl font-bold'>TOP 10</h1>
-          <div className='text-white text-2xl '>Giảng viên</div>
-          <div className='text-white text-2xl '>Truyền cảm hứng 2023</div>
+          <h1 className='text-white text-2xl md:text-4xl font-bold'>TOP 10</h1>
+          <div className='text-white text-lg md:text-2xl'>Giảng viên</div>
+          <div className='text-white text-lg md:text-2xl'>
+            Truyền cảm hứng 2023
+          </div>
         </EventComponent>
         <EventComponent to='/nam-2024'>
-          <h1 className='text-white text-4xl font-bold'>TOP 10</h1>
-          <div className='text-white text-2xl '>Giảng viên</div>
-          <div className='text-white text-2xl '>Truyền cảm hứng 2024</div>
+          <h1 className='text-white text-2xl md:text-4xl font-bold'>TOP 10</h1>
+          <div className='text-white text-lg md:text-2xl'>Giảng viên</div>
+          <div className='text-white text-lg md:text-2xl'>
+            Truyền cảm hứng 2024
+          </div>
         </EventComponent>
       </div>
-      <div className='px-10'>
+      <div className='px-4 md:px-10'>
         <EventComponent to='/all-show'>
-          <h1 className='text-white text-4xl font-bold'>Top 10 Giảng viên</h1>
-          <div className='text-white text-4xl font-bold'>
+          <h1 className='text-white text-2xl md:text-4xl font-bold'>
+            Top 10 Giảng viên
+          </h1>
+          <div className='text-white text-2xl md:text-4xl font-bold'>
             truyền cảm hứng 2025
           </div>
-          <div className='pt-10 text-white text-xl'>Đang đếm ngược</div>
-          <div className='text-white text-4xl font-mono font-bold tracking-wider'>
+          <div className='pt-6 md:pt-10 text-white text-lg md:text-xl'>
+            Đang đếm ngược
+          </div>
+          <div className='text-white text-2xl md:text-4xl font-mono font-bold tracking-wider'>
             {formatCountdown()}
           </div>
         </EventComponent>

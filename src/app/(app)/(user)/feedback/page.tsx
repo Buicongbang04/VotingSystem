@@ -33,7 +33,8 @@ const FeedbackPage = () => {
             </h1>
             <p className='text-white/80 text-lg md:text-xl max-w-2xl mx-auto'>
               Chúng tôi rất mong nhận được phản hồi từ bạn để có thể cải thiện
-              chương trình "Inspiring Instructor Awards" trong tương lai
+              chương trình "Inspiring Instructor Awards" trong những năm tiếp
+              theo
             </p>
           </div>
         </div>
@@ -47,11 +48,8 @@ const FeedbackPage = () => {
           {/* Additional Information */}
           <div className='mt-8 text-center'>
             <p className='text-white/60 text-sm'>
-              Đánh giá của bạn sẽ giúp chúng tôi cải thiện chất lượng chương
+              Đánh giá của bạn sẽ giúp chúng mình cải thiện chất lượng chương
               trình
-            </p>
-            <p className='text-white/60 text-sm mt-2'>
-              Cảm ơn bạn đã tham gia bình chọn!
             </p>
           </div>
         </div>

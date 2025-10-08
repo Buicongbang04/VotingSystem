@@ -93,7 +93,7 @@ const LecturerCard = ({
 
         {/* Action Buttons */}
         <div className='flex items-center justify-between mt-2'>
-          {/* Like Button */}
+          {/* Vote/Cancel Vote Button */}
           <Button
             variant='default'
             size='lg'
@@ -102,6 +102,7 @@ const LecturerCard = ({
             className={` bg-transparent border-gradient text-white hover:bg-white/20  rounded-2xl ${
               isVoted ? "bg-white/20" : ""
             } ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
+            title={isVoted ? "Nhấn để hủy bình chọn" : "Nhấn để bình chọn"}
           >
             <Heart
               className={`w-5 h-5 mr-2 font-bold ${
