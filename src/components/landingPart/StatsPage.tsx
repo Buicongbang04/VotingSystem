@@ -22,8 +22,8 @@ const StatsPage = () => {
       subtitle: "(HK1 - HK6)",
       rules: [
         {
-          hearts: 3,
-          instructors: "3 Giảng viên",
+          hearts: 1,
+          instructors: "1 Giảng viên",
           category: "Nhóm ngành cơ bản",
         },
         { hearts: 2, instructors: "3 Giảng viên", category: "Chuyên ngành" },

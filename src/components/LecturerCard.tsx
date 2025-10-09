@@ -43,11 +43,10 @@ const LecturerCard = ({
 
   const CardContent = () => (
     <div
-      className={`relative w-full rounded-3xl overflow-hidden ${className} border-gradient ${
-        showLink
-          ? "cursor-pointer hover:scale-105 transition-transform duration-300"
-          : ""
-      }`}
+      className={`relative w-full rounded-3xl overflow-hidden ${className} border-gradient ${showLink
+        ? "cursor-pointer hover:scale-105 transition-transform duration-300"
+        : ""
+        }`}
     >
       {/* Image Section - 60% height */}
       <div className='relative h-sm '>
@@ -57,8 +56,8 @@ const LecturerCard = ({
               src={lecturer.avatarUrl}
               alt={lecturer.name}
               className='w-full h-full object-cover'
-              width={1000}
-              height={1000}
+              width={900}
+              height={900}
             />
           </Link>
         ) : (
@@ -99,15 +98,13 @@ const LecturerCard = ({
             size='lg'
             onClick={handleVote}
             disabled={isLoading}
-            className={` bg-transparent border-gradient text-white hover:bg-white/20  rounded-2xl ${
-              isVoted ? "bg-white/20" : ""
-            } ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
+            className={` bg-transparent border-gradient text-white hover:bg-white/20  rounded-2xl ${isVoted ? "bg-white/20" : ""
+              } ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
             title={isVoted ? "Nhấn để hủy bình chọn" : "Nhấn để bình chọn"}
           >
             <Heart
-              className={`w-5 h-5 mr-2 font-bold ${
-                isVoted ? "fill-current" : ""
-              } ${isLoading ? "animate-pulse" : ""}`}
+              className={`w-5 h-5 mr-2 font-bold ${isVoted ? "fill-current" : ""
+                } ${isLoading ? "animate-pulse" : ""}`}
             />
             <span className='text-sm font-medium'>
               {isLoading ? "..." : voteCount.toString().padStart(3, "0")}

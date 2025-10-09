@@ -99,7 +99,7 @@ export const VotingRulesModal: React.FC<VotingRulesModalProps> = ({
                       height={50}
                       className=''
                     />
-                    3 giảng viên nhóm ngành cơ bản
+                    1 giảng viên nhóm ngành cơ bản
                   </p>
                   <p className='ml-4 flex gap-4 '>
                     <Image
