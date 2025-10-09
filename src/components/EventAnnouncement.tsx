@@ -124,11 +124,11 @@ const EventAnnouncement: React.FC<EventAnnouncementProps> = ({
       {/* Left image placeholder */}
       <div className='w-50 flex items-center justify-center m-5'>
         <Image
-          src='/images/event-logo-announcement.png'
+          src='/images/bg-allshow.png'
           alt='Event Announcement'
           width={240}
           height={206}
-          className='w-full object-cover'
+          className='w-full object-cover rounded-3xl'
         />
       </div>
 
