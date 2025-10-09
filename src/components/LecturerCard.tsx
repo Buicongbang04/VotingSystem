@@ -56,8 +56,8 @@ const LecturerCard = ({
               src={lecturer.avatarUrl}
               alt={lecturer.name}
               className='w-full h-full object-cover'
-              width={900}
-              height={900}
+              width={1000}
+              height={1000}
             />
           </Link>
         ) : (
