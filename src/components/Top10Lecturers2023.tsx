@@ -1,6 +1,6 @@
 "use client"
 
-import React from "react"
+import React, { useState } from "react"
 import { mockTop10Lecturers2023 } from "../data/mockTop10Lecturers"
 import { Crown } from "lucide-react"
 import { motion } from "motion/react"
@@ -12,18 +12,25 @@ interface Top10LecturersProps {
 
 const Top10Lecturers = ({ className = "" }: Top10LecturersProps) => {
   const top10Lecturers = mockTop10Lecturers2023
+  const [isPaused, setIsPaused] = useState(false)
 
   const getRankIcon = (rank: number) => {
     switch (rank) {
       case 1:
-        return <Crown className='w-6 h-6 text-white' />
+        return (
+          <Crown className='w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-white' />
+        )
       case 2:
-        return <Crown className='w-6 h-6 text-white' />
+        return (
+          <Crown className='w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-white' />
+        )
       case 3:
-        return <Crown className='w-6 h-6 text-white' />
+        return (
+          <Crown className='w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-white' />
+        )
       default:
         return (
-          <span className='text-lg font-bold text-white bg-pink-500 rounded-full w-8 h-8 flex items-center justify-center'>
+          <span className='text-sm sm:text-base md:text-lg font-bold text-white bg-pink-500 rounded-full w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 flex items-center justify-center'>
             {rank}
           </span>
         )
@@ -46,7 +53,7 @@ const Top10Lecturers = ({ className = "" }: Top10LecturersProps) => {
   return (
     <div className={`w-full ${className}`}>
       {/* Top 3 Special Layout */}
-      <div className='flex justify-center items-end gap-2 md:gap-4 mb-12 px-4'>
+      <div className='flex justify-center items-end gap-1 sm:gap-2 md:gap-4 mb-8 sm:mb-12 px-2 sm:px-4'>
         {[
           top10Lecturers[1], // Rank 2 (left)
           top10Lecturers[0], // Rank 1 (middle)
@@ -59,15 +66,15 @@ const Top10Lecturers = ({ className = "" }: Top10LecturersProps) => {
               key={lecturer.id}
               className={`relative transition-all duration-300 ${
                 isMiddle
-                  ? "transform scale-105 md:scale-110 z-20"
-                  : "transform scale-85 md:scale-90 z-10"
+                  ? "transform scale-105 sm:scale-110 z-20"
+                  : "transform scale-90 sm:scale-95 z-10"
               }`}
             >
               {/* Rank Badge */}
               <div
-                className={`absolute -top-3 -right-3 z-10 ${getRankBadgeColor(
+                className={`absolute -top-2 -right-2 sm:-top-3 sm:-right-3 z-10 ${getRankBadgeColor(
                   rank
-                )} rounded-full p-2 shadow-lg`}
+                )} rounded-full p-1 sm:p-2 shadow-lg`}
               >
                 {getRankIcon(rank)}
               </div>
@@ -76,7 +83,9 @@ const Top10Lecturers = ({ className = "" }: Top10LecturersProps) => {
               <MockLecturerCard
                 lecturer={lecturer}
                 className={`h-full ${
-                  isMiddle ? "w-56 md:w-64" : "w-48 md:w-56"
+                  isMiddle
+                    ? "w-32 sm:w-40 md:w-56 lg:w-64"
+                    : "w-28 sm:w-36 md:w-48 lg:w-56"
                 }`}
                 // No onVote or onShare props - making it unvoteable
               />
@@ -88,16 +97,22 @@ const Top10Lecturers = ({ className = "" }: Top10LecturersProps) => {
       </div>
 
       {/* Rest of the lecturers (4-10) with automatic infinite scroll */}
-      <section className='relative mb-8 px-4 overflow-x-hidden'>
+      <section className='relative mb-6 sm:mb-8 px-2 sm:px-4 overflow-x-hidden'>
         <div className='w-full'>
-          <h3 className='text-2xl font-bold text-white mb-6 text-center'>
+          <h3 className='text-lg sm:text-xl md:text-2xl font-bold text-white mb-4 sm:mb-6 text-center'>
             Các giảng viên khác
           </h3>
 
           {/* Infinite scroll container */}
-          <div className='relative '>
+          <div
+            className='relative'
+            onMouseEnter={() => setIsPaused(true)}
+            onMouseLeave={() => setIsPaused(false)}
+            onTouchStart={() => setIsPaused(true)}
+            onTouchEnd={() => setIsPaused(false)}
+          >
             <motion.div
-              className='flex gap-4 md:gap-6 pb-4'
+              className='flex gap-2 sm:gap-4 md:gap-6 pb-4'
               animate={{
                 x: [0, -100 * top10Lecturers.slice(3).length],
               }}
@@ -108,6 +123,10 @@ const Top10Lecturers = ({ className = "" }: Top10LecturersProps) => {
                   duration: 20,
                   ease: "linear",
                 },
+              }}
+              style={{
+                willChange: "transform",
+                animationPlayState: isPaused ? "paused" : "running",
               }}
             >
               {/* Duplicate the lecturers for seamless loop */}
@@ -121,9 +140,9 @@ const Top10Lecturers = ({ className = "" }: Top10LecturersProps) => {
                     >
                       {/* Rank Badge */}
                       <div
-                        className={`absolute -top-3 -right-3 z-10 ${getRankBadgeColor(
+                        className={`absolute -top-2 -right-2 sm:-top-3 sm:-right-3 z-10 ${getRankBadgeColor(
                           rank
-                        )} rounded-full p-2 shadow-lg`}
+                        )} rounded-full p-1 sm:p-2 shadow-lg`}
                       >
                         {getRankIcon(rank)}
                       </div>
@@ -131,7 +150,7 @@ const Top10Lecturers = ({ className = "" }: Top10LecturersProps) => {
                       {/* Lecturer Card */}
                       <MockLecturerCard
                         lecturer={lecturer}
-                        className='w-48 md:w-56 h-full'
+                        className='w-28 sm:w-36 md:w-48 lg:w-56 h-full'
                         // No onVote or onShare props - making it unvoteable
                       />
                     </div>
