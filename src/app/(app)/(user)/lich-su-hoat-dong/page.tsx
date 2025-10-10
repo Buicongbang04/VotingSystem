@@ -102,7 +102,7 @@ const VoteHistoryPage = () => {
   }
 
   return (
-    <div className='min-h-screen  relative'>
+    <div className='min-h-screen relative top-10 xl:top-20'>
       <div className='container mx-auto px-4 py-8 relative z-10 '>
         <div className='mb-8 text-center'>
           <h1 className='text-2xl md:text-4xl font-bold text-white bg-clip-text mb-2 '>

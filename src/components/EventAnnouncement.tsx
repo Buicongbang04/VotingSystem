@@ -120,9 +120,10 @@ const EventAnnouncement: React.FC<EventAnnouncementProps> = ({
   }
 
   return (
-    <div className='w-full flex bg-gradient-to-r from-vibrant-pink/0 to-vibrant-pink rounded-4xl shadow-lg overflow-hidden border-gradient  '>
+    <div className='flex sm:flex-row flex-col
+    bg-gradient-to-r from-vibrant-pink/0 to-vibrant-pink rounded-4xl shadow-lg overflow-hidden border-gradient  '>
       {/* Left image placeholder */}
-      <div className='w-50 flex items-center justify-center m-5'>
+      <div className='flex items-center justify-center m-5'>
         <Image
           src='/images/bg-allshow.png'
           alt='Event Announcement'
