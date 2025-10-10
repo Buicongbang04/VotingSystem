@@ -33,7 +33,7 @@ import {
   ALL_DEPARTMENTS,
 } from "@/src/constants/Departments"
 import Image from "next/image"
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion"
 
 interface PageProps {
   params: {
@@ -44,12 +44,10 @@ interface PageProps {
 const ITEMS_PER_PAGE = 8
 
 const page = ({ params }: PageProps) => {
-
   const queryClient = useQueryClient()
   const { data: lectures, isLoading, refetch } = useGetActiveLectures()
   const [currentPage, setCurrentPage] = useState(1)
   const [searchTerm, setSearchTerm] = useState("")
-  const [numTym, setNumTym] = useState(3)
   const [selectedDepartment, setSelectedDepartment] = useState("all")
   const [showVotingRules, setShowVotingRules] = useState(false)
   const isAuthenticated = useIsAuthenticated()
@@ -133,6 +131,15 @@ const page = ({ params }: PageProps) => {
     })
   }, [lectures?.data, searchTerm, selectedDepartment, getAllowedDepartments])
 
+  // Calculate number of voted lecturers minus 3
+  const votedLecturersCount = useMemo(() => {
+    if (!lectures?.data) return 0
+    const votedCount = lectures.data.filter(
+      (lecturer) => lecturer.isVoted
+    ).length
+    return Math.max(0, 3 - votedCount)
+  }, [lectures?.data])
+
   // Pagination logic
   const totalPages = Math.ceil(filteredLectures.length / ITEMS_PER_PAGE)
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE
@@ -163,7 +170,6 @@ const page = ({ params }: PageProps) => {
           queryClient.invalidateQueries({
             queryKey: ["lecture", lecturerId],
           })
-          setNumTym((prev) => prev + 1)
           refetch() // Refresh lecture data to update vote counts
           toast.success(response?.message || "Đã hủy bình chọn thành công")
         },
@@ -190,7 +196,6 @@ const page = ({ params }: PageProps) => {
             queryClient.invalidateQueries({
               queryKey: ["lecture", lecturerId],
             })
-            setNumTym((prev) => prev - 1)
             refetch() // Refresh lecture data to update vote counts
             toast.success(response?.message || "Bình chọn thành công!")
           },
@@ -280,8 +285,6 @@ const page = ({ params }: PageProps) => {
     )
   }
 
-
-
   return (
     <div className='min-h-screen'>
       <div className='mx-auto px-4 pt-10'>
@@ -335,14 +338,14 @@ const page = ({ params }: PageProps) => {
           </div>
           <div className='relative'>
             <Image
-              src="/images/heart.png"
-              alt="Number of votes"
+              src='/images/heart.png'
+              alt='Number of votes'
               width={100}
               height={100}
-              className="w-12 h-12 pointer-events-none"
+              className='w-12 h-12 pointer-events-none'
             />
-            <span className="absolute top-[0px] right-[-3px] flex items-center justify-center w-4 h-4 bg-white/20 text-white text-sm font-bold rounded-full">
-              {numTym}
+            <span className='absolute top-[0px] right-[-3px] flex items-center justify-center w-4 h-4 bg-white/20 text-white text-sm font-bold rounded-full'>
+              {votedLecturersCount}
             </span>
           </div>
         </div>
@@ -390,12 +393,13 @@ const page = ({ params }: PageProps) => {
                     key={index}
                     onClick={() => typeof item === "number" && goToPage(item)}
                     disabled={item === "..."}
-                    className={`w-8 h-8 md:w-10 md:h-10 rounded-xl text-xs md:text-sm font-medium transition-all duration-200 ${item === "..."
-                      ? "text-white/50 cursor-default"
-                      : currentPage === item
+                    className={`w-8 h-8 md:w-10 md:h-10 rounded-xl text-xs md:text-sm font-medium transition-all duration-200 ${
+                      item === "..."
+                        ? "text-white/50 cursor-default"
+                        : currentPage === item
                         ? "bg-gradient-to-r from-transparent to-vibrant-pink text-white border border-white/30 shadow-lg"
                         : "bg-transparent text-white/70 hover:text-white hover:bg-white/10 border border-white/20"
-                      }`}
+                    }`}
                   >
                     {item}
                   </button>
