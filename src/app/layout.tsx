@@ -9,6 +9,7 @@ import "./globals.css"
 import { Navbar } from "../components/landingPart"
 import Providers from "../components/Providers"
 import LenisProvider from "../utils/lenis"
+import PerformanceMonitor from "../components/PerformanceMonitor"
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -48,7 +49,10 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${ibmPlexSansCondensed.variable} ${dancingScript.variable} antialiased`}
       >
         <Providers>
-          <LenisProvider>{children}</LenisProvider>
+          <LenisProvider>
+            <PerformanceMonitor />
+            {children}
+          </LenisProvider>
         </Providers>
       </body>
     </html>

@@ -3,7 +3,7 @@
 import LecturerCard from "@/src/components/LecturerCard"
 import { Lecture } from "@/src/interfaces/Lecture/Lecture"
 import { useGetActiveLectures } from "@/src/services/LectureServices"
-import React, { useState, useMemo } from "react"
+import React, { useState, useMemo, useCallback, memo } from "react"
 import { useQueryClient } from "@tanstack/react-query"
 import {
   Search,
@@ -24,9 +24,17 @@ import {
 import { useIsAuthenticated, useUser } from "@/src/stores/tokenStore"
 import { toast } from "sonner"
 import { useEffect } from "react"
-import { VotingRulesModal } from "@/src/components/VotingRulesModal"
 import Link from "next/link"
 import { useGetAccountById } from "@/src/services/AccountServices"
+import { LoadingGrid } from "@/src/components/ui/loading"
+import { Suspense, lazy } from "react"
+
+// Lazy load the VotingRulesModal
+const VotingRulesModal = lazy(() =>
+  import("@/src/components/VotingRulesModal").then((module) => ({
+    default: module.VotingRulesModal,
+  }))
+)
 import {
   BASIC_DEPARTMENTS,
   SPECIALIZED_DEPARTMENTS,
@@ -43,7 +51,7 @@ interface PageProps {
 
 const ITEMS_PER_PAGE = 8
 
-const page = ({ params }: PageProps) => {
+const page = memo(({ params }: PageProps) => {
   const queryClient = useQueryClient()
   const { data: lectures, isLoading, refetch } = useGetActiveLectures()
   const [currentPage, setCurrentPage] = useState(1)
@@ -146,45 +154,20 @@ const page = ({ params }: PageProps) => {
   const endIndex = startIndex + ITEMS_PER_PAGE
   const currentLectures = filteredLectures.slice(startIndex, endIndex)
 
-  const handleVote = (lecturerId: string) => {
-    if (!isAuthenticated) {
-      toast.error("Vui lòng đăng nhập để bình chọn")
-      return
-    }
+  const handleVote = useCallback(
+    (lecturerId: string) => {
+      if (!isAuthenticated) {
+        toast.error("Vui lòng đăng nhập để bình chọn")
+        return
+      }
 
-    // Find the lecturer to check if they're already voted
-    const lecturer = lectures?.data?.find((l) => l.id === lecturerId)
-    const isVoted = lecturer?.isVoted || false
+      // Find the lecturer to check if they're already voted
+      const lecturer = lectures?.data?.find((l) => l.id === lecturerId)
+      const isVoted = lecturer?.isVoted || false
 
-    if (isVoted) {
-      // Cancel vote
-      cancelVote(lecturerId, {
-        onSuccess: (response) => {
-          // Invalidate relevant queries to update the UI
-          queryClient.invalidateQueries({
-            queryKey: ["lectureVotes", lecturerId, "today"],
-          })
-          queryClient.invalidateQueries({
-            queryKey: ["lectures"],
-          })
-          queryClient.invalidateQueries({
-            queryKey: ["lecture", lecturerId],
-          })
-          refetch() // Refresh lecture data to update vote counts
-          toast.success(response?.message || "Đã hủy bình chọn thành công")
-        },
-        onError: (error: any) => {
-          console.error("Error cancelling vote:", error)
-          const errorMessage =
-            error?.response?.data?.message || "Có lỗi xảy ra khi hủy bình chọn"
-          toast.error(errorMessage)
-        },
-      })
-    } else {
-      // Vote for lecturer
-      voteForLecture(
-        { lectureId: lecturerId },
-        {
+      if (isVoted) {
+        // Cancel vote
+        cancelVote(lecturerId, {
           onSuccess: (response) => {
             // Invalidate relevant queries to update the UI
             queryClient.invalidateQueries({
@@ -197,20 +180,56 @@ const page = ({ params }: PageProps) => {
               queryKey: ["lecture", lecturerId],
             })
             refetch() // Refresh lecture data to update vote counts
-            toast.success(response?.message || "Bình chọn thành công!")
+            toast.success(response?.message || "Đã hủy bình chọn thành công")
           },
           onError: (error: any) => {
-            console.error("Error voting:", error)
+            console.error("Error cancelling vote:", error)
             const errorMessage =
-              error?.response?.data?.message || "Có lỗi xảy ra khi bình chọn"
+              error?.response?.data?.message ||
+              "Có lỗi xảy ra khi hủy bình chọn"
             toast.error(errorMessage)
           },
-        }
-      )
-    }
-  }
+        })
+      } else {
+        // Vote for lecturer
+        voteForLecture(
+          { lectureId: lecturerId },
+          {
+            onSuccess: (response) => {
+              // Invalidate relevant queries to update the UI
+              queryClient.invalidateQueries({
+                queryKey: ["lectureVotes", lecturerId, "today"],
+              })
+              queryClient.invalidateQueries({
+                queryKey: ["lectures"],
+              })
+              queryClient.invalidateQueries({
+                queryKey: ["lecture", lecturerId],
+              })
+              refetch() // Refresh lecture data to update vote counts
+              toast.success(response?.message || "Bình chọn thành công!")
+            },
+            onError: (error: any) => {
+              console.error("Error voting:", error)
+              const errorMessage =
+                error?.response?.data?.message || "Có lỗi xảy ra khi bình chọn"
+              toast.error(errorMessage)
+            },
+          }
+        )
+      }
+    },
+    [
+      isAuthenticated,
+      lectures?.data,
+      cancelVote,
+      voteForLecture,
+      queryClient,
+      refetch,
+    ]
+  )
 
-  const handleShare = (lecturerId: string) => {
+  const handleShare = useCallback((lecturerId: string) => {
     const shareUrl =
       "https://daihoc.fpt.edu.vn/hcm/giang-vien-truyen-cam-hung-2025/"
 
@@ -222,11 +241,14 @@ const page = ({ params }: PageProps) => {
       .catch(() => {
         toast.error("Không thể sao chép link")
       })
-  }
+  }, [])
 
-  const goToPage = (page: number) => {
-    setCurrentPage(Math.max(1, Math.min(page, totalPages)))
-  }
+  const goToPage = useCallback(
+    (page: number) => {
+      setCurrentPage(Math.max(1, Math.min(page, totalPages)))
+    },
+    [totalPages]
+  )
 
   // Generate pagination items with ellipsis
   const getPaginationItems = () => {
@@ -271,8 +293,24 @@ const page = ({ params }: PageProps) => {
 
   if (isLoading || isLoadingAccount) {
     return (
-      <div className='flex justify-center items-center min-h-screen'>
-        <div className='text-lg'>Loading lecturers...</div>
+      <div className='min-h-screen'>
+        <div className='mx-auto px-4 pt-10'>
+          {/* Header skeleton */}
+          <div className='mb-2 flex flex-col md:flex-row items-start md:items-center justify-between gap-4'>
+            <div className='h-8 bg-gray-300 rounded w-64 animate-pulse' />
+            <div className='h-10 bg-gray-300 rounded w-24 animate-pulse' />
+          </div>
+
+          {/* Search and filter skeleton */}
+          <div className='flex flex-col sm:flex-row gap-4 mb-8 items-center'>
+            <div className='h-10 bg-gray-300 rounded w-48 animate-pulse' />
+            <div className='h-10 bg-gray-300 rounded w-64 animate-pulse' />
+            <div className='w-12 h-12 bg-gray-300 rounded animate-pulse' />
+          </div>
+
+          {/* Loading grid */}
+          <LoadingGrid count={8} />
+        </div>
       </div>
     )
   }
@@ -340,9 +378,12 @@ const page = ({ params }: PageProps) => {
             <Image
               src='/images/heart.png'
               alt='Number of votes'
-              width={100}
-              height={100}
+              width={48}
+              height={48}
               className='w-12 h-12 pointer-events-none'
+              priority={false}
+              loading='lazy'
+              sizes='48px'
             />
             <span className='absolute top-[0px] right-[-3px] flex items-center justify-center w-4 h-4 bg-white/20 text-white text-sm font-bold rounded-full'>
               {votedLecturersCount}
@@ -421,13 +462,17 @@ const page = ({ params }: PageProps) => {
         )}
 
         {/* Voting Rules Modal */}
-        <VotingRulesModal
-          isOpen={showVotingRules}
-          onClose={() => setShowVotingRules(false)}
-        />
+        <Suspense fallback={<div>Loading...</div>}>
+          <VotingRulesModal
+            isOpen={showVotingRules}
+            onClose={() => setShowVotingRules(false)}
+          />
+        </Suspense>
       </div>
     </div>
   )
-}
+})
+
+page.displayName = "LecturersPage"
 
 export default page

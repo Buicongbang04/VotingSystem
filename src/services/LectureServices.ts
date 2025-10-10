@@ -141,6 +141,10 @@ export const useGetAllLectures = (params?: LectureQueryParams) => {
     queryKey: ["lectures", params],
     queryFn: () => LectureApi.getAllLectures(params),
     enabled: isAuthenticated,
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    gcTime: 10 * 60 * 1000, // 10 minutes
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
   })
 }
 
@@ -151,6 +155,9 @@ export const useGetLectureById = (id: string) => {
     queryKey: ["lecture", id],
     queryFn: () => LectureApi.getLectureById(id),
     enabled: isAuthenticated && !!id,
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    gcTime: 10 * 60 * 1000, // 10 minutes
+    refetchOnWindowFocus: false,
   })
 }
 

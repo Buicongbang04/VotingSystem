@@ -3,26 +3,29 @@
 import Image from "next/image"
 import { useMousePosition } from "@/src/hooks/useMousePosition"
 import { useClientOnly } from "@/src/hooks/useClientOnly"
+import { memo, useMemo } from "react"
 
-export default function ParallaxBackground() {
+const ParallaxBackground = memo(() => {
   const mousePosition = useMousePosition()
   const isClient = useClientOnly()
 
-  // Calculate parallax offsets based on mouse position
-  const getParallaxTransform = (intensity: number) => {
-    if (!isClient) return { transform: "translate(0px, 0px)" }
+  // Calculate parallax offsets based on mouse position with memoization
+  const getParallaxTransform = useMemo(() => {
+    return (intensity: number) => {
+      if (!isClient) return { transform: "translate(0px, 0px)" }
 
-    const centerX = window.innerWidth / 2
-    const centerY = window.innerHeight / 2
+      const centerX = window.innerWidth / 2
+      const centerY = window.innerHeight / 2
 
-    const offsetX = (mousePosition.x - centerX) * intensity
-    const offsetY = (mousePosition.y - centerY) * intensity
+      const offsetX = (mousePosition.x - centerX) * intensity
+      const offsetY = (mousePosition.y - centerY) * intensity
 
-    return {
-      transform: `translate(${offsetX}px, ${offsetY}px)`,
-      transition: "transform 0.1s ease-out",
+      return {
+        transform: `translate(${offsetX}px, ${offsetY}px)`,
+        transition: "transform 0.1s ease-out",
+      }
     }
-  }
+  }, [isClient, mousePosition.x, mousePosition.y])
 
   return (
     <div className='absolute top-0 left-0 w-full h-full -z-1 overflow-hidden'>
@@ -33,6 +36,8 @@ export default function ParallaxBackground() {
         height={2000}
         className='w-full h-full object-cover absolute bg-gradient-to-b from-[black] to-[#65002F] scale-105 brightness-50'
         style={getParallaxTransform(0.02)}
+        priority
+        sizes='100vw'
       />
       <Image
         src='/images/bgLeaf.png'
@@ -41,7 +46,13 @@ export default function ParallaxBackground() {
         height={2000}
         className='w-full h-full object-cover absolute top-0 left-0'
         style={getParallaxTransform(0.05)}
+        priority
+        sizes='100vw'
       />
     </div>
   )
-}
+})
+
+ParallaxBackground.displayName = "ParallaxBackground"
+
+export default ParallaxBackground
