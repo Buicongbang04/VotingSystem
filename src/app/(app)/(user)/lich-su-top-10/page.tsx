@@ -26,15 +26,21 @@ const page = () => {
       return
     }
 
-    // target: 31/10
+    // target: 31/10 GMT+7 (Vietnam timezone)
     const targetDate = new Date()
     targetDate.setMonth(9) // October (0-based)
     targetDate.setDate(31)
     targetDate.setHours(23, 59, 59, 999)
 
+    // Convert to GMT+7 (Vietnam timezone)
+    const vietnamOffset = 7 * 60 // GMT+7 in minutes
+    const utcTime =
+      targetDate.getTime() + targetDate.getTimezoneOffset() * 60000
+    const vietnamTime = new Date(utcTime + vietnamOffset * 60000)
+
     const timer = setInterval(() => {
       const now = Date.now()
-      const distance = targetDate.getTime() - now
+      const distance = vietnamTime.getTime() - now
 
       if (distance > 0) {
         const days = Math.floor(distance / (1000 * 60 * 60 * 24))
@@ -64,7 +70,7 @@ const page = () => {
   }
 
   return (
-    <div className="h-screen overflow-hidden mt-0 xl:mt-10">
+    <div className='h-screen overflow-hidden mt-0 xl:mt-10'>
       <div className='flex flex-col md:flex-row p-4 md:p-10 gap-4 md:gap-6'>
         <EventComponent to='/nam-2023'>
           <h1 className='text-white text-2xl md:text-4xl font-bold'>TOP 10</h1>

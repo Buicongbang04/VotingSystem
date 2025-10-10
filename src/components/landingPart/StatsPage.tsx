@@ -26,7 +26,7 @@ const StatsPage = () => {
           instructors: "1 Giảng viên",
           category: "Nhóm ngành cơ bản",
         },
-        { hearts: 2, instructors: "3 Giảng viên", category: "Chuyên ngành" },
+        { hearts: 2, instructors: "2 Giảng viên", category: "Chuyên ngành" },
       ],
     },
     {

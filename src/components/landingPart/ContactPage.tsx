@@ -27,16 +27,21 @@ const ContactPage = () => {
       return
     }
 
-    // target: 10/11 + 30 days (giữ nguyên logic của bạn)
+    // target: 31/10 GMT+7 (Vietnam timezone)
     const targetDate = new Date()
-    targetDate.setMonth(10) // November
-    targetDate.setDate(10)
+    targetDate.setMonth(9) // October (0-based)
+    targetDate.setDate(31)
     targetDate.setHours(23, 59, 59, 999)
-    targetDate.setDate(targetDate.getDate() + 30)
+
+    // Convert to GMT+7 (Vietnam timezone)
+    const vietnamOffset = 7 * 60 // GMT+7 in minutes
+    const utcTime =
+      targetDate.getTime() + targetDate.getTimezoneOffset() * 60000
+    const vietnamTime = new Date(utcTime + vietnamOffset * 60000)
 
     const timer = setInterval(() => {
       const now = Date.now()
-      const distance = targetDate.getTime() - now
+      const distance = vietnamTime.getTime() - now
 
       if (distance > 0) {
         const days = Math.floor(distance / (1000 * 60 * 60 * 24))

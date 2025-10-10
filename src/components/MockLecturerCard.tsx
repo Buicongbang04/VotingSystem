@@ -27,7 +27,6 @@ const MockLecturerCard = ({
             className='w-full h-full object-cover'
             width={300}
             height={300}
-            sizes='(max-width: 640px) 120px, (max-width: 768px) 140px, (max-width: 1024px) 180px, 200px'
             priority={false}
             loading='lazy'
             placeholder='blur'

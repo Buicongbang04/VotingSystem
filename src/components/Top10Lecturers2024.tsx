@@ -84,7 +84,7 @@ const Top10Lecturers = ({ className = "" }: Top10LecturersProps) => {
                 lecturer={lecturer}
                 className={`h-full ${
                   isMiddle
-                    ? "w-32 sm:w-40 md:w-56 lg:w-64"
+                    ? "w-32 sm:w-40 md:w-48 lg:w-56"
                     : "w-28 sm:w-36 md:w-48 lg:w-56"
                 }`}
                 // No onVote or onShare props - making it unvoteable

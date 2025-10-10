@@ -65,7 +65,7 @@ export const SPECIALIZED_DEPARTMENTS: Department[] = [
   },
   {
     id: "computer-fundamentals",
-    name: "Nền tảng máy tính",
+    name: "Nền tảng công nghệ thông tin",
     nameEn: "Computer Fundamentals",
     group: "specialized",
   },
