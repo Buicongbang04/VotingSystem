@@ -59,7 +59,7 @@ const VoteHistoryPage = () => {
 
   if (isLoading) {
     return (
-      <div className='min-h-screen  relative'>
+      <div className='min-h-screen relative'>
         <div className='container mx-auto px-4 py-8 relative z-10'>
           <div className='flex items-center justify-center min-h-[400px]'>
             <div className='text-center'>

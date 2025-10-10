@@ -32,27 +32,55 @@ const AppNavbar = () => {
     <div className='h-20 pt-10'>
       <div className='h-full px-4 md:px-6 flex items-center justify-center relative'>
         {/* Left Section - Logo/Brand */}
-        <div className='hidden items-center space-x-4 md:flex'>
+        <div className='hidden justify-center items-center space-x-4 lg:flex mt-10 '>
           <Image
             src='/images/Logo.png'
             alt='FPT University'
-            width={150}
+            width={200}
             height={150}
-            className='object-cover '
+            className='
+                      h-auto
+                      w-[90vw] max-w-[580px]
+                      sm:w-[80vw] sm:max-w-[640px]
+                      md:w-[25vw] md:max-w-[720px]
+                      lg:w-[20vw] lg:max-w-[700px]
+                      xl:w-[15vw] xl:max-w-[877px]
+                    '
+            sizes='
+                      (min-width:1280px) 877px,
+                      (min-width:1024px) 700px,
+                      (min-width:768px) 55vw,
+                      (min-width:640px) 70vw,
+                      80vw
+                    '
             draggable={false}
           />
           <Image
             src='/images/iia_logo.png'
             alt='IIA Logo'
-            width={100}
+            width={130}
             height={100}
-            className='object-cover '
+            className='
+                      h-auto
+                      w-[90vw] max-w-[580px]
+                      sm:w-[80vw] sm:max-w-[640px]
+                      md:w-[18vw] md:max-w-[720px]
+                      lg:w-[13vw] lg:max-w-[700px]
+                      xl:w-[10vw] xl:max-w-[877px]
+                    '
+            sizes='
+                      (min-width:1280px) 877px,
+                      (min-width:1024px) 700px,
+                      (min-width:768px) 55vw,
+                      (min-width:640px) 70vw,
+                      80vw
+                    '
             draggable={false}
           />
         </div>
 
         {/* Right Section - Notifications & Profile */}
-        <div className='flex items-center space-x-4 z-20'>
+        <div className='flex items-center space-x-4 z-20 hidden lg:block'>
           <div className='absolute right-0 z-10 -translate-x-10'>
             <button
               onClick={toggleProfile}
