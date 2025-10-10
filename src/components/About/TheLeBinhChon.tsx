@@ -4,8 +4,8 @@ import Image from "next/image"
 
 const TheLeBinhChon = () => {
   return (
-    <section className='h-screen flex flex-col md:flex-row items-center justify-center px-6 md:px-10 relative snap-center gap-8 overflow-hidden'>
-      <div className='absolute inset-0 z-10 flex flex-col justify-center items-center lg:justify-start lg:items-start z-0'>
+    <section className='h-screen flex flex-col md:flex-row items-center justify-center px-6 md:px-10 relative gap-8'>
+      <div className='absolute inset-0 flex flex-col justify-center items-center lg:justify-start lg:items-start z-0'>
         <div
           className='mt-[4vh] sm:mt-[6vh] md:mt-[6vh] lg:mt-[6vh] xl:mt-[16vh]
                         ml-0 sm:ml-0 md:ml-0 lg:ml-25 xl:ml-20

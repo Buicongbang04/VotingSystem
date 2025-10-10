@@ -5,9 +5,7 @@ const GioiThieuVeChuongTrinh = () => {
   return (
     <section
       className='relative min-h-dvh
-                w-full max-w-[100vw] flex flex-col
-                snap-section
-                overflow-y-visible overflow-x-hidden'
+                w-full max-w-[100vw] flex flex-col'
     >
       <div className='absolute inset-0 z-10 flex flex-col justify-center items-center lg:justify-start lg:items-start'>
         <div className='pt-[4vh] sm:pt-[6vh] md:pt-[6vh] lg:pt-[6vh] xl:pt-[2vh] px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12'>

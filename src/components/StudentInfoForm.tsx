@@ -40,19 +40,21 @@ interface StudentInfoFormProps {
 }
 
 const majors = [
-  "Kỹ thuật phần mềm",
   "An toàn thông tin",
+  "Công nghệ ô tô số",
+  "Kỹ thuật phần mềm",
+  "Thiết kế mỹ thuật số",
+  "Thiết kế vi mạch bán dẫn",
   "Trí tuệ nhân tạo",
+  "Luật kinh tế",
+  "Luật thương mại quốc tế",
+  "Digital Marketing",
+  "Truyền thông đa phương tiện",
+  "Kinh doanh quốc tế",
+  "Logistics & quản lý chuỗi cung ứng toàn cầu",
+  "Tài chính",
   "Ngôn ngữ Anh",
   "Ngôn ngữ Nhật",
-  "Thiết kế Mỹ thuật số",
-  "Quản trị Truyền thông Đa phương tiện",
-  "Quản trị Khách sạn",
-  "Hệ thống thông tin",
-  "Quản trị Dịch vụ Du lịch & Lữ hành",
-  "Digital Marketing",
-  "Kinh Doanh Quốc tế",
-  "Tài chính",
 ]
 
 const studyPeriods = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
