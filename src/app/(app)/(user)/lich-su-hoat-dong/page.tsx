@@ -108,7 +108,7 @@ const VoteHistoryPage = () => {
           <h1 className='text-2xl md:text-4xl font-bold text-white bg-clip-text mb-2 '>
             LỊCH SỬ HOẠT ĐỘNG
           </h1>
-          <p className='text-gray-600 text-base md:text-lg'>
+          <p className='text-white text-base md:text-lg'>
             Xem lại tất cả các lần bình chọn giảng viên của bạn
           </p>
         </div>
@@ -130,10 +130,10 @@ const VoteHistoryPage = () => {
                 <div className='w-20 h-20 mx-auto mb-4 bg-gradient-to-r from-pink-100 to-purple-100 rounded-full flex items-center justify-center'>
                   <Calendar className='h-10 w-10 text-pink-500' />
                 </div>
-                <p className='text-gray-500 text-lg'>
+                <p className='text-white text-lg'>
                   Chưa có lịch sử bình chọn nào
                 </p>
-                <p className='text-gray-400 text-sm mt-2'>
+                <p className='text-gray-300 text-sm mt-2'>
                   Hãy tham gia bình chọn để tạo lịch sử!
                 </p>
               </div>

@@ -154,7 +154,7 @@ export default function UserNavbar() {
               {isProfileOpen && (
                 <>
                   <div
-                    className='fixed inset-0 z-999'
+                    className='fixed inset-0 z-40'
                     onClick={() => setIsProfileOpen(false)}
                   />
 
@@ -260,8 +260,12 @@ export default function UserNavbar() {
 
       {/* ===== MOBILE + TABLET MENU OVERLAY ===== */}
       {menuOpen && (
-        <div className="lg:hidden fixed inset-0 bg-black/60 z-40 backdrop-blur-sm">
-          <div className="absolute top-[60px] left-0 right-0 bg-vibrant-pink/90 p-4 rounded-b-3xl space-y-2 max-h-[80vh] overflow-y-auto">
+        <>
+          <div
+            className="fixed inset-0 bg-black/60 z-[70] backdrop-blur-sm"
+            onClick={() => setMenuOpen(false)}
+          />
+          <div className="lg:hidden fixed top-[70px] sm:top-[114px] left-0 right-0 bg-vibrant-pink/90 p-4 rounded-b-3xl space-y-2 max-h-[80vh] overflow-y-auto z-[80]">
             {navigationItems.map((item) => {
               const Icon = item.icon
               const isActive = pathname === item.href
@@ -270,27 +274,42 @@ export default function UserNavbar() {
 
               return (
                 <div key={item.href}>
-                  <div
-                    onClick={() =>
-                      hasSubItems ? toggleDropdown(item.href) : setMenuOpen(false)
-                    }
-                    className={cn(
-                      "flex items-center justify-between px-3 py-2 rounded-xl text-white/90 hover:bg-white/20 transition-all",
-                      isActive && "bg-white/20 text-white"
-                    )}
-                  >
-                    <div className="flex items-center space-x-2">
-                      <Icon className="w-5 h-5" />
-                      <span>{item.label}</span>
-                    </div>
-                    {hasSubItems &&
-                      (isDropdownOpen ? (
+                  {/* Nếu có subItems thì dùng button, nếu không thì Link */}
+                  {hasSubItems ? (
+                    <button
+                      onClick={() => toggleDropdown(item.href)}
+                      className={cn(
+                        "flex w-full items-center justify-between px-3 py-2 rounded-xl text-white/90 hover:bg-white/20 transition-all",
+                        isActive && "bg-white/20 text-white"
+                      )}
+                    >
+                      <div className="flex items-center space-x-2">
+                        <Icon className="w-5 h-5" />
+                        <span>{item.label}</span>
+                      </div>
+                      {isDropdownOpen ? (
                         <ChevronUp className="w-4 h-4" />
                       ) : (
                         <ChevronDown className="w-4 h-4" />
-                      ))}
-                  </div>
+                      )}
+                    </button>
+                  ) : (
+                    <Link
+                      href={item.href}
+                      onClick={() => setMenuOpen(false)}
+                      className={cn(
+                        "flex items-center justify-between px-3 py-2 rounded-xl text-white/90 hover:bg-white/20 transition-all",
+                        isActive && "bg-white/20 text-white"
+                      )}
+                    >
+                      <div className="flex items-center space-x-2">
+                        <Icon className="w-5 h-5" />
+                        <span>{item.label}</span>
+                      </div>
+                    </Link>
+                  )}
 
+                  {/* Hiển thị subItems nếu dropdown mở */}
                   {hasSubItems && isDropdownOpen && (
                     <div className="ml-6 space-y-1 mt-1">
                       {item.subItems.map((subItem) => {
@@ -317,7 +336,7 @@ export default function UserNavbar() {
               )
             })}
           </div>
-        </div>
+        </>
       )}
     </>
   )

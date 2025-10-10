@@ -14,7 +14,7 @@ const FeedbackPage = () => {
   }
 
   return (
-    <div className='min-h-screen'>
+    <div className='min-h-screen mt-0 xl:mt-10'>
       {/* Header */}
       <div className='relative z-10 pt-8 pb-6'>
         <div className='max-w-4xl mx-auto px-4'>

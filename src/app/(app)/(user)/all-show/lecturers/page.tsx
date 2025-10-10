@@ -41,7 +41,7 @@ interface PageProps {
   }
 }
 
-const ITEMS_PER_PAGE = 4
+const ITEMS_PER_PAGE = 8
 
 const page = ({ params }: PageProps) => {
 
