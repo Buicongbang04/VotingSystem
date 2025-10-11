@@ -70,7 +70,7 @@ const page = () => {
   }
 
   return (
-    <div className='h-screen overflow-hidden mt-0 xl:mt-10'>
+    <div className='h-screen overflow-hidden pt-0 md:pt-6 lg:pt-10'>
       <div className='flex flex-col md:flex-row p-4 md:p-10 gap-4 md:gap-6'>
         <EventComponent to='/nam-2023'>
           <h1 className='text-white text-2xl md:text-4xl font-bold'>TOP 10</h1>

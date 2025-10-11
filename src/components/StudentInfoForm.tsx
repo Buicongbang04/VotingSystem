@@ -91,7 +91,7 @@ const StudentInfoForm: React.FC<StudentInfoFormProps> = ({
   }
 
   return (
-    <div className='relative'>
+    <div className='relative pt-0 sm:pt-4 md:pt-10'>
       <div className='relative z-10 flex items-center justify-center p-4'>
         <Card className='w-full max-w-md bg-white/90 backdrop-blur-sm border-0 shadow-xl'>
           <CardHeader className='text-center pb-4'>
