@@ -132,21 +132,25 @@ const page = ({ params }: PageProps) => {
 
   if (isLoading || isLoadingVotes) {
     return (
-      <div className='flex justify-center items-center min-h-screen'>
-        <div className='text-lg text-white'>Loading lecturer details...</div>
+      <div className='flex justify-center items-center min-h-screen px-4'>
+        <div className='text-base sm:text-lg text-white text-center'>
+          Loading lecturer details...
+        </div>
       </div>
     )
   }
 
   if (!lecturer) {
     return (
-      <div className='flex flex-col justify-center items-center min-h-screen text-white'>
-        <h1 className='text-2xl font-bold mb-4'>Lecturer not found</h1>
-        <p className='text-lg mb-6'>
+      <div className='flex flex-col justify-center items-center min-h-screen text-white px-4'>
+        <h1 className='text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-center'>
+          Lecturer not found
+        </h1>
+        <p className='text-sm sm:text-base lg:text-lg mb-4 sm:mb-6 text-center max-w-md'>
           The lecturer you're looking for doesn't exist.
         </p>
         <Link href='/all-show/lecturers'>
-          <Button className='flex items-center gap-2'>
+          <Button className='flex items-center gap-2 text-sm sm:text-base'>
             <ArrowLeft className='w-4 h-4' />
             Back to Lecturers
           </Button>
@@ -159,22 +163,22 @@ const page = ({ params }: PageProps) => {
 
   return (
     <div className='min-h-screen'>
-      <div className='container mx-auto px-4 py-8'>
+      <div className='container mx-auto px-4 py-4 sm:py-8'>
         {/* Back Button */}
-        <div className='mb-6'>
+        <div className='mb-4 sm:mb-6'>
           <Link href='/all-show/lecturers'>
-            <button className='flex items-center gap-2 text-white'>
+            <button className='flex items-center gap-2 text-white hover:text-white/80 transition-colors'>
               <ArrowLeft className='w-4 h-4' />
-              Back to Lecturers
+              <span className='text-sm sm:text-base'>Back to Lecturers</span>
             </button>
           </Link>
         </div>
 
         {/* Lecturer Details Card */}
-        <div className='max-w-5xl mx-auto '>
-          <div className='relative w-full rounded-3xl overflow-hidden border-gradient flex '>
+        <div className='max-w-5xl mx-auto'>
+          <div className='relative w-full rounded-2xl sm:rounded-3xl overflow-hidden border-gradient flex flex-col lg:flex-row'>
             {/* Image Section */}
-            <div className='relative w-full'>
+            <div className='relative w-full lg:w-1/2 h-64 sm:h-80 lg:h-auto'>
               {lecturer.avatarUrl ? (
                 <Image
                   src={lecturer.avatarUrl}
@@ -185,42 +189,45 @@ const page = ({ params }: PageProps) => {
                 />
               ) : (
                 <div className='w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100'>
-                  <div className='text-gray-400 text-8xl font-bold'>
+                  <div className='text-gray-400 text-4xl sm:text-6xl lg:text-8xl font-bold'>
                     <Image
                       src={
                         "https://res.cloudinary.com/dtcinkqwf/image/upload/v1759552442/0_c%C3%B3_h%C3%ACnh_ksqjxi.png"
                       }
-                      alt='default avatar w-full h-full'
+                      alt='default avatar'
                       width={1000}
                       height={1000}
+                      className='w-full h-full object-contain'
                     />
                   </div>
                 </div>
               )}
             </div>
 
-            {/* Content Section - Similar to LecturerCard */}
-            <div className='bg-gradient-to-r from-transparent to-vibrant-pink p-8 md:p-12 w-full '>
+            {/* Content Section */}
+            <div className='bg-gradient-to-r from-transparent to-vibrant-pink p-4 sm:p-6 lg:p-8 xl:p-12 w-full lg:w-1/2'>
               {/* Lecturer Info */}
-              <div className='mb-8'>
-                <h1 className='text-4xl md:text-5xl font-bold text-white mb-4'>
+              <div className='mb-6 sm:mb-8'>
+                <h1 className='text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-3 sm:mb-4 leading-tight'>
                   {lecturer.name}
                 </h1>
 
-                <div className='flex items-center gap-4 mb-6 text-white/80'>
+                <div className='flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 mb-4 sm:mb-6 text-white/80'>
                   <div className='flex items-center gap-2'>
-                    <Building className='w-5 h-5' />
-                    <span className='text-lg'>{lecturer.department}</span>
+                    <Building className='w-4 h-4 sm:w-5 sm:h-5' />
+                    <span className='text-sm sm:text-base lg:text-lg'>
+                      {lecturer.department}
+                    </span>
                   </div>
                   <div className='flex items-center gap-2'>
-                    <User className='w-5 h-5' />
+                    <User className='w-4 h-4 sm:w-5 sm:h-5' />
                   </div>
                 </div>
 
                 {/* Quote */}
-                <div className='bg-white/10 rounded-2xl p-6 border border-white/20'>
-                  <Quote className='w-8 h-8 text-pink-400 mb-4' />
-                  <p className='text-xl text-white italic leading-relaxed'>
+                <div className='bg-white/10 rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-white/20'>
+                  <Quote className='w-6 h-6 sm:w-8 sm:h-8 text-pink-400 mb-3 sm:mb-4' />
+                  <p className='text-base sm:text-lg lg:text-xl text-white italic leading-relaxed'>
                     "{lecturer.quote}"
                   </p>
                 </div>

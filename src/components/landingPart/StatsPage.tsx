@@ -113,7 +113,7 @@ const StatsPage = () => {
             Quy tắc tính điểm phụ thuộc vào giai đoạn học của sinh viên:
           </h3>
 
-          <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-3 gap-4 ml-0 sm:ml-0 md:ml-40 lg:ml-0 xl:ml-0'>
+          <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-3 gap-4 md:ml-40 lg:ml-0 xl:ml-0 mx-auto md:mx-0'>
             {academicStages.map((stage, index) => (
               <Reveal
                 key={index}
