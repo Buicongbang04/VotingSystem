@@ -22,7 +22,7 @@ export const VotingRulesModal: React.FC<VotingRulesModalProps> = ({
 
   return (
     <div
-      className='backdrop-blur-3xl fixed inset-0 bg-black/50 flex items-center justify-center z-50 transition-all duration-300 ease-in-out p-4'
+      className='backdrop-blur-3xl fixed inset-0 bg-black/50 flex items-center justify-center z-50 transition-all duration-300 ease-in-out p-4 pt-20 sm:pt-0'
       onClick={handleBackdropClick}
     >
       <div className='w-full max-w-md sm:max-w-lg md:max-w-2xl lg:max-w-3xl transition-all duration-300 ease-in-out animate-in fade-in-0 zoom-in-95 flex flex-col justify-between items-center'>
