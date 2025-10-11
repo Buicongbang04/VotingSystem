@@ -411,8 +411,7 @@ const page = memo(({ params }: PageProps) => {
           <div className='flex flex-col items-center space-y-4 m-4'>
             {/* Page info */}
             <div className='text-white/70 text-xs md:text-sm text-center px-4'>
-              Trang {currentPage} của {totalPages} ({filteredLectures.length}{" "}
-              giảng viên)
+              Trang {currentPage} / {totalPages}
             </div>
 
             {/* Pagination controls */}
@@ -434,13 +433,12 @@ const page = memo(({ params }: PageProps) => {
                     key={index}
                     onClick={() => typeof item === "number" && goToPage(item)}
                     disabled={item === "..."}
-                    className={`w-8 h-8 md:w-10 md:h-10 rounded-xl text-xs md:text-sm font-medium transition-all duration-200 ${
-                      item === "..."
-                        ? "text-white/50 cursor-default"
-                        : currentPage === item
+                    className={`w-8 h-8 md:w-10 md:h-10 rounded-xl text-xs md:text-sm font-medium transition-all duration-200 ${item === "..."
+                      ? "text-white/50 cursor-default"
+                      : currentPage === item
                         ? "bg-gradient-to-r from-transparent to-vibrant-pink text-white border border-white/30 shadow-lg"
                         : "bg-transparent text-white/70 hover:text-white hover:bg-white/10 border border-white/20"
-                    }`}
+                      }`}
                   >
                     {item}
                   </button>
