@@ -19,6 +19,8 @@ const ContactInfo = () => {
           <Link
             href='https://www.facebook.com/srofptuhcmc'
             className='flex items-center space-x-4'
+            target='_blank'
+            rel='noopener noreferrer'
           >
             <div className='w-12 h-12 bg-pink-500 rounded-lg flex items-center justify-center'>
               <svg
@@ -39,6 +41,8 @@ const ContactInfo = () => {
           <Link
             href='mailto:ctsv.hcm@fpt.edu.vn'
             className='flex items-center space-x-4'
+            target='_blank'
+            rel='noopener noreferrer'
           >
             <div className='w-12 h-12 bg-pink-500 rounded-lg flex items-center justify-center'>
               <svg
