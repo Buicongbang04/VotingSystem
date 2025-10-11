@@ -162,7 +162,7 @@ const page = ({ params }: PageProps) => {
   const isVoted = hasUserVoted
 
   return (
-    <div className='min-h-screen'>
+    <div className='min-h-screen md:mt-5 lg:mt-10 xl:mt-15'>
       <div className='container mx-auto px-4 py-4 sm:py-8'>
         {/* Back Button */}
         <div className='mb-4 sm:mb-6'>
@@ -175,15 +175,15 @@ const page = ({ params }: PageProps) => {
         </div>
 
         {/* Lecturer Details Card */}
-        <div className='max-w-5xl mx-auto'>
-          <div className='relative w-full rounded-2xl sm:rounded-3xl overflow-hidden border-gradient flex flex-col lg:flex-row'>
+        <div className='w-full mx-auto'>
+          <div className='relative w-full xl:w-[70%] rounded-2xl sm:rounded-3xl overflow-hidden border-gradient flex flex-col lg:flex-row'>
             {/* Image Section */}
-            <div className='relative w-full lg:w-1/2 h-64 sm:h-80 lg:h-auto'>
+            <div className='relative w-full lg:w-1/2'>
               {lecturer.avatarUrl ? (
                 <Image
                   src={lecturer.avatarUrl}
                   alt={lecturer.name}
-                  className='w-full h-full object-cover'
+                  className='w-full h-full'
                   width={1000}
                   height={1000}
                 />
