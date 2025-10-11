@@ -53,7 +53,7 @@ const Top10Lecturers = ({ className = "" }: Top10LecturersProps) => {
   return (
     <div className={`w-full ${className}`}>
       {/* Top 3 Special Layout */}
-      <div className='flex justify-center items-end gap-1 sm:gap-2 md:gap-4 mb-8 sm:mb-12 px-2 sm:px-4'>
+      <div className='grid grid-cols-1 sm:flex sm:justify-center sm:items-end gap-4 sm:gap-2 md:gap-4 mb-8 sm:mb-12 px-2 sm:px-4'>
         {[
           top10Lecturers[1], // Rank 2 (left)
           top10Lecturers[0], // Rank 1 (middle)
@@ -66,8 +66,8 @@ const Top10Lecturers = ({ className = "" }: Top10LecturersProps) => {
               key={lecturer.id}
               className={`relative transition-all duration-300 ${
                 isMiddle
-                  ? "transform scale-105 sm:scale-110 z-20"
-                  : "transform scale-90 sm:scale-95 z-10"
+                  ? "sm:transform sm:scale-110 sm:z-20"
+                  : "sm:transform sm:scale-95 sm:z-10"
               }`}
             >
               {/* Rank Badge */}
@@ -82,10 +82,10 @@ const Top10Lecturers = ({ className = "" }: Top10LecturersProps) => {
               {/* Lecturer Card */}
               <MockLecturerCard
                 lecturer={lecturer}
-                className={`h-full ${
+                className={`w-full h-full ${
                   isMiddle
-                    ? "w-32 sm:w-40 md:w-48 lg:w-56"
-                    : "w-28 sm:w-36 md:w-48 lg:w-56"
+                    ? "sm:w-32 sm:w-40 md:w-48 lg:w-56"
+                    : "sm:w-28 sm:w-36 md:w-48 lg:w-56"
                 }`}
                 // No onVote or onShare props - making it unvoteable
               />

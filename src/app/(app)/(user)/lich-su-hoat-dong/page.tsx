@@ -119,7 +119,7 @@ const VoteHistoryPage = () => {
               <div className='p-2 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full'>
                 <Calendar className='h-5 w-5 text-white' />
               </div>
-              <span className='bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent'>
+              <span className='text-white'>
                 Lịch sử bình chọn ({totalCount} bản ghi)
               </span>
             </CardTitle>
@@ -139,31 +139,34 @@ const VoteHistoryPage = () => {
               </div>
             ) : (
               <>
-                <div className='overflow-x-auto rounded-xl border border-pink-200/50'>
-                  <table className='w-full min-w-[600px]'>
+                <div className='overflow-x-auto rounded-xl border border-pink-200/50 '>
+                  <table className='w-full min-w-[500px] sm:min-w-[600px]'>
                     <thead className='bg-gradient-to-r from-pink-50 to-purple-50'>
                       <tr>
-                        <th className='text-left py-3 md:py-4 px-3 md:px-6 font-semibold text-pink-700 text-sm md:text-base'>
-                          <div className='flex items-center gap-2'>
-                            <User className='h-3 w-3 md:h-4 md:w-4' />
-                            <span className='hidden sm:inline'>Giảng viên</span>
-                            <span className='sm:hidden'>GV</span>
+                        <th className='text-left py-2 sm:py-3 md:py-4 px-2 sm:px-3 md:px-6 font-semibold text-pink-700 text-xs sm:text-sm md:text-base'>
+                          <div className='flex items-center gap-1 sm:gap-2'>
+                            <User className='h-3 w-3 sm:h-4 sm:w-4' />
+                            <span className='hidden xs:inline sm:inline'>
+                              Giảng viên
+                            </span>
+                            <span className='xs:hidden sm:hidden'>GV</span>
                           </div>
                         </th>
-                        <th className='text-left py-3 md:py-4 px-3 md:px-6 font-semibold text-pink-700 text-sm md:text-base'>
-                          <div className='flex items-center gap-2'>
-                            <Building className='h-3 w-3 md:h-4 md:w-4' />
-                            <span className='hidden sm:inline'>Khoa</span>
-                            <span className='sm:hidden'>K</span>
+                        <th className='text-left py-2 sm:py-3 md:py-4 px-2 sm:px-3 md:px-6 font-semibold text-pink-700 text-xs sm:text-sm md:text-base'>
+                          <div className='flex items-center gap-1 sm:gap-2'>
+                            <Building className='h-3 w-3 sm:h-4 sm:w-4' />
+                            <span className=' xs:inline sm:inline'>Khoa</span>
                           </div>
                         </th>
-                        <th className='text-left py-3 md:py-4 px-3 md:px-6 font-semibold text-pink-700 text-sm md:text-base'>
-                          <div className='flex items-center gap-2'>
-                            <Calendar className='h-3 w-3 md:h-4 md:w-4' />
-                            <span className='hidden sm:inline'>
+                        <th className='text-left py-2 sm:py-3 md:py-4 px-2 sm:px-3 md:px-6 font-semibold text-pink-700 text-xs sm:text-sm md:text-base'>
+                          <div className='flex items-center gap-1 sm:gap-2'>
+                            <Calendar className='h-3 w-3 sm:h-4 sm:w-4' />
+                            <span className='hidden xs:inline sm:inline'>
                               Thời gian bình chọn
                             </span>
-                            <span className='sm:hidden'>Thời gian</span>
+                            <span className='xs:hidden sm:hidden'>
+                              Thời gian
+                            </span>
                           </div>
                         </th>
                       </tr>
@@ -174,32 +177,32 @@ const VoteHistoryPage = () => {
                           key={index}
                           className='hover:bg-gradient-to-r hover:from-pink-50/50 hover:to-purple-50/50 transition-all duration-200'
                         >
-                          <td className='py-3 md:py-4 px-3 md:px-6'>
-                            <div className='flex items-center gap-2 md:gap-3'>
-                              <div className='w-6 h-6 md:w-8 md:h-8 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full flex items-center justify-center '>
-                                <User className='h-3 w-3 md:h-4 md:w-4 text-white' />
+                          <td className='py-2 sm:py-3 md:py-4 px-2 sm:px-3 md:px-6'>
+                            <div className='flex items-center gap-1 sm:gap-2 md:gap-3'>
+                              <div className='w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full flex items-center justify-center'>
+                                <User className='h-2.5 w-2.5 sm:h-3 sm:w-3 md:h-4 md:w-4 text-white' />
                               </div>
-                              <span className='font-medium text-white text-sm md:text-base truncate'>
+                              <span className='font-medium text-white text-xs sm:text-sm md:text-base truncate'>
                                 {vote.lectureName}
                               </span>
                             </div>
                           </td>
-                          <td className='py-3 md:py-4 px-3 md:px-6'>
-                            <div className='flex items-center gap-2 md:gap-3'>
-                              <div className='w-6 h-6 md:w-8 md:h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center'>
-                                <Building className='h-3 w-3 md:h-4 md:w-4 text-white' />
+                          <td className='py-2 sm:py-3 md:py-4 px-2 sm:px-3 md:px-6'>
+                            <div className='flex items-center gap-1 sm:gap-2 md:gap-3'>
+                              <div className='w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center'>
+                                <Building className='h-2.5 w-2.5 sm:h-3 sm:w-3 md:h-4 md:w-4 text-white' />
                               </div>
-                              <span className='text-white text-sm md:text-base truncate'>
+                              <span className='text-white text-xs sm:text-sm md:text-base truncate'>
                                 {vote.departmentName}
                               </span>
                             </div>
                           </td>
-                          <td className='py-3 md:py-4 px-3 md:px-6'>
-                            <div className='flex items-center gap-2 md:gap-3'>
-                              <div className='w-6 h-6 md:w-8 md:h-8 bg-gradient-to-r from-pink-400 to-purple-400 rounded-full flex items-center justify-center'>
-                                <Calendar className='h-3 w-3 md:h-4 md:w-4 text-white' />
+                          <td className='py-2 sm:py-3 md:py-4 px-2 sm:px-3 md:px-6'>
+                            <div className='flex items-center gap-1 sm:gap-2 md:gap-3'>
+                              <div className='w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 bg-gradient-to-r from-pink-400 to-purple-400 rounded-full flex items-center justify-center'>
+                                <Calendar className='h-2.5 w-2.5 sm:h-3 sm:w-3 md:h-4 md:w-4 text-white' />
                               </div>
-                              <span className='text-white font-medium text-xs md:text-sm truncate'>
+                              <span className='text-white font-medium text-xs sm:text-xs md:text-sm truncate'>
                                 {formatDate(vote.votedAt)}
                               </span>
                             </div>
@@ -212,19 +215,19 @@ const VoteHistoryPage = () => {
 
                 {/* Pagination */}
                 {totalPages > 1 && (
-                  <div className='flex flex-col sm:flex-row items-center justify-between mt-8 p-4 bg-gradient-to-r from-pink-50/50 to-purple-50/50 rounded-xl border border-pink-200/50 gap-4'>
-                    <div className='text-xs md:text-sm font-medium text-pink-700'>
+                  <div className='flex flex-col sm:flex-row items-center justify-between mt-6 sm:mt-8 p-3 sm:p-4 bg-gradient-to-r from-pink-50/50 to-purple-50/50 rounded-lg sm:rounded-xl border border-pink-200/50 gap-3 sm:gap-4'>
+                    <div className='text-xs sm:text-sm font-medium text-pink-700'>
                       Trang {currentPage} / {totalPages}
                     </div>
-                    <div className='flex items-center gap-2 md:gap-3'>
+                    <div className='flex items-center gap-2 sm:gap-3'>
                       <Button
                         variant='outline'
                         size='sm'
                         onClick={handlePreviousPage}
                         disabled={currentPage === 1}
-                        className='border-pink-300 text-pink-700 bg-pink-50 hover:bg-pink-100 hover:border-pink-400 disabled:opacity-50 disabled:cursor-not-allowed text-xs md:text-sm'
+                        className='border-pink-300 text-pink-700 bg-pink-50 hover:bg-pink-100 hover:border-pink-400 disabled:opacity-50 disabled:cursor-not-allowed text-xs sm:text-sm px-2 sm:px-3'
                       >
-                        <ChevronLeft className='h-3 w-3 md:h-4 md:w-4' />
+                        <ChevronLeft className='h-3 w-3 sm:h-4 sm:w-4' />
                         <span className='hidden sm:inline ml-1'>Trước</span>
                       </Button>
                       <Button
@@ -232,10 +235,10 @@ const VoteHistoryPage = () => {
                         size='sm'
                         onClick={handleNextPage}
                         disabled={currentPage === totalPages}
-                        className='border-purple-300 text-purple-700 bg-purple-50 hover:bg-purple-100 hover:border-purple-400 disabled:opacity-50 disabled:cursor-not-allowed text-xs md:text-sm'
+                        className='border-purple-300 text-purple-700 bg-purple-50 hover:bg-purple-100 hover:border-purple-400 disabled:opacity-50 disabled:cursor-not-allowed text-xs sm:text-sm px-2 sm:px-3'
                       >
                         <span className='hidden sm:inline mr-1'>Sau</span>
-                        <ChevronRight className='h-3 w-3 md:h-4 md:w-4' />
+                        <ChevronRight className='h-3 w-3 sm:h-4 sm:w-4' />
                       </Button>
                     </div>
                   </div>
