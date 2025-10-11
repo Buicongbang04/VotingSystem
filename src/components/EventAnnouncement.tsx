@@ -22,9 +22,9 @@ interface EventAnnouncementProps {
 
 const EventAnnouncement: React.FC<EventAnnouncementProps> = ({
   title = "INSPIRATION INSTRUCTOR AWARDS 2025",
-  startDate = "10/10/2025",
+  startDate = "14/10/2025",
   startTime = "12:00:00",
-  endDate = "31/10/2025",
+  endDate = "06/11/2025",
   endTime = "23:59:59",
   status = "Đang diễn ra",
   onJoin,
