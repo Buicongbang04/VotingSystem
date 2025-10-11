@@ -26,10 +26,10 @@ const page = () => {
       return
     }
 
-    // target: 31/10 GMT+7 (Vietnam timezone)
+    // target: 06/11 GMT+7 (Vietnam timezone)
     const targetDate = new Date()
-    targetDate.setMonth(9) // October (0-based)
-    targetDate.setDate(31)
+    targetDate.setMonth(10) // November (0-based)
+    targetDate.setDate(6)
     targetDate.setHours(23, 59, 59, 999)
 
     // Convert to GMT+7 (Vietnam timezone)

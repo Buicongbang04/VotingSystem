@@ -27,7 +27,7 @@ const HeroPage = () => {
       '
     >
       <div className='flex flex-col items-start justify-start -translate-y-30'>
-        <div className='ml-auto'>
+        <div className='ml-auto mt-30 md:mt-30 '>
           <Image
             src='/images/hero.png'
             alt='logo'
