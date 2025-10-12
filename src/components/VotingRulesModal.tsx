@@ -50,7 +50,7 @@ export const VotingRulesModal: React.FC<VotingRulesModalProps> = ({
                 • Mỗi sinh viên có 3 lượt bình chọn và chỉ được tham gia 1
                 lần/ngày.
               </p>
-              <p>• Mỗi bộ môn chỉ được bình chọn cho 1 giảng viên/bộ môn.</p>
+              <p>• 1 phiếu chỉ được bình chọn cho 1 giảng viên/bộ môn</p>
             </div>
 
             <div className='space-y-3'>
