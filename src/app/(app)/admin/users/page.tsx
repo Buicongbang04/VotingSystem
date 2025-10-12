@@ -255,7 +255,7 @@ export default function AdminUsers() {
                     <td className='py-3 px-4 text-white/80 font-mono text-sm'>
                       {account.studentCode}
                     </td>
-                    <td className='py-3 px-4 text-white/80 font-medium'>
+                    <td className='py-3 px-4 text-white/80 font-medium truncate max-w-[300px]'>
                       {account.name}
                     </td>
                     <td className='py-3 px-4 text-white/80'>{account.email}</td>

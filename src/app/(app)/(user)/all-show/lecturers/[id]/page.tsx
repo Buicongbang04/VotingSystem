@@ -176,7 +176,7 @@ const page = ({ params }: PageProps) => {
 
         {/* Lecturer Details Card */}
         <div className='w-full mx-auto'>
-          <div className='relative w-full xl:w-[70%] rounded-2xl sm:rounded-3xl overflow-hidden border-gradient flex flex-col lg:flex-row'>
+          <div className='relative w-full rounded-2xl sm:rounded-3xl overflow-hidden border-gradient flex flex-col lg:flex-row'>
             {/* Image Section */}
             <div className='relative w-full lg:w-1/2'>
               {lecturer.avatarUrl ? (
