@@ -32,11 +32,11 @@ const AppNavbar = () => {
     <div className='h-20 pt-10'>
       <div className='h-full px-4 md:px-6 flex items-center justify-center relative'>
         {/* Left Section - Logo/Brand */}
-        <div className='hidden justify-center items-center space-x-4 lg:flex mt-10 '>
+        <div className='hidden justify-center items-center space-x-4 lg:flex '>
           <Image
             src='/images/Logo.png'
             alt='FPT University'
-            width={200}
+            width={150}
             height={150}
             className='
                       h-auto
@@ -46,7 +46,7 @@ const AppNavbar = () => {
           <Image
             src='/images/iia_logo.png'
             alt='IIA Logo'
-            width={130}
+            width={100}
             height={100}
             className='
                       h-auto
@@ -56,7 +56,7 @@ const AppNavbar = () => {
         </div>
 
         {/* Right Section - Notifications & Profile */}
-        <div className='flex items-center space-x-4 z-20 hidden lg:block'>
+        <div className=' items-center space-x-4 z-20 hidden lg:block'>
           <div className='absolute right-0 z-10 -translate-x-10'>
             <button
               onClick={toggleProfile}

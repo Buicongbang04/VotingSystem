@@ -209,8 +209,6 @@ const page = memo(({ params }: PageProps) => {
             ) {
               translatedMessage =
                 "Sinh viên học kỳ 1-6 chỉ được bình chọn 1 giảng viên cơ bản mỗi ngày"
-            } else if (errorMessage.includes("Conflict")) {
-              translatedMessage = "Xung đột dữ liệu"
             }
 
             toast.error(translatedMessage)
@@ -261,8 +259,6 @@ const page = memo(({ params }: PageProps) => {
               ) {
                 translatedMessage =
                   "Sinh viên học kỳ 1-6 chỉ được bình chọn 1 giảng viên cơ bản mỗi ngày"
-              } else if (errorMessage.includes("Conflict")) {
-                translatedMessage = "Xung đột dữ liệu"
               }
 
               toast.error(translatedMessage)

@@ -141,36 +141,54 @@ axiosInstance.interceptors.response.use(
         error.response.statusText ||
         "Đã xảy ra lỗi"
 
+      // Skip showing toast for feedback vote errors (handled by FeedbackVoteComponent)
+      if (
+        errorMessage.includes("Account has already submitted a feedback vote")
+      ) {
+        return Promise.reject(error)
+      }
+
+      // Translate common error messages to Vietnamese
+      let translatedErrorMessage = errorMessage
+      if (errorMessage.includes("No votes remaining today")) {
+        translatedErrorMessage = "Bạn đã hết lượt bình chọn hôm nay"
+      } else if (
+        errorMessage.includes(
+          "Semester 1-6 students can only vote for 1 basic subject lecturer per day"
+        )
+      ) {
+        translatedErrorMessage =
+          "Sinh viên học kỳ 1-6 chỉ được bình chọn 1 giảng viên cơ bản mỗi ngày"
+      }
+
       // Show toast notification based on status code
       switch (error.response.status) {
         case 400:
           toast.error("Yêu cầu không hợp lệ", {
-            description: errorMessage,
+            description: translatedErrorMessage,
           })
           break
         case 403:
           toast.error("Không có quyền truy cập", {
-            description: errorMessage,
+            description: translatedErrorMessage,
           })
           break
         case 404:
           toast.error("Không tìm thấy", {
-            description: errorMessage,
+            description: translatedErrorMessage,
           })
           break
         case 409:
-          toast.error("Xung đột dữ liệu", {
-            description: errorMessage,
-          })
+          toast.error(translatedErrorMessage)
           break
         case 500:
           toast.error("Lỗi máy chủ", {
-            description: errorMessage,
+            description: translatedErrorMessage,
           })
           break
         default:
           toast.error(`Lỗi ${error.response.status}`, {
-            description: errorMessage,
+            description: translatedErrorMessage,
           })
       }
     } else if (error.request && !originalRequest.skipGlobalErrorToast) {
