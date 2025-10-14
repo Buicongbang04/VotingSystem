@@ -142,7 +142,7 @@ export default function AdminUsers() {
                 Không thể tải danh sách tài khoản. Vui lòng thử lại.
               </p>
               <p className='text-red-400/60 text-sm mb-4'>
-                Chi tiết lỗi: {error?.message || "Unknown error"}
+                Chi tiết lỗi: {error?.message || "Lỗi không xác định"}
               </p>
               <Button
                 onClick={() => refetch()}

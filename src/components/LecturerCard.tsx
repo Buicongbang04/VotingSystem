@@ -1,7 +1,8 @@
-import React, { memo, useCallback } from "react"
+import React, { memo, useCallback, useState } from "react"
 import { Heart, Share2 } from "lucide-react"
 import { Lecture } from "../interfaces/Lecture/Lecture"
 import { Button } from "@/components/ui/button"
+import ShareModal from "./ui/ShareModal"
 import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
@@ -29,6 +30,7 @@ const LecturerCard = memo(
     className = "",
   }: LecturerCardProps) => {
     const router = useRouter()
+    const [isShareModalOpen, setIsShareModalOpen] = useState(false)
 
     const handleVote = useCallback(() => {
       if (onVote) {
@@ -37,10 +39,8 @@ const LecturerCard = memo(
     }, [onVote, lecturer.id])
 
     const handleShare = useCallback(() => {
-      if (onShare) {
-        onShare(lecturer.id)
-      }
-    }, [onShare, lecturer.id])
+      setIsShareModalOpen(true)
+    }, [])
 
     const CardContent = () => (
       <div
@@ -145,7 +145,18 @@ const LecturerCard = memo(
       </div>
     )
 
-    return <CardContent />
+    return (
+      <>
+        <CardContent />
+        <ShareModal
+          isOpen={isShareModalOpen}
+          onClose={() => setIsShareModalOpen(false)}
+          shareUrl='https://daihoc.fpt.edu.vn/hcm/giang-vien-truyen-cam-hung-2025/'
+          title={`Chia sẻ giảng viên ${lecturer.name}`}
+          description={`Chia sẻ thông tin giảng viên ${lecturer.name} với bạn bè`}
+        />
+      </>
+    )
   }
 )
 

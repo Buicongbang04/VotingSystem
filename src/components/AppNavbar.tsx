@@ -40,18 +40,6 @@ const AppNavbar = () => {
             height={150}
             className='
                       h-auto
-                      w-[90vw] max-w-[580px]
-                      sm:w-[80vw] sm:max-w-[640px]
-                      md:w-[25vw] md:max-w-[720px]
-                      lg:w-[20vw] lg:max-w-[700px]
-                      xl:w-[15vw] xl:max-w-[877px]
-                    '
-            sizes='
-                      (min-width:1280px) 877px,
-                      (min-width:1024px) 700px,
-                      (min-width:768px) 55vw,
-                      (min-width:640px) 70vw,
-                      80vw
                     '
             draggable={false}
           />
@@ -62,18 +50,6 @@ const AppNavbar = () => {
             height={100}
             className='
                       h-auto
-                      w-[90vw] max-w-[580px]
-                      sm:w-[80vw] sm:max-w-[640px]
-                      md:w-[18vw] md:max-w-[720px]
-                      lg:w-[13vw] lg:max-w-[700px]
-                      xl:w-[10vw] xl:max-w-[877px]
-                    '
-            sizes='
-                      (min-width:1280px) 877px,
-                      (min-width:1024px) 700px,
-                      (min-width:768px) 55vw,
-                      (min-width:640px) 70vw,
-                      80vw
                     '
             draggable={false}
           />

@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react"
 import { Info, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import ShareModal from "./ui/ShareModal"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { useUser, useIsAuthenticated } from "../stores/tokenStore"
@@ -31,6 +32,7 @@ const EventAnnouncement: React.FC<EventAnnouncementProps> = ({
   onShare,
 }) => {
   const [showTooltip, setShowTooltip] = useState(false)
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false)
   const router = useRouter()
   const user = useUser()
   const isAuthenticated = useIsAuthenticated()
@@ -100,23 +102,7 @@ const EventAnnouncement: React.FC<EventAnnouncementProps> = ({
 
   // Handle share button click
   const handleShareClick = () => {
-    if (onShare) {
-      // Call custom onShare function if provided
-      onShare()
-    } else {
-      // Default behavior: copy to clipboard
-      const shareUrl =
-        "https://daihoc.fpt.edu.vn/hcm/giang-vien-truyen-cam-hung-2025/"
-
-      navigator.clipboard
-        .writeText(shareUrl)
-        .then(() => {
-          alert("Link đã được sao chép!")
-        })
-        .catch(() => {
-          alert("Không thể sao chép link")
-        })
-    }
+    setIsShareModalOpen(true)
   }
 
   return (
@@ -196,6 +182,15 @@ const EventAnnouncement: React.FC<EventAnnouncementProps> = ({
 
       {/* Voting Rules Modal */}
       <VotingRulesModal isOpen={showTooltip} onClose={handleCloseTooltip} />
+
+      {/* Share Modal */}
+      <ShareModal
+        isOpen={isShareModalOpen}
+        onClose={() => setIsShareModalOpen(false)}
+        shareUrl='https://daihoc.fpt.edu.vn/hcm/giang-vien-truyen-cam-hung-2025/'
+        title='Chia sẻ sự kiện'
+        description='Chia sẻ sự kiện Giảng viên truyền cảm hứng 2025 với bạn bè'
+      />
     </div>
   )
 }

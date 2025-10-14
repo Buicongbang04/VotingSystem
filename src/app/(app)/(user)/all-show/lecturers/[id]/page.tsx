@@ -11,6 +11,7 @@ import {
 import { useIsAuthenticated, useUser } from "@/src/stores/tokenStore"
 import { toast } from "sonner"
 import { Button } from "@/src/components/ui/button"
+import ShareModal from "@/src/components/ui/ShareModal"
 import { Heart, Share2, ArrowLeft, User, Building, Quote } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
@@ -27,6 +28,7 @@ const page = ({ params }: PageProps) => {
   const queryClient = useQueryClient()
   const { data: lectures, isLoading, refetch } = useGetAllLectures()
   const [votedLecturers, setVotedLecturers] = useState<Set<string>>(new Set())
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false)
   const isAuthenticated = useIsAuthenticated()
   const user = useUser()
   const { mutate: voteForLecture, isPending: isVoting } = useVoteForLecture()
@@ -76,13 +78,39 @@ const page = ({ params }: PageProps) => {
             queryKey: ["lecture", lecturerId],
           })
           refetch()
-          toast.success(response?.message || "Đã hủy bình chọn thành công")
+          // Translate success messages to Vietnamese
+          const successMessage =
+            (response as any)?.message || "Đã hủy bình chọn thành công"
+          let translatedSuccessMessage = successMessage
+          if (successMessage.includes("Vote cancelled successfully")) {
+            translatedSuccessMessage = "Đã hủy bình chọn thành công"
+          } else if (successMessage.includes("Voted successfully")) {
+            translatedSuccessMessage = "Bình chọn thành công!"
+          }
+
+          toast.success(translatedSuccessMessage)
         },
         onError: (error: any) => {
-          console.error("Error cancelling vote:", error)
+          console.error("Lỗi khi hủy bình chọn:", error)
           const errorMessage =
             error?.response?.data?.message || "Có lỗi xảy ra khi hủy bình chọn"
-          toast.error(errorMessage)
+
+          // Translate common error messages to Vietnamese
+          let translatedMessage = errorMessage
+          if (errorMessage.includes("No votes remaining today")) {
+            translatedMessage = "Bạn đã hết lượt bình chọn hôm nay"
+          } else if (
+            errorMessage.includes(
+              "Semester 1-6 students can only vote for 1 basic subject lecturer per day"
+            )
+          ) {
+            translatedMessage =
+              "Sinh viên học kỳ 1-6 chỉ được bình chọn 1 giảng viên cơ bản mỗi ngày"
+          } else if (errorMessage.includes("Conflict")) {
+            translatedMessage = "Xung đột dữ liệu"
+          }
+
+          toast.error(translatedMessage)
         },
       })
     } else {
@@ -103,13 +131,39 @@ const page = ({ params }: PageProps) => {
               queryKey: ["lecture", lecturerId],
             })
             refetch()
-            toast.success(response?.message || "Bình chọn thành công!")
+            // Translate success messages to Vietnamese
+            const successMessage =
+              (response as any)?.message || "Bình chọn thành công!"
+            let translatedSuccessMessage = successMessage
+            if (successMessage.includes("Vote cancelled successfully")) {
+              translatedSuccessMessage = "Đã hủy bình chọn thành công"
+            } else if (successMessage.includes("Voted successfully")) {
+              translatedSuccessMessage = "Bình chọn thành công!"
+            }
+
+            toast.success(translatedSuccessMessage)
           },
           onError: (error: any) => {
-            console.error("Error voting:", error)
+            console.error("Lỗi khi bình chọn:", error)
             const errorMessage =
               error?.response?.data?.message || "Có lỗi xảy ra khi bình chọn"
-            toast.error(errorMessage)
+
+            // Translate common error messages to Vietnamese
+            let translatedMessage = errorMessage
+            if (errorMessage.includes("No votes remaining today")) {
+              translatedMessage = "Bạn đã hết lượt bình chọn hôm nay"
+            } else if (
+              errorMessage.includes(
+                "Semester 1-6 students can only vote for 1 basic subject lecturer per day"
+              )
+            ) {
+              translatedMessage =
+                "Sinh viên học kỳ 1-6 chỉ được bình chọn 1 giảng viên cơ bản mỗi ngày"
+            } else if (errorMessage.includes("Conflict")) {
+              translatedMessage = "Xung đột dữ liệu"
+            }
+
+            toast.error(translatedMessage)
           },
         }
       )
@@ -117,24 +171,14 @@ const page = ({ params }: PageProps) => {
   }
 
   const handleShare = () => {
-    const shareUrl =
-      "https://daihoc.fpt.edu.vn/hcm/giang-vien-truyen-cam-hung-2025/"
-
-    navigator.clipboard
-      .writeText(shareUrl)
-      .then(() => {
-        toast.success("Đã sao chép link chia sẻ!")
-      })
-      .catch(() => {
-        toast.error("Không thể sao chép link")
-      })
+    setIsShareModalOpen(true)
   }
 
   if (isLoading || isLoadingVotes) {
     return (
       <div className='flex justify-center items-center min-h-screen px-4'>
         <div className='text-base sm:text-lg text-white text-center'>
-          Loading lecturer details...
+          Đang tải thông tin giảng viên...
         </div>
       </div>
     )
@@ -144,15 +188,15 @@ const page = ({ params }: PageProps) => {
     return (
       <div className='flex flex-col justify-center items-center min-h-screen text-white px-4'>
         <h1 className='text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-center'>
-          Lecturer not found
+          Không tìm thấy giảng viên
         </h1>
         <p className='text-sm sm:text-base lg:text-lg mb-4 sm:mb-6 text-center max-w-md'>
-          The lecturer you're looking for doesn't exist.
+          Giảng viên bạn đang tìm kiếm không tồn tại.
         </p>
         <Link href='/all-show/lecturers'>
           <Button className='flex items-center gap-2 text-sm sm:text-base'>
             <ArrowLeft className='w-4 h-4' />
-            Back to Lecturers
+            Quay lại danh sách giảng viên
           </Button>
         </Link>
       </div>
@@ -169,7 +213,9 @@ const page = ({ params }: PageProps) => {
           <Link href='/all-show/lecturers'>
             <button className='flex items-center gap-2 text-white hover:text-white/80 transition-colors'>
               <ArrowLeft className='w-4 h-4' />
-              <span className='text-sm sm:text-base'>Back to Lecturers</span>
+              <span className='text-sm sm:text-base'>
+                Quay lại danh sách giảng viên
+              </span>
             </button>
           </Link>
         </div>
@@ -337,6 +383,17 @@ const page = ({ params }: PageProps) => {
           </div>
         </div>
       </div>
+
+      {/* Share Modal */}
+      <ShareModal
+        isOpen={isShareModalOpen}
+        onClose={() => setIsShareModalOpen(false)}
+        shareUrl='https://daihoc.fpt.edu.vn/hcm/giang-vien-truyen-cam-hung-2025/'
+        title={`Chia sẻ giảng viên ${lecturer?.name || ""}`}
+        description={`Chia sẻ thông tin giảng viên ${
+          lecturer?.name || ""
+        } với bạn bè`}
+      />
     </div>
   )
 }

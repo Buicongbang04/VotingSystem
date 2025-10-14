@@ -4,6 +4,13 @@ import axios, {
   AxiosResponse,
   AxiosError,
 } from "axios"
+
+// Extend the InternalAxiosRequestConfig interface to include our custom flag
+declare module "axios" {
+  interface InternalAxiosRequestConfig {
+    skipGlobalErrorToast?: boolean
+  }
+}
 import { toast } from "sonner"
 import { DEFAULT_API } from "../constants/API"
 import { useTokenStore } from "../stores/tokenStore"
@@ -126,7 +133,8 @@ axiosInstance.interceptors.response.use(
     }
 
     // Handle other errors - show toast notification
-    if (error.response) {
+    // Skip showing toast if the request has skipGlobalErrorToast flag
+    if (error.response && !originalRequest.skipGlobalErrorToast) {
       // Extract error message from response
       const errorMessage =
         (error.response.data as any)?.message ||
@@ -165,13 +173,13 @@ axiosInstance.interceptors.response.use(
             description: errorMessage,
           })
       }
-    } else if (error.request) {
+    } else if (error.request && !originalRequest.skipGlobalErrorToast) {
       // Request was made but no response received
       toast.error("Lỗi kết nối", {
         description:
           "Không nhận được phản hồi từ máy chủ. Vui lòng kiểm tra kết nối.",
       })
-    } else {
+    } else if (!originalRequest.skipGlobalErrorToast) {
       // Something else happened
       toast.error("Lỗi", {
         description: error.message || "Đã xảy ra lỗi không mong muốn",

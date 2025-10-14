@@ -1,19 +1,15 @@
 "use client"
 
-import React from "react"
+import React, { useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
+import ShareModal from "../ui/ShareModal"
 
 const HeroPage = () => {
-  const handleShareClick = async () => {
-    try {
-      await navigator.clipboard.writeText(
-        "https://daihoc.fpt.edu.vn/hcm/giang-vien-truyen-cam-hung-2025/"
-      )
-      alert("Link đã được sao chép!")
-    } catch (err) {
-      console.error("Failed to copy: ", err)
-    }
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false)
+
+  const handleShareClick = () => {
+    setIsShareModalOpen(true)
   }
 
   return (
@@ -124,6 +120,15 @@ const HeroPage = () => {
           </div>
         </div>
       </div>
+
+      {/* Share Modal */}
+      <ShareModal
+        isOpen={isShareModalOpen}
+        onClose={() => setIsShareModalOpen(false)}
+        shareUrl='https://daihoc.fpt.edu.vn/hcm/giang-vien-truyen-cam-hung-2025/'
+        title='Chia sẻ chương trình'
+        description='Chia sẻ chương trình Giảng viên truyền cảm hứng 2025 với bạn bè'
+      />
     </section>
   )
 }

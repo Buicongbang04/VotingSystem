@@ -21,14 +21,18 @@ const LectureVoteApi = {
   // POST - Vote for a lecture
   voteForLecture: async (lectureId: string) => {
     return axiosInstance
-      .post<LectureVoteApiResponse>(`/Lectures/${lectureId}/votes`, {})
+      .post<LectureVoteApiResponse>(`/Lectures/${lectureId}/votes`, {}, {
+        skipGlobalErrorToast: true,
+      } as any)
       .then((res) => res.data)
   },
 
   // DELETE - Cancel today's vote for a lecture
   cancelTodaysVote: async (lectureId: string) => {
     return axiosInstance
-      .delete<LectureVoteApiResponse>(`/Lectures/${lectureId}/votes`)
+      .delete<LectureVoteApiResponse>(`/Lectures/${lectureId}/votes`, {
+        skipGlobalErrorToast: true,
+      } as any)
       .then((res) => res.data)
   },
 

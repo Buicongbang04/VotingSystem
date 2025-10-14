@@ -180,14 +180,40 @@ const page = memo(({ params }: PageProps) => {
               queryKey: ["lecture", lecturerId],
             })
             refetch() // Refresh lecture data to update vote counts
-            toast.success(response?.message || "Đã hủy bình chọn thành công")
+            // Translate success messages to Vietnamese
+            const successMessage =
+              response?.message || "Đã hủy bình chọn thành công"
+            let translatedSuccessMessage = successMessage
+            if (successMessage.includes("Vote cancelled successfully")) {
+              translatedSuccessMessage = "Đã hủy bình chọn thành công"
+            } else if (successMessage.includes("Voted successfully")) {
+              translatedSuccessMessage = "Bình chọn thành công!"
+            }
+
+            toast.success(translatedSuccessMessage)
           },
           onError: (error: any) => {
-            console.error("Error cancelling vote:", error)
+            console.error("Lỗi khi hủy bình chọn:", error)
             const errorMessage =
               error?.response?.data?.message ||
               "Có lỗi xảy ra khi hủy bình chọn"
-            toast.error(errorMessage)
+
+            // Translate common error messages to Vietnamese
+            let translatedMessage = errorMessage
+            if (errorMessage.includes("No votes remaining today")) {
+              translatedMessage = "Bạn đã hết lượt bình chọn hôm nay"
+            } else if (
+              errorMessage.includes(
+                "Semester 1-6 students can only vote for 1 basic subject lecturer per day"
+              )
+            ) {
+              translatedMessage =
+                "Sinh viên học kỳ 1-6 chỉ được bình chọn 1 giảng viên cơ bản mỗi ngày"
+            } else if (errorMessage.includes("Conflict")) {
+              translatedMessage = "Xung đột dữ liệu"
+            }
+
+            toast.error(translatedMessage)
           },
         })
       } else {
@@ -207,13 +233,39 @@ const page = memo(({ params }: PageProps) => {
                 queryKey: ["lecture", lecturerId],
               })
               refetch() // Refresh lecture data to update vote counts
-              toast.success(response?.message || "Bình chọn thành công!")
+              // Translate success messages to Vietnamese
+              const successMessage =
+                response?.message || "Bình chọn thành công!"
+              let translatedSuccessMessage = successMessage
+              if (successMessage.includes("Vote cancelled successfully")) {
+                translatedSuccessMessage = "Đã hủy bình chọn thành công"
+              } else if (successMessage.includes("Voted successfully")) {
+                translatedSuccessMessage = "Bình chọn thành công!"
+              }
+
+              toast.success(translatedSuccessMessage)
             },
             onError: (error: any) => {
-              console.error("Error voting:", error)
+              console.error("Lỗi khi bình chọn:", error)
               const errorMessage =
                 error?.response?.data?.message || "Có lỗi xảy ra khi bình chọn"
-              toast.error(errorMessage)
+
+              // Translate common error messages to Vietnamese
+              let translatedMessage = errorMessage
+              if (errorMessage.includes("No votes remaining today")) {
+                translatedMessage = "Bạn đã hết lượt bình chọn hôm nay"
+              } else if (
+                errorMessage.includes(
+                  "Semester 1-6 students can only vote for 1 basic subject lecturer per day"
+                )
+              ) {
+                translatedMessage =
+                  "Sinh viên học kỳ 1-6 chỉ được bình chọn 1 giảng viên cơ bản mỗi ngày"
+              } else if (errorMessage.includes("Conflict")) {
+                translatedMessage = "Xung đột dữ liệu"
+              }
+
+              toast.error(translatedMessage)
             },
           }
         )
@@ -229,19 +281,7 @@ const page = memo(({ params }: PageProps) => {
     ]
   )
 
-  const handleShare = useCallback((lecturerId: string) => {
-    const shareUrl =
-      "https://daihoc.fpt.edu.vn/hcm/giang-vien-truyen-cam-hung-2025/"
-
-    navigator.clipboard
-      .writeText(shareUrl)
-      .then(() => {
-        toast.success("Đã sao chép link chia sẻ!")
-      })
-      .catch(() => {
-        toast.error("Không thể sao chép link")
-      })
-  }, [])
+  // Share functionality is now handled by LecturerCard component
 
   const goToPage = useCallback(
     (page: number) => {
@@ -398,7 +438,6 @@ const page = memo(({ params }: PageProps) => {
               key={lecturer.id}
               lecturer={lecturer}
               onVote={handleVote}
-              onShare={handleShare}
               voteCount={lecturer.votes}
               isVoted={lecturer.isVoted}
               isLoading={isVoting || isCancelling}
@@ -433,12 +472,13 @@ const page = memo(({ params }: PageProps) => {
                     key={index}
                     onClick={() => typeof item === "number" && goToPage(item)}
                     disabled={item === "..."}
-                    className={`w-8 h-8 md:w-10 md:h-10 rounded-xl text-xs md:text-sm font-medium transition-all duration-200 ${item === "..."
-                      ? "text-white/50 cursor-default"
-                      : currentPage === item
+                    className={`w-8 h-8 md:w-10 md:h-10 rounded-xl text-xs md:text-sm font-medium transition-all duration-200 ${
+                      item === "..."
+                        ? "text-white/50 cursor-default"
+                        : currentPage === item
                         ? "bg-gradient-to-r from-transparent to-vibrant-pink text-white border border-white/30 shadow-lg"
                         : "bg-transparent text-white/70 hover:text-white hover:bg-white/10 border border-white/20"
-                      }`}
+                    }`}
                   >
                     {item}
                   </button>
@@ -460,7 +500,7 @@ const page = memo(({ params }: PageProps) => {
         )}
 
         {/* Voting Rules Modal */}
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<div>Đang tải...</div>}>
           <VotingRulesModal
             isOpen={showVotingRules}
             onClose={() => setShowVotingRules(false)}

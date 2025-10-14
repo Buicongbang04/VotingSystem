@@ -61,7 +61,7 @@ export const mockTop10Lecturers2024: MockLecture[] = [
   },
   {
     id: "lecturer-002",
-    name: "Nguyễn Thế Hoảng",
+    name: "Nguyễn Thế Hoàng",
     avatarUrl: "/images/2024/2.jpg",
   },
   {
