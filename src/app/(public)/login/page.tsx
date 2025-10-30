@@ -9,6 +9,7 @@ import {
   useIsAuthenticated,
   useUser,
 } from "../../../stores/tokenStore"
+import { useGetWebImageByNamePublic } from "../../../services/WebImageServices"
 
 // Component that handles search params logic
 const LoginWithSearchParams = () => {
@@ -20,6 +21,10 @@ const LoginWithSearchParams = () => {
   const login = useLogin()
   const isAuthenticated = useIsAuthenticated()
   const user = useUser()
+
+  // Fetch LoginBG image from API
+  const { data: loginBGData, isLoading: isLoadingLoginBG } =
+    useGetWebImageByNamePublic("LoginBG")
 
   // Helper function to check if user is admin
   const isAdmin = () => {
@@ -217,20 +222,24 @@ const LoginWithSearchParams = () => {
     router.push("/")
   }
 
-  // Show loading screen while checking authentication
-  if (isCheckingAuth) {
+  // Show loading screen while checking authentication or loading background
+  if (isCheckingAuth || isLoadingLoginBG) {
     return (
       <div className='flex items-center justify-center h-screen'>
         <div className='text-center'>
           <div className='animate-spin rounded-full h-12 w-12 border-b-2 border-[#8B1538] mx-auto mb-4'></div>
-          <p className='text-gray-600'>Checking authentication...</p>
+          <p className='text-gray-600'>Loading...</p>
         </div>
       </div>
     )
   }
 
+  // Use LoginBG from API or fallback to default
+  const loginBgSrc = loginBGData?.data?.imageUrl || "/images/KV.png"
+
   return (
     <LoginComponent
+      backgroundImage={loginBgSrc}
       onGoogleLogin={handleGoogleLogin}
       onHomeClick={handleHomeClick}
     />

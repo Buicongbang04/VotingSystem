@@ -23,11 +23,15 @@ import {
   Trash2,
   UserCheck,
   UserX,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react"
 
 export default function AdminLecturers() {
   const [searchTerm, setSearchTerm] = useState("")
   const [departmentFilter, setDepartmentFilter] = useState("")
+  const [currentPage, setCurrentPage] = useState(1)
+  const [itemsPerPage] = useState(10)
 
   // API hooks
   const {
@@ -47,25 +51,52 @@ export default function AdminLecturers() {
   const lectures = lecturesResponse?.data || []
 
   // Filter lectures
-  const filteredLecturers = lectures.filter((lecturer: Lecture) => {
-    const matchesSearch =
-      lecturer.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      lecturer.department.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      lecturer.email.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredLecturers = React.useMemo(() => {
+    return lectures.filter((lecturer: Lecture) => {
+      const matchesSearch =
+        lecturer.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        lecturer.department.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        lecturer.email.toLowerCase().includes(searchTerm.toLowerCase())
 
-    const matchesDepartment =
-      !departmentFilter || lecturer.department === departmentFilter
+      const matchesDepartment =
+        !departmentFilter || lecturer.department === departmentFilter
 
-    return matchesSearch && matchesDepartment
-  })
+      return matchesSearch && matchesDepartment
+    })
+  }, [lectures, searchTerm, departmentFilter])
 
   // Calculate rank based on votes
-  const lecturersWithRank = filteredLecturers
-    .sort((a, b) => b.votes - a.votes)
-    .map((lecturer, index) => ({
-      ...lecturer,
-      rank: index + 1,
-    }))
+  const lecturersWithRank = React.useMemo(() => {
+    return filteredLecturers
+      .sort((a, b) => b.votes - a.votes)
+      .map((lecturer, index) => ({
+        ...lecturer,
+        rank: index + 1,
+      }))
+  }, [filteredLecturers])
+
+  // Calculate pagination
+  const totalPages = Math.ceil(lecturersWithRank.length / itemsPerPage)
+  const startIndex = (currentPage - 1) * itemsPerPage
+  const endIndex = startIndex + itemsPerPage
+  const paginatedLecturers = lecturersWithRank.slice(startIndex, endIndex)
+
+  // Reset to page 1 when filters change
+  React.useEffect(() => {
+    setCurrentPage(1)
+  }, [searchTerm, departmentFilter])
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1)
+    }
+  }
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1)
+    }
+  }
 
   const handleDownloadTemplate = async () => {
     try {
@@ -189,42 +220,6 @@ export default function AdminLecturers() {
         </Card>
       )}
 
-      {/* Template Information */}
-      <Card className='p-6 bg-white/10 backdrop-blur-md border-white/20'>
-        <div className='flex items-start space-x-4'>
-          <div className='p-3 bg-blue-500/20 rounded-xl'>
-            <FileSpreadsheet className='w-6 h-6 text-blue-400' />
-          </div>
-          <div className='flex-1'>
-            <h3 className='text-lg font-semibold text-white mb-2'>
-              Template Excel cho việc nhập hàng loạt
-            </h3>
-            <p className='text-white/70 mb-3'>
-              Tải xuống template Excel để thêm nhiều giảng viên cùng lúc.
-              Template bao gồm các cột: Tên giảng viên, Email, Khoa, Câu nói yêu
-              thích, và URL ảnh đại diện.
-            </p>
-            <div className='flex flex-wrap gap-2'>
-              <span className='px-2 py-1 bg-blue-500/20 text-blue-400 text-xs rounded-full'>
-                Tên giảng viên
-              </span>
-              <span className='px-2 py-1 bg-blue-500/20 text-blue-400 text-xs rounded-full'>
-                Email
-              </span>
-              <span className='px-2 py-1 bg-blue-500/20 text-blue-400 text-xs rounded-full'>
-                Khoa
-              </span>
-              <span className='px-2 py-1 bg-blue-500/20 text-blue-400 text-xs rounded-full'>
-                Câu nói yêu thích
-              </span>
-              <span className='px-2 py-1 bg-blue-500/20 text-blue-400 text-xs rounded-full'>
-                URL ảnh đại diện
-              </span>
-            </div>
-          </div>
-        </div>
-      </Card>
-
       {/* Search and Filters */}
       <Card className='p-6 bg-white/10 backdrop-blur-md border-white/20'>
         <div className='flex flex-col md:flex-row gap-4'>
@@ -242,10 +237,12 @@ export default function AdminLecturers() {
             onChange={(e) => setDepartmentFilter(e.target.value)}
             className='p-3 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-vibrant-pink'
           >
-            <option value=''>Tất cả khoa</option>
+            <option value='' className='text-white'>
+              Tất cả khoa
+            </option>
             {Array.from(new Set(lectures.map((l) => l.department))).map(
               (dept) => (
-                <option key={dept} value={dept}>
+                <option className='text-black' key={dept} value={dept}>
                   {dept}
                 </option>
               )
@@ -305,7 +302,7 @@ export default function AdminLecturers() {
                 </tr>
               </thead>
               <tbody>
-                {lecturersWithRank.map((lecturer) => (
+                {paginatedLecturers.map((lecturer) => (
                   <tr
                     key={lecturer.id}
                     className='border-b border-white/10 hover:bg-white/5'
@@ -390,6 +387,38 @@ export default function AdminLecturers() {
                 ))}
               </tbody>
             </table>
+
+            {/* Pagination */}
+            {totalPages > 1 && (
+              <div className='flex flex-col sm:flex-row items-center justify-between mt-6 p-4 bg-white/5 rounded-lg border border-white/10 gap-4'>
+                <div className='text-sm font-medium text-white/70'>
+                  Trang {currentPage} / {totalPages} - Tổng cộng{" "}
+                  {lecturersWithRank.length} giảng viên
+                </div>
+                <div className='flex items-center gap-2'>
+                  <Button
+                    variant='outline'
+                    size='sm'
+                    onClick={handlePreviousPage}
+                    disabled={currentPage === 1}
+                    className='text-black border-white/20 hover:bg-white/10 disabled:opacity-50 disabled:cursor-not-allowed'
+                  >
+                    <ChevronLeft className='h-4 w-4 mr-1' />
+                    Trước
+                  </Button>
+                  <Button
+                    variant='outline'
+                    size='sm'
+                    onClick={handleNextPage}
+                    disabled={currentPage === totalPages}
+                    className='text-black border-white/20 hover:bg-white/10 disabled:opacity-50 disabled:cursor-not-allowed'
+                  >
+                    Sau
+                    <ChevronRight className='h-4 w-4 ml-1' />
+                  </Button>
+                </div>
+              </div>
+            )}
           </div>
         )}
       </Card>

@@ -3,11 +3,21 @@
 import Image from "next/image"
 import { useMousePosition } from "@/src/hooks/useMousePosition"
 import { useClientOnly } from "@/src/hooks/useClientOnly"
+import { useGetWebImageByNamePublic } from "@/src/services/WebImageServices"
 import { memo, useMemo } from "react"
 
 const ParallaxBackground = memo(() => {
   const mousePosition = useMousePosition()
   const isClient = useClientOnly()
+
+  // Fetch background images from API
+  const { data: backgroundData } = useGetWebImageByNamePublic("background")
+  const { data: background1Data } = useGetWebImageByNamePublic("background1")
+
+  // Extract image URLs with fallback
+  const backgroundUrl =
+    backgroundData?.data?.imageUrl || "/images/bgAppUser.png"
+  const background1Url = background1Data?.data?.imageUrl || "/images/bgLeaf.png"
 
   // Calculate parallax offsets based on mouse position with memoization
   const getParallaxTransform = useMemo(() => {
@@ -30,7 +40,7 @@ const ParallaxBackground = memo(() => {
   return (
     <div className='absolute top-0 left-0 w-full h-full -z-1 overflow-hidden'>
       <Image
-        src='/images/bgAppUser.png'
+        src={backgroundUrl}
         alt='bg'
         width={2000}
         height={2000}
@@ -40,7 +50,7 @@ const ParallaxBackground = memo(() => {
         sizes='100vw'
       />
       <Image
-        src='/images/bgLeaf.png'
+        src={background1Url}
         alt='bg'
         width={2000}
         height={2000}

@@ -5,21 +5,35 @@ import { Home } from "lucide-react"
 import Image from "next/image"
 
 interface LoginComponentProps {
+  backgroundImage?: string
   onGoogleLogin?: () => void
   onHomeClick?: () => void
 }
 
 const LoginComponent: React.FC<LoginComponentProps> = ({
+  backgroundImage,
   onGoogleLogin,
   onHomeClick,
 }) => {
+  // Use provided background image or fallback to bg-login class
+  const backgroundStyle = backgroundImage
+    ? {
+        backgroundImage: `url(${backgroundImage}), url(/images/bg.png)`,
+        backgroundSize: "cover, cover",
+        backgroundPosition: "center, center",
+        backgroundRepeat: "no-repeat, no-repeat",
+      }
+    : undefined
+
   return (
     <div
-      className='
-        bg-login min-h-dvh flex flex-col items-center justify-center
+      className={`
+        ${!backgroundImage ? "bg-login" : ""}
+        min-h-dvh flex flex-col items-center justify-center
         px-4 sm:px-6 lg:px-8 py-[clamp(1rem,4vw,2rem)]
         h-screen
-      '
+      `}
+      style={backgroundStyle}
     >
       {/* Form Shell */}
       <div className='relative w-full max-w-md min-w-0'>

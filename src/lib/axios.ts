@@ -208,4 +208,38 @@ axiosInstance.interceptors.response.use(
   }
 )
 
+// Create a separate axios instance for public API calls (without auth redirect)
+const publicAxiosInstance: AxiosInstance = axios.create({
+  baseURL: DEFAULT_API,
+  timeout: 10000,
+  headers: {
+    "Content-Type": "application/json",
+  },
+})
+
+// Response interceptor for public API to handle errors without redirecting
+publicAxiosInstance.interceptors.response.use(
+  (response: AxiosResponse) => {
+    return response
+  },
+  async (error: AxiosError) => {
+    const originalRequest = error.config as InternalAxiosRequestConfig
+
+    // Handle errors - show toast notification
+    if (error.response && !originalRequest.skipGlobalErrorToast) {
+      const errorMessage =
+        (error.response.data as any)?.message ||
+        error.response.statusText ||
+        "Đã xảy ra lỗi"
+
+      toast.error(`Lỗi ${error.response.status}`, {
+        description: errorMessage,
+      })
+    }
+
+    return Promise.reject(error)
+  }
+)
+
 export default axiosInstance
+export { publicAxiosInstance }

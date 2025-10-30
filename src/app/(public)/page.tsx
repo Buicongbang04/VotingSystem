@@ -1,4 +1,5 @@
 "use client"
+import { Suspense } from "react"
 import Background from "@/src/components/landingPart/BackgroundMain"
 import BackgroundKV from "@/src/components/landingPart/BackgroundKV"
 import {
@@ -10,12 +11,49 @@ import {
 } from "../../components/landingPart"
 import ScrollToTop from "@/src/components/scroll-to-top-arrow"
 import Reveal from "@/src/utils/Reveal"
+import { useGetWebImageByNamePublic } from "@/src/services/WebImageServices"
+
+// Component that fetches and renders backgrounds
+function HomeBackgrounds() {
+  // Fetch web images for backgrounds
+  const { data: backgroundData, isLoading: isLoadingBackground } =
+    useGetWebImageByNamePublic("background")
+  const { data: background1Data, isLoading: isLoadingBackground1 } =
+    useGetWebImageByNamePublic("landingPageBg")
+
+  // Wait for images to load
+  if (isLoadingBackground || isLoadingBackground1) {
+    return <LoadingBackgrounds />
+  }
+
+  // Use fetched image URLs or fallback to default
+  const backgroundSrc = backgroundData?.data?.imageUrl || "/images/bg.png"
+  const backgroundKVSrc = background1Data?.data?.imageUrl || "/images/KV.png"
+
+  return (
+    <>
+      <BackgroundKV src={backgroundKVSrc} />
+      <BackgroundKV src={backgroundSrc} />
+    </>
+  )
+}
+
+// Loading fallback
+function LoadingBackgrounds() {
+  return (
+    <>
+      <BackgroundKV src='/images/bg.png' />
+      <BackgroundKV src='/images/KV.png' />
+    </>
+  )
+}
 
 export default function Home() {
   return (
     <>
-      <Background src='/images/bg.png' />
-      <BackgroundKV src='/images/KV.png' />
+      <Suspense fallback={<LoadingBackgrounds />}>
+        <HomeBackgrounds />
+      </Suspense>
 
       {/* Hero section - appears from bottom */}
       <section

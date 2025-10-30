@@ -23,12 +23,16 @@ import {
   AlertCircle,
   Loader2,
   RefreshCw,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react"
 
 export default function AdminUsers() {
   const [searchTerm, setSearchTerm] = useState("")
   const [roleFilter, setRoleFilter] = useState("")
   const [statusFilter, setStatusFilter] = useState("")
+  const [currentPage, setCurrentPage] = useState(1)
+  const [itemsPerPage] = useState(10)
 
   // API hooks
   const {
@@ -64,6 +68,29 @@ export default function AdminUsers() {
       return matchesSearch && matchesRole && matchesStatus
     })
   }, [accounts, searchTerm, roleFilter, statusFilter])
+
+  // Calculate pagination
+  const totalPages = Math.ceil(filteredAccounts.length / itemsPerPage)
+  const startIndex = (currentPage - 1) * itemsPerPage
+  const endIndex = startIndex + itemsPerPage
+  const paginatedAccounts = filteredAccounts.slice(startIndex, endIndex)
+
+  // Reset to page 1 when filters change
+  React.useEffect(() => {
+    setCurrentPage(1)
+  }, [searchTerm, roleFilter, statusFilter])
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1)
+    }
+  }
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1)
+    }
+  }
 
   const handleBanAccount = async (studentCode: string) => {
     if (confirm("Bạn có chắc chắn muốn cấm tài khoản này?")) {
@@ -247,9 +274,9 @@ export default function AdminUsers() {
                 </tr>
               </thead>
               <tbody>
-                {filteredAccounts.map((account: Account) => (
+                {paginatedAccounts.map((account: Account) => (
                   <tr
-                    key={account.studentCode}
+                    key={account.id}
                     className='border-b border-white/10 hover:bg-white/5'
                   >
                     <td className='py-3 px-4 text-white/80 font-mono text-sm'>
@@ -327,6 +354,38 @@ export default function AdminUsers() {
                 ))}
               </tbody>
             </table>
+
+            {/* Pagination */}
+            {totalPages > 1 && (
+              <div className='flex flex-col sm:flex-row items-center justify-between mt-6 p-4 bg-white/5 rounded-lg border border-white/10 gap-4'>
+                <div className='text-sm font-medium text-white/70'>
+                  Trang {currentPage} / {totalPages} - Tổng cộng{" "}
+                  {filteredAccounts.length} tài khoản
+                </div>
+                <div className='flex items-center gap-2'>
+                  <Button
+                    variant='outline'
+                    size='sm'
+                    onClick={handlePreviousPage}
+                    disabled={currentPage === 1}
+                    className='text-white border-white/20 hover:bg-white/10 disabled:opacity-50 disabled:cursor-not-allowed'
+                  >
+                    <ChevronLeft className='h-4 w-4 mr-1' />
+                    Trước
+                  </Button>
+                  <Button
+                    variant='outline'
+                    size='sm'
+                    onClick={handleNextPage}
+                    disabled={currentPage === totalPages}
+                    className='text-white border-white/20 hover:bg-white/10 disabled:opacity-50 disabled:cursor-not-allowed'
+                  >
+                    Sau
+                    <ChevronRight className='h-4 w-4 ml-1' />
+                  </Button>
+                </div>
+              </div>
+            )}
           </div>
         )}
       </Card>

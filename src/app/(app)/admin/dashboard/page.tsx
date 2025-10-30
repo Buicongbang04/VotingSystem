@@ -5,6 +5,7 @@ import { Card } from "@/components/ui/card"
 import { useGetAllLectures } from "@/src/services/LectureServices"
 import { useGetAllAccounts } from "@/src/services/AccountServices"
 import { useGetAllFeedbackVotes } from "@/src/services/FeedbackVoteServices"
+import { useDownloadVotingReport } from "@/src/services/ExportServices"
 
 export default function AdminDashboard() {
   // Fetch real data from services
@@ -13,6 +14,8 @@ export default function AdminDashboard() {
   const { data: accountsData, isLoading: accountsLoading } = useGetAllAccounts()
   const { data: feedbackData, isLoading: feedbackLoading } =
     useGetAllFeedbackVotes()
+  const { mutate: downloadVotingReport, isPending: downloading } =
+    useDownloadVotingReport()
 
   // Calculate stats
   const totalLecturers = lecturersData?.data?.length || 0
@@ -158,6 +161,13 @@ export default function AdminDashboard() {
             Quick Actions
           </h3>
           <div className='space-y-3'>
+            <button
+              onClick={() => downloadVotingReport()}
+              className='block w-full p-3 bg-emerald-500/20 hover:bg-emerald-500/30 text-white rounded-lg transition-colors text-center disabled:opacity-60'
+              disabled={downloading}
+            >
+              {downloading ? "Downloading..." : "Download Voting Report"}
+            </button>
             <a
               href='/admin/lecturers/add'
               className='block w-full p-3 bg-vibrant-pink/20 hover:bg-vibrant-pink/30 text-white rounded-lg transition-colors text-center'
