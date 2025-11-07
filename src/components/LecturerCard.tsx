@@ -14,6 +14,7 @@ interface LecturerCardProps {
   isVoted?: boolean
   voteCount?: number
   isLoading?: boolean
+  disabled?: boolean
   showLink?: boolean
   className?: string
 }
@@ -26,6 +27,7 @@ const LecturerCard = memo(
     isVoted = false,
     voteCount = 0,
     isLoading = false,
+    disabled = false,
     showLink = true,
     className = "",
   }: LecturerCardProps) => {
@@ -107,11 +109,19 @@ const LecturerCard = memo(
               variant='default'
               size='lg'
               onClick={handleVote}
-              disabled={isLoading}
+              disabled={isLoading || disabled}
               className={` bg-transparent border-gradient text-white hover:bg-white/20  rounded-2xl ${
                 isVoted ? "bg-white/20" : ""
-              } ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
-              title={isVoted ? "Nhấn để hủy bình chọn" : "Nhấn để bình chọn"}
+              } ${
+                isLoading || disabled ? "opacity-50 cursor-not-allowed" : ""
+              }`}
+              title={
+                disabled && !isVoted
+                  ? "Không thể bình chọn"
+                  : isVoted
+                  ? "Nhấn để hủy bình chọn"
+                  : "Nhấn để bình chọn"
+              }
             >
               <Heart
                 className={`w-5 h-5 mr-2 font-bold ${

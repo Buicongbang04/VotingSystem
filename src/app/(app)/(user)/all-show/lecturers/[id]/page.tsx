@@ -16,6 +16,9 @@ import { Heart, Share2, ArrowLeft, User, Building, Quote } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { Lecture } from "@/src/interfaces/Lecture/Lecture"
+import { useGetAccountById } from "@/src/services/AccountServices"
+import { useMemo } from "react"
+import { isVotingPeriodEnded } from "@/src/utils/votingDateUtils"
 
 interface PageProps {
   params: Promise<{
@@ -34,6 +37,9 @@ const page = ({ params }: PageProps) => {
   const { mutate: voteForLecture, isPending: isVoting } = useVoteForLecture()
   const { mutate: cancelVote, isPending: isCancelling } = useCancelTodaysVote()
 
+  // Get current user account information
+  const { data: accountData } = useGetAccountById(user?.sub || "")
+
   // Check if user has voted for this specific lecturer today
   const { data: todaysVotes, isLoading: isLoadingVotes } =
     useGetTodaysVotesByLecture(resolvedParams.id)
@@ -44,6 +50,36 @@ const page = ({ params }: PageProps) => {
   // Check if current user has voted for this lecturer today
   const hasUserVoted =
     todaysVotes?.data?.some((vote) => vote.email === user?.email) || false
+
+  // Calculate number of voted lecturers
+  const votedLecturersCount = useMemo(() => {
+    if (!lectures?.data) return 0
+    const votedCount = lectures.data.filter(
+      (lecturer) => lecturer.isVoted
+    ).length
+    return Math.max(0, 3 - votedCount)
+  }, [lectures?.data])
+
+  // Check if user has exceeded vote limit
+  // User can still cancel votes even if they have 0 remaining
+  const hasExceededVoteLimit = useMemo(() => {
+    return votedLecturersCount <= 0
+  }, [votedLecturersCount])
+
+  // Check if voting period has ended (update every minute to catch deadline)
+  const [votingEnded, setVotingEnded] = useState(() => isVotingPeriodEnded())
+
+  useEffect(() => {
+    // Check immediately
+    setVotingEnded(isVotingPeriodEnded())
+
+    // Update every minute to catch when deadline passes
+    const interval = setInterval(() => {
+      setVotingEnded(isVotingPeriodEnded())
+    }, 60000) // Check every minute
+
+    return () => clearInterval(interval)
+  }, [])
 
   // Load user's existing votes when component mounts
   useEffect(() => {
@@ -279,16 +315,31 @@ const page = ({ params }: PageProps) => {
                   variant='default'
                   size='lg'
                   onClick={() => handleVote(lecturer.id)}
-                  disabled={isVoting || isCancelling}
+                  disabled={
+                    isVoting ||
+                    isCancelling ||
+                    ((hasExceededVoteLimit || votingEnded) && !isVoted)
+                  }
                   className={`bg-transparent border-gradient text-white hover:bg-white/20 rounded-2xl ${
                     isVoted
                       ? "bg-red-500/20 border-red-400 hover:bg-red-500/30"
                       : ""
                   } ${
-                    isVoting || isCancelling
+                    isVoting ||
+                    isCancelling ||
+                    ((hasExceededVoteLimit || votingEnded) && !isVoted)
                       ? "opacity-50 cursor-not-allowed"
                       : ""
                   }`}
+                  title={
+                    votingEnded && !isVoted
+                      ? "Thời gian bình chọn đã kết thúc"
+                      : hasExceededVoteLimit && !isVoted
+                      ? "Bạn đã hết lượt bình chọn hôm nay"
+                      : isVoted
+                      ? "Nhấn để hủy bình chọn"
+                      : "Nhấn để bình chọn"
+                  }
                 >
                   <Heart
                     className={`w-5 h-5 mr-2 font-bold ${
@@ -336,14 +387,31 @@ const page = ({ params }: PageProps) => {
               variant='default'
               size='lg'
               onClick={() => handleVote(lecturer.id)}
-              disabled={isVoting || isCancelling}
+              disabled={
+                isVoting ||
+                isCancelling ||
+                ((hasExceededVoteLimit || votingEnded) && !isVoted)
+              }
               className={`flex-1 bg-transparent border-gradient text-white hover:bg-white/20 rounded-2xl ${
                 isVoted
                   ? "bg-red-500/20 border-red-400 hover:bg-red-500/30"
                   : ""
               } ${
-                isVoting || isCancelling ? "opacity-50 cursor-not-allowed" : ""
+                isVoting ||
+                isCancelling ||
+                ((hasExceededVoteLimit || votingEnded) && !isVoted)
+                  ? "opacity-50 cursor-not-allowed"
+                  : ""
               }`}
+              title={
+                votingEnded && !isVoted
+                  ? "Thời gian bình chọn đã kết thúc"
+                  : hasExceededVoteLimit && !isVoted
+                  ? "Bạn đã hết lượt bình chọn hôm nay"
+                  : isVoted
+                  ? "Nhấn để hủy bình chọn"
+                  : "Nhấn để bình chọn"
+              }
             >
               <Heart
                 className={`w-5 h-5 mr-2 font-bold ${

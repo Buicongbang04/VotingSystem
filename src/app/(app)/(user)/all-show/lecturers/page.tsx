@@ -3,7 +3,7 @@
 import LecturerCard from "@/src/components/LecturerCard"
 import { Lecture } from "@/src/interfaces/Lecture/Lecture"
 import { useGetActiveLectures } from "@/src/services/LectureServices"
-import React, { useState, useMemo, useCallback, memo } from "react"
+import React, { useState, useMemo, useCallback, memo, useEffect } from "react"
 import { useQueryClient } from "@tanstack/react-query"
 import {
   Search,
@@ -23,7 +23,6 @@ import {
 } from "@/src/services/LectureVoteServices"
 import { useIsAuthenticated, useUser } from "@/src/stores/tokenStore"
 import { toast } from "sonner"
-import { useEffect } from "react"
 import Link from "next/link"
 import { useGetAccountById } from "@/src/services/AccountServices"
 import { LoadingGrid } from "@/src/components/ui/loading"
@@ -42,6 +41,7 @@ import {
 } from "@/src/constants/Departments"
 import Image from "next/image"
 import { motion, AnimatePresence } from "framer-motion"
+import { isVotingPeriodEnded } from "@/src/utils/votingDateUtils"
 
 interface PageProps {
   params: {
@@ -147,6 +147,27 @@ const page = memo(({ params }: PageProps) => {
     ).length
     return Math.max(0, 3 - votedCount)
   }, [lectures?.data])
+
+  // Check if user has exceeded vote limit
+  // User can still cancel votes even if they have 0 remaining
+  const hasExceededVoteLimit = useMemo(() => {
+    return votedLecturersCount <= 0
+  }, [votedLecturersCount])
+
+  // Check if voting period has ended (update every minute to catch deadline)
+  const [votingEnded, setVotingEnded] = useState(() => isVotingPeriodEnded())
+
+  useEffect(() => {
+    // Check immediately
+    setVotingEnded(isVotingPeriodEnded())
+
+    // Update every minute to catch when deadline passes
+    const interval = setInterval(() => {
+      setVotingEnded(isVotingPeriodEnded())
+    }, 60000) // Check every minute
+
+    return () => clearInterval(interval)
+  }, [])
 
   // Pagination logic
   const totalPages = Math.ceil(filteredLectures.length / ITEMS_PER_PAGE)
@@ -437,6 +458,9 @@ const page = memo(({ params }: PageProps) => {
               voteCount={lecturer.votes}
               isVoted={lecturer.isVoted}
               isLoading={isVoting || isCancelling}
+              disabled={
+                (hasExceededVoteLimit || votingEnded) && !lecturer.isVoted
+              }
             />
           ))}
         </div>
