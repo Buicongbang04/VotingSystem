@@ -150,6 +150,11 @@ const Page = () => {
                         </h3>
                         <Star className='w-3 h-3 sm:w-4 sm:h-4 text-yellow-300 fill-current flex-shrink-0' />
                       </div>
+                      {lecturer.department && (
+                        <p className='text-xs sm:text-sm text-white/80 truncate'>
+                          {lecturer.department}
+                        </p>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -206,6 +211,11 @@ const Page = () => {
                               </h3>
                               <Star className='w-3 h-3 sm:w-4 sm:h-4 text-yellow-300 fill-current flex-shrink-0' />
                             </div>
+                            {lecturer.department && (
+                              <p className='text-xs sm:text-sm text-white/80 truncate'>
+                                {lecturer.department}
+                              </p>
+                            )}
                           </div>
                         </div>
                       </div>
@@ -261,6 +271,11 @@ const Page = () => {
                                 </h3>
                                 <Star className='w-3 h-3 sm:w-4 sm:h-4 text-yellow-300 fill-current flex-shrink-0' />
                               </div>
+                              {lecturer.department && (
+                                <p className='text-xs sm:text-sm text-white/80 truncate'>
+                                  {lecturer.department}
+                                </p>
+                              )}
                             </div>
                           </div>
                         </div>
